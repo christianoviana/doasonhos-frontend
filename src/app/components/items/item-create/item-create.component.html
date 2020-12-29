@@ -1,0 +1,74 @@
+
+ <div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>   
+        
+<div class="container" id="group-create" style="border: 1px solid gray;">    
+
+    <div class="row  text-right">
+        <div class="col-12">                
+            <a routerLink="../list" class="btn btn-outline-success"><i class="fa fa-arrow-circle-left"></i></a>                
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <app-alert></app-alert>    
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">                             
+            <fieldset [disabled]='isLoading'>
+                <h1>Adicionar Item</h1>
+                <form #itemCreateForm='ngForm' (ngSubmit)='onCreateItem(itemCreateForm)'>
+                    <div class="form-row">  
+                        <div class="form-group text-center col-12">
+                            <label id="thumbnail">                                          
+                                <input
+                                accept=".jpg,.jpeg,.png,.bmp,.tiff"
+                                type="file"
+                                (change)='onFileChange($event.target.files[0])'
+                                />    
+                                <i *ngIf='fileUrl == undefined' #FaUpload style="margin-top: 50%;" class="fa fa-upload"></i>   
+                                <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='fileUrl != undefined' [src]='fileUrl' #PicturePreview/>                      
+                            </label> 
+                        </div>                       
+                    </div>     
+                    
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="name"><b>Nome</b></label>
+                            <input autocomplete="off" required ngModel name="name" id="name" type="text" class="form-control">
+                        </div>
+                      
+                        <div class="form-group col-12">
+                            <label for="description"><b>Descrição</b></label>
+                            <textarea id="description"class="form-control" required ngModel minlength="1" name="description" maxlength="200"></textarea>           
+                        </div>
+                    </div>       
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="price"><b>Preço</b></label>
+                            <input type="number" id="price" class="form-control" required ngModel name="price">          
+                        </div>        
+
+                        <div class="form-group col-8">
+                            <label for="groups"><b>Grupo</b></label>
+                            <select id="groupId"class="form-control" required ngModel name="groupId">
+                                <option selected value="">Selecione...</option>
+                                <option [value]="group.id" *ngFor="let group of groups">{{group.name}}</option>
+                            </select>           
+                        </div>                                     
+                    </div>                  
+                    
+                    <div id="btn-controls" class="text-center">
+                        <button type="submit" id="btn-save" class="btn btn-success" [disabled]='!itemCreateForm.valid'>Cadastrar <i class="fa fa-save"></i></button>
+                    </div>
+                  
+                </form>  
+            </fieldset>          
+        </div>
+    </div>          
+</div>

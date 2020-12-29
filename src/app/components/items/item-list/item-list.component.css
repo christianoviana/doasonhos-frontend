@@ -1,0 +1,31 @@
+
+#item-list{
+    box-sizing: border-box; 
+    min-height: 400px;
+    margin: 0px 20px;
+}
+
+#item-table{
+    background-color: #fff;   
+}
+
+#item-table img{ 
+    max-width: 60px;
+    max-height: 60px;
+    padding: 2px; 
+}
+
+#item-table td{ 
+    vertical-align: middle;
+}
+
+header{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#itemPagination{
+    margin-top: 20px;
+}
+
+

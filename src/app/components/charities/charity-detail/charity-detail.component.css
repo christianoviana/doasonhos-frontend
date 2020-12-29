@@ -1,0 +1,45 @@
+.header img {
+    height: 200px;
+    max-width: 400px;
+    border-radius: 5px;
+    border: 1px dotted orangered;
+    margin-top: 10px;
+}
+
+#picture{
+    text-align: center;
+}
+
+#main_information{
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.container{   
+    background-color: #FFF;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#about, #transparecy, #value{
+    margin-top: 40px;
+}
+
+#value{
+    text-align: center;
+}
+
+#donate{
+    margin: 40px 0px;
+}
+
+.card-img-top{
+    max-width:250px;
+    height:180px;
+    margin: auto;
+    
+}
+
+.card{
+    margin: 10px;
+}

@@ -1,0 +1,21 @@
+
+#role-list{
+    margin: auto; 
+    min-height: 400px;
+    overflow-x: auto;
+}
+
+#role-table{
+    background-color: #fff;    
+}
+
+header{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#rolePagination{
+    margin-top: 20px;
+}
+
+

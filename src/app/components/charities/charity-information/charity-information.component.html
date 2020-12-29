@@ -1,0 +1,116 @@
+<div *ngIf="charity && isApproved">       
+    <div id="charity-dash" class="container no-gutters">
+
+        <div class="col-12 text-center" id="warning-message">
+            <h1 style="color: red; font-size: 22px;font-weight: bold;"><i class="fa fa-exclamation-triangle"></i> Cadastro Incompleto !!</h1>
+            <h2 style="color: red; font-size: 18px;font-weight: bold;"><a [routerLink]="[ '/charities/information/update']">Clique Aqui Para Preencher as Informações Complementares</a></h2>
+        </div>
+
+        <div class="col-12 text-center">
+            <h1 style="font-size: 22px;font-style: italic;">{{charity.name}}</h1>
+        </div>
+
+        <div class="header row no-gutters">
+            <div id="picture" class="col-sm-4 col-xs-12">
+                <img [src]='charity.information.picture_url' *ngIf="charity.information && charity.information.picture_url!=undefined">
+                <img src='/assets/utils/none.png' *ngIf="!charity.information || charity.information.picture_url==undefined">
+            </div>
+
+            <div id="main_information" class="col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-6">
+                        <p><b>CNPJ: </b>{{charity.cnpj}}</p>
+                        <p><b><i class="fa fa-phone"></i></b> {{charity.telephone}}</p>
+                        <p><b><i class="fa fa-mobile"></i></b> {{charity.cellphone}}</p>  
+                    </div>
+
+                    <div class="col-6">                  
+                        <p><b>Endereço: </b>{{charity.address.address_name}}</p>                        
+                        <p><b>Cidade: </b>{{charity.address.city}}</p>                        
+                        <p><b>Estado: </b>{{charity.address.state}}</p>                        
+                        <p><b><i class="fa fa-map-marker"></i></b> {{charity.address.cep}}</p>  
+                    </div>
+                </div>
+                          
+            </div>
+        </div>
+        <hr *ngIf="charity.information">
+        <div class="content" *ngIf="charity.information">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p><b>({{charity.information.nickname}})</b></p>                      
+                    <a [href]="charity.information.site_url" target="_blank">{{charity.information.site_url}}</a>  
+                </div>
+            </div>
+
+            <div id="donate" class="col-12 text-center">
+                <button id="btn-donate" class="btn btn-warning"><b>Doaçãoes Recebidas</b><i class="fa fa-credit-card"></i></button>
+            </div>
+
+            <div id="about" class="row p-0 no-gutters text-center">
+                <div class="col-md-6 col-xs-12">
+                   <p>{{charity.information.about}}</p>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <p>{{charity.information.goal}}</p>
+                 </div>
+            </div>
+
+            <div id="galery" class="row p-0">
+                <div class="col-md-6 col-xs-12">
+                    <div class="card">
+                        <img class="card-img-top" [src]='charity.information.image01_url' alt="Card image 01">
+                        <div class="card-body">
+                          <p class="card-text text-center">{{charity.information.title_image01}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xs-12">
+                    <div class="card">
+                        <img class="card-img-top" [src]='charity.information.image02_url' alt="Card image 01">
+                        <div class="card-body">
+                          <p class="card-text text-center">{{charity.information.title_image02}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="transparecy" *ngIf="charity.information">
+            <div class="row p-0 no-gutters text-center">
+                <div class="col-md-12 col-xs-12">
+                   <p>{{charity.information.transparency_description}}</p>
+                </div>                
+            </div>
+        </div>
+
+        <div id="value" *ngIf="charity.information">
+            <div class="row p-0 no-gutters">
+                <div class="col-md-4 col-xs-12">
+                   <p>{{charity.information.mission}}</p>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <p>{{charity.information.vision}}</p>
+                 </div>
+                 <div class="col-md-4 col-xs-12">
+                    <p>{{charity.information.value}}</p>
+                 </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+
+<div id="charity-approval" class="container no-gutters" *ngIf='charityApprovals && !isApproved'>    
+    <div style="text-align: center;">
+        <h1><i class="fa fa-exclamation-triangle" style="color: orangered;"></i> Pendências no Cadastro</h1>
+        <h2 *ngIf="firstApproval.status == 'APPROVED'">A sua aprovação está no status ({{firstApproval.message}})</h2>
+        <h2 *ngIf="firstApproval.status == 'REPROVED'">Solicitação Reprovada :(</h2>
+    </div>
+
+    <div id="pending-details">
+        <p *ngFor="let approval of charityApprovals;let index = index;"><i [ngClass]="(index != 0) ? 'fa fa-check-square-o':'fa fa-flag'"></i> {{approval.date}} - {{approval.message}}</p>
+    </div>      
+</div>

@@ -1,0 +1,68 @@
+
+#carousel{
+    height: 350px; 
+    margin: 30px auto;
+}
+
+#CarouselContainer{
+    background: #fff;
+}
+
+.card-img-top{
+    max-width:250px;
+    height:180px;
+    margin: auto;
+}
+
+.card-text{
+    min-height: 140px;
+}
+
+.card{
+    margin-bottom: 40px;
+}
+
+#information{   
+    background-color: #fff; 
+    margin: 40px auto;
+
+}
+
+.container{
+    padding: 0px;
+}
+
+#info_image{
+    text-align: center;
+}
+
+#info_text p{
+    padding: 5px;
+}
+
+#info_text p:first-child{
+   margin-top: 30px;
+}
+
+
+#info_image img{
+    height: 360px;
+    /* max-width: 626px;     */
+    width: 90%;
+}
+
+header h1{
+    font-size: 35px;
+    font-weight: bolder;
+    letter-spacing: 1px;    
+}
+
+header p{
+  font-style: italic;
+  font-size: 20px;
+}
+
+header {
+    margin-top: 20px;
+    text-align: center;
+}

@@ -1,0 +1,9 @@
+.role{
+    background-color: #fff;
+    padding: 10px;
+    transition: background-color 1s ease-out;
+}
+
+div.role:hover{  
+  background-color: #F8F9F9;
+}

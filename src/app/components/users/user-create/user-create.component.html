@@ -1,0 +1,52 @@
+
+ <div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>   
+        
+<div class="container" id="user-create" style="border: 1px solid gray;">    
+
+    <div class="row  text-right">
+        <div class="col-12">                
+            <a routerLink="../list" class="btn btn-outline-success"><i class="fa fa-arrow-circle-left"></i></a>                
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <app-alert></app-alert>    
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">                             
+            <fieldset [disabled]='isLoading'>
+                <h1>Adicionar Usuário</h1>
+                <form #userCreateForm='ngForm' (ngSubmit)='onCreateUser(userCreateForm)'>
+                    <div class="form-group">
+                        <label for="login"><b>Login</b></label>
+                        <input autocomplete="off" required ngModel name="login" id="login" type="text" class="form-control" placeholder="Informe o login">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="password"><b>Senha</b></label>
+                        <input type="password" id="password"class="form-control" required ngModel name="password" placeholder="Informe a senha">           
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type"><b>Tipo</b></label>
+                        <select id="type"class="form-control" required ngModel name="type">
+                            <option selected value="">Selecione...</option>                            
+                            <option value="ADMINISTRATOR">Administrador</option>                         
+                            <option value="MANAGER">Gerente</option>
+                        </select>           
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success" [disabled]='!userCreateForm.valid'>Cadastrar <i class="fa fa-save"></i></button>
+                    </div>
+                  
+                </form>  
+            </fieldset>          
+        </div>
+    </div>          
+</div>

@@ -1,0 +1,27 @@
+.searchAddress{
+    max-width: 600px;
+    margin: 20px auto 0px;
+}
+
+.searchName{
+    max-width: 600px;
+    margin: 0px auto;
+    padding: 5px;
+}
+
+#charityPagination{
+    margin-top: 20px;
+}
+
+#noCharityInfo{
+    margin-top: 20px;
+    height: 150px;
+}
+
+#searchCharity{
+    margin-top: 40px;
+}
+
+.clearfix > a {
+    color: black;
+}

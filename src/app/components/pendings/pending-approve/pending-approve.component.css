@@ -1,0 +1,30 @@
+#approve{
+    margin: 40px auto;
+}
+
+#noCharityInfo{
+    margin-top: 20px;
+    height: 180px;
+}
+
+#charityContainer{
+    min-height: 180px;
+    max-height: 300px;
+    max-width: 500px;
+    margin: 40px auto;    
+    overflow-y: auto;
+}
+
+.orange-border{
+    border: 1px solid orange;
+}
+
+.card li:hover{
+   background-color: #F8F9F9;
+   cursor: pointer;
+}
+
+.btn-approve{
+    width: 100%;
+    height: 40px;
+}

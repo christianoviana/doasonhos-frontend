@@ -1,0 +1,15 @@
+.item{
+    background-color: #fff;
+    padding: 10px;
+    transition: background-color 1s ease-out;
+}
+
+#item_image{
+  max-width: 60px;
+  max-height: 60px;
+  padding: 2px;
+}
+
+div.item:hover{  
+  background-color: #F8F9F9;
+}

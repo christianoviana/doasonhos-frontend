@@ -1,0 +1,7 @@
+<div class="row no-gutters group">    
+    <div class="col-4">{{group.name}}</div>
+    <div class="col-6">{{group.description}}</div>
+    <!-- <div class="col-1"><a href="#"> <i class="fa fa-eye"></i></a></div> -->
+    <div class="col-1 p-1"><a [routerLink]="['../update/', group.id]"><i class="fa fa-edit"></i></a></div>
+    <div class="col-1 p-1"><a href="#"><i class="fa fa-trash"></i></a></div>
+</div>

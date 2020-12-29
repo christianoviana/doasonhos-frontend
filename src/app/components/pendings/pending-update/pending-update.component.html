@@ -1,0 +1,100 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div id="charity" class="container no-gutters">          
+    <form #charityForm='ngForm' (ngSubmit)='onSaveCharity(charityForm)' id="charity-form">        
+        <app-alert></app-alert>
+                    
+        <h3>Corrigir Dados Cadastrais</h3>                                                                   
+        
+        <hr>
+       
+        <div class="form-row">              
+            <div class="form-group col-md-9 col-sm-12">
+                <label for="name">Nome da Entidade *</label>
+                <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+            </div>   
+            <div class="form-group col-md-3 col-sm-12">
+                <label for="cnpj">CNPJ *</label>
+                <input type="text" required ngModel name="cnpj" id="cnpj" class="form-control">
+            </div>            
+        </div>
+
+        <div class="form-row">             
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="representantName">Nome Representante *</label>
+                <input type="text" required ngModel name="representantName" id="representantName" class="form-control is-invalid">
+                  <div class="invalidfeedback">
+                    Looks good!
+                  </div>
+            </div>   
+            <div class="form-group col-md-3 col-sm-12">
+                <label for="telphone">Telefone *</label>
+                <input type="text" required ngModel name="telephone" id="telephone" class="form-control">
+            </div>   
+
+            <div class="form-group col-md-3 col-sm-12">
+                <label for="cellphone">Celular *</label>
+                <input type="text" required ngModel name="cellphone" id="cellphone" class="form-control is-invalid">
+                  <div class="invalid-feedback">
+                    Looks good!
+                  </div>
+            </div>           
+        </div>
+
+        <div class="form-row"> 
+            <div class="form-group col-md-12 col-sm-12">
+                <label for="cep">CEP *</label>
+                <input maxlength="9" (blur)="onCepEvent($event)" type="text" required ngModel name="cep" id="cep" class="form-control">
+            </div>                                    
+        </div>
+
+        <div class="form-row">                
+            <div class="form-group col-md-4 col-sm-12">
+                <label for="addressName">Logradouro *</label>
+            <input [disabled]="cep==undefined" type="text" required [ngModel]="cep && cep.logradouro" name="addressName" id="addressName" class="form-control">
+            </div>  
+            <div class="form-group col-md-4 col-sm-12">
+                <label for="district">Bairro *</label>
+                <input [disabled]="cep==undefined" type="text" required [ngModel]="cep && cep.bairro" name="district" id="district" class="form-control">
+            </div> 
+            <div class="form-group col-md-2 col-sm-12">
+                <label for="city">Número *</label>
+                <input  [disabled]="cep==undefined" type="text" required ngModel name="number" id="number" class="form-control">
+            </div>    
+            <div class="form-group col-md-2 col-sm-12">
+                <label for="city">Complemento</label>
+                <input [disabled]="cep==undefined" type="text" ngModel name="complement" id="complement" class="form-control">
+            </div>                          
+        </div>
+
+        <div class="form-row"> 
+            <div class="form-group col-md-2 col-sm-12">
+                <label for="country">País *</label>
+                <select [disabled]="cep==undefined" required ngModel="Brasil" name="country" id="country" class="form-control">
+                    <option readonly selected value="Brasil">Brasil</option>
+                </select>
+            </div> 
+            <div class="form-group col-md-4 col-sm-12">
+                <label for="state">Estado *</label>
+                <input [readonly]='cep && cep.estado !=""' [disabled]='cep==undefined' type="text" required [ngModel]="cep && cep.estado" name="state" id="state" class="form-control">
+            </div>  
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="city">Cidade *</label>
+                <input [readonly]='cep && cep.localidade !=""' [disabled]="cep==undefined" type="text" required [ngModel]="cep && cep.localidade" name="city" id="city" class="form-control">
+            </div>                          
+        </div>    
+
+        <div class="text-center" id="login-buttons">
+            <button 
+                class="btn btn-primary btn-large-width"
+                [disabled]="!charityForm.valid"
+                >
+                Atualizar <i class="fa fa-save"></i></button>             
+        </div>                     
+    </form>
+</div>

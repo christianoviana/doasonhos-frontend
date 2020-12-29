@@ -1,0 +1,116 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div id="approve" class="container no-gutters">    
+  
+    <div id="searchCharity" *ngIf="pendingCharities && hasSearch">
+        <h1 style="text-align: center;font-size: 30px;">Aprovar Entidades</h1>
+        <p style="text-align: center;"><i>Realize o processo de validação e aprovação das informações das entidades.</i></p>
+        <hr>
+        <div class="form-row searchAddress">
+            <div class="form-group col-12" style="max-width: 500px;margin: auto;">
+                <p style="font-weight: bold;font-style: italic; text-align: center;" *ngIf="total>0">Há ({{total}}) aprovações pendentes</p>
+                <p style="font-weight: bold;font-style: italic; text-align: center;" *ngIf="total==0">Você não possui aprovações pendentes</p>
+                <select id="state" class="form-control" name="state" (change)='onStateChange($event.target.value)'>
+                    <option value="">Selecione o Estado..</option>
+                    <option [value]='pending.state' *ngFor='let pending of pendingCharities'>{{pending.state}} ({{pending.charities.length}})</option>
+                </select>
+            </div> 
+        </div>
+    </div>
+
+    <div class="row no-gutters" id="noCharityInfo" *ngIf="pendingCharities == undefined" >
+        <div class="col-12 text-center" *ngIf="hasSearch && pendingCharities == undefined">
+            <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+            <h1 style="font-size: 20px;">Não encontramos nenhuma entidade para aprovar</h1>
+        </div>
+    </div>   
+    
+    <div id="charityContainer" class="row no-gutters" [ngClass]="{'orange-border': filteredPendingCharities}">
+        <div class="col-12" *ngIf="filteredPendingCharities">
+            <div class="card">
+                <ul class="list-group list-group-flush"> 
+                     <!-- trigger modal -->                           
+                    <li (click)="selectedCharity=charity;newStatus=''" class="list-group-item" *ngFor='let charity of filteredPendingCharities.charities' data-toggle="modal" data-target="#exampleModalLong">
+                        <b>Status: </b>{{getStatus(charity.status)}}<br>
+                        <b>({{charity.cnpj}})</b> {{charity.name.length > 30 ? (charity.name | slice:0:30) + '..' : charity.name }}                     
+                    </li>                 
+                </ul>
+              </div>
+        </div>
+    </div>
+
+    <div>               
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Aprovação do Cadastro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" *ngIf='selectedCharity'>   
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p><b>({{getStatus(selectedCharity.status)}})</b></p>
+                        </div>                       
+                    </div>               
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <p><b>Nome: </b>{{selectedCharity.name}}</p>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <p><b>Cnpj: </b>{{selectedCharity.cnpj}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <p><b>Telefone: </b>{{selectedCharity.telephone}}</p>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <p><b>Celular: </b>{{selectedCharity.cellphone}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <p><b>Representante: </b>{{selectedCharity.representant_name}}</p>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <p><b>Endereço: </b>{{selectedCharity.address.address_name}}-{{selectedCharity.address.district}}, {{selectedCharity.address.number}} ({{selectedCharity.address.cep}})</p>                            
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12">
+                            <select [(ngModel)]="newStatus" id="reason" class="form-control" name="reason">
+                                <option value="">Atualize o Status</option>
+                                <option value="PENDING">Análise Pendente</option>
+                                <option value="ANALYZING">Em Análise</option>
+                                <option value="PENDING_DATA">Corrigir Dados</option>
+                                <option value="REPROVED">Reprovado</option>
+                                <option value="APPROVED">Aprovado</option>                               
+                            </select>  
+                        </div>                                              
+                    </div>       
+                    <div class="row" *ngIf="newStatus=='PENDING_DATA' || newStatus=='REPROVED'">                       
+                        <div class="col-md-12">
+                            <textarea maxlength="200" rows="2" placeholder="Mensagem" required style="width: 100%;resize: none;text-align: center;margin-top: 10px;"></textarea>
+                        </div>                                            
+                    </div>                                       
+                </div>
+                <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->  
+                    <div class="row no-gutters" style="width: 100%;">
+                        <div class="col-12">
+                            <button [disabled]='newStatus==""' (click)="charityChangeStatus(selectedCharity, newStatus)" type="button" class="btn btn-success btn-approve">Atualizar <i class="fa fa-save"></i></button>
+                        </div>                                           
+                    </div>                                                                                          
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+   
+</div>

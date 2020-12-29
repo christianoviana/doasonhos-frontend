@@ -1,0 +1,35 @@
+<div id="PendingDetail" class="container">
+    <h1 style="text-align: center;font-size: 30px;">Acompanhar Solicitação</h1>
+    <p style="text-align: center;"><i>Consulte aqui o status da sua solicitação de cadastro.</i></p>
+    <hr>
+
+    <div class="row search no-gutters">      
+        <div class="col-12">
+            <div class="input-group">
+                <input [(ngModel)]="search" type="search" class="form-control text-center" placeholder="Digite o Cnpj">
+            
+                <div class="input-group-append">
+                    <button [disabled]='search ==""' (click)="searchCharity()" class=" btn btn-success"><i class="fa fa-search"></i></button>
+                </div>
+        </div>     
+    </div>
+    
+    <div class="row no-gutters" id="informations" *ngIf="charityStatus">
+        <div class="col-12">
+            <p><b>Nome: </b>{{charityStatus.name.length > 50 ? (charityStatus.name | slice:0:50) + '..' : charityStatus.name }}</p>      
+            <p><b>Cnpj: </b>{{charityStatus.cnpj}}</p>            
+            <p><b>Cadastro Ativo: </b> {{charityStatus.active == 0 ? 'Não' : 'Sim'}}</p>
+            <p><b>Status: </b> {{getStatus()}}</p>
+            <p><b>Última Atualização: </b>{{charityStatus.approver_data == undefined ? '-' : getFormatedDate(charityStatus.approver_data)}}</p>
+            <p *ngIf="charityStatus.status == 'APPROVED' && !charityStatus.charity_information" style="color: red;"><b>*</b> Pendente Atualização das Informações Complementares</p>
+        </div> 
+    </div>   
+
+    <div class="row no-gutters" id="noCharityInfo" *ngIf="charityStatus == undefined" >
+        <div class="col-12 text-center" *ngIf="hasSearch && charityStatus == undefined">
+          <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+          <h1 style="font-size: 20px;">Não encontramos nenhuma entidade</h1>
+          <h2 style="font-size: 14px;">Certifique-se que a entidade está cadastrada e o Cnpj foi digitado corretamente</h2>
+        </div>
+    </div> 
+</div>

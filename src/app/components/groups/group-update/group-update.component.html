@@ -1,0 +1,43 @@
+
+ <div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>   
+        
+<div class="container" id="group-update" style="border: 1px solid gray;">    
+
+    <div class="row  text-right">
+        <div class="col-12">                
+            <a routerLink="../../list" class="btn btn-outline-success"><i class="fa fa-arrow-circle-left"></i></a>                
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <app-alert></app-alert>    
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">                             
+            <fieldset [disabled]='!group'>
+                <h1>Atualizar Grupo</h1>
+                <form #groupUpdateForm='ngForm' (ngSubmit)='onUpdateGroup(groupUpdateForm)'>
+                    <div class="form-group">
+                        <label for="name"><b>Nome</b></label>
+                        <input autocomplete="off" required [(ngModel)]='group.name' name="name" id="name" type="text" class="form-control">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="description"><b>Descrição</b></label>
+                        <textarea id="description"class="form-control" required [(ngModel)]='group.description' minlength="1" name="description" maxlength="200"></textarea>           
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success" [disabled]='!groupUpdateForm.valid'>Atualizar <i class="fa fa-save"></i></button>
+                    </div>
+                  
+                </form>  
+            </fieldset>          
+        </div>
+    </div>          
+</div>

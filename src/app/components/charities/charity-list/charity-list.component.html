@@ -1,0 +1,67 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div class="container-fluid p-0 no-gutters">
+  
+    <div id="searchCharity">
+        <h1 style="text-align: center;font-size: 30px;">Consultar Entidades</h1>
+        <p style="text-align: center;"><i>Encontre as entidades beneficentes de um jeito fácil e descomplicado.</i></p>
+        <hr>
+        <div class="form-row searchAddress">
+            <div class="form-group col-sm-6 col-xs-12">
+                <select id="state" class="form-control" name="state" (change)='onStateChange($event.target.value)'>
+                    <option value="">Selecione o Estado..</option>
+                    <option [value]='state.initial' *ngFor='let state of States'>{{state.name}}</option>
+                </select>
+            </div>         
+          
+            <div class="form-group col-sm-6 col-xs-12">
+                <select id="city" class="form-control" name="city">
+                    <option>Selecione a Cidade..</option>
+                    <option [value]='city.id' *ngFor='let city of Cities'>{{city.name}}</option>
+                </select>
+            </div>
+        </div>  
+        
+        <div class="row searchName no-gutters">      
+            <div class="col-11">
+                <div class="form-group">
+                    <input [(ngModel)]="search" type="search" class="form-control" placeholder="Cnpj ou Nome">
+                </div>
+            </div>
+            <div class="col-1" style="text-align: right;">
+                <div class="form-group">
+                    <button (click)="searchCharities()" class=" btn btn-success"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+      </div>
+  
+    <div class="clearfix" *ngIf="charities && charities.length > 0"> 
+        <a [routerLink]="['../', charity.id]" *ngFor='let charity of charities | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>   
+            <app-charity [charity]='charity'></app-charity>
+        </a>
+    </div>
+
+    <div class="row no-gutters" id="charityPagination" *ngIf="charities && charities.length > 0">
+        <div class="col-12 text-center">
+          <pagination-controls 
+          (pageChange)="onHandlePageChange($event)"
+          maxSize="8"
+          responsive="true"
+          previousLabel=""
+          nextLabel="">
+          </pagination-controls>
+        </div>
+    </div> 
+
+    <div class="row no-gutters" id="noCharityInfo" *ngIf="charities == undefined" >
+        <div class="col-12 text-center" *ngIf="hasSearch && charities == undefined">
+          <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+          <h1 style="font-size: 20px;">Não encontramos nenhuma entidade</h1>
+          <h2 style="font-size: 14px;">Verifique se as informações foram digitadas corretamente</h2>
+        </div>
+    </div> 
+</div>
+

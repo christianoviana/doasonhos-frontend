@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-12">
+      
+        <div *ngIf="isLoading">
+            <app-loading [fullscreen]="true"></app-loading>
+        </div>   
+        
+        <div id="google-login">
+           <button class="btn" (click)="signInWithGoogle()"><i class="fa fa-google" style="font-size: 18px;" ></i> Entrar com o Google</button>
+        </div>
+
+        <form #authForm='ngForm' (ngSubmit)='onLoginForm(authForm)' id="login-form">            
+            <app-alert></app-alert>                     
+            <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input type="email" required ngModel name="email" id="email" class="form-control" placeholder="email@exemplo.com">             
+            </div>
+            <div class="form-group">
+                <label for="password">Senha *</label>
+                <input type="password" required ngModel name="password" id="password" class="form-control" placeholder="senha">
+            </div>
+            <div class="text-center" id="login-buttons">
+                <button 
+                    class="btn btn-primary btn-full-width"
+                    [disabled]="!authForm.valid"
+                    >
+                    Entrar <i class="fa fa-sign-in"></i></button>
+                <hr>
+                <button (click)="onCreateAccount()" class="btn btn-success">Criar nova conta</button>       
+            </div>                      
+        </form>     
+      
+    </div>
+</div>

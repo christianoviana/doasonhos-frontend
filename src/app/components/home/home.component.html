@@ -1,0 +1,90 @@
+<section id="home"> 
+  <header>   
+    <h1>Doações de Caridade</h1>
+    <p>Você é a esperança de muitos  <i style="color: red;" class="fa fa-heart"></i></p>
+  </header> 
+
+  <div class="container" style="text-align: center;margin: 30px auto;">
+    <div class="row">
+      <div class="col-12">
+        <a class="btn btn-danger" routerLink="/charities/list" routerLinkActive="active">Conheça as Entidades <i class="fa fa-home"></i></a>
+      </div>
+    </div>
+  </div>  
+
+  <div class="container" id="CarouselContainer">        
+    <div id="carousel" #carousel class="carousel slide carousel-fade" data-pause='false' data-interval='4000' data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+          </ol>
+
+        <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img class="d-block w-100" height="350px" src="/assets/carousel/image_01.jpg" alt="First slide">
+              </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" height="350px" src="/assets/carousel/image_02.jpg" alt="Second slide">
+              </div>     
+              <div class="carousel-item">
+                <img class="d-block w-100" height="350px" src="/assets/carousel/image_03.jpg" alt="Third slide">
+              </div>               
+        </div>
+        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Anterior</span>
+        </a>
+        <a class="carousel-control-next" #next href="#carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Próxima</span>
+        </a>
+    </div>          
+  </div>    
+   
+
+    <div class="container" id="information">
+      <div class="row">
+        <div id="info_text" class="col-md-6 col-xs-12">
+            <p>O projeto <strong>Doa Sonhos</strong> visa promover a visibilidade das entidades beneficentes e conectá-las aos doadores tanto pessoa física quanto jurídica.</p>
+            <p>Cada doação recebida possibilita que a entidade continue trabalhando em prol das pessoas mais necessitadas.</p>
+            <p><strong>O que você faria para mudar o mundo hoje ?</strong> Conheça o trabalho, ajude e seja o motivo do sorriso de alguém <i class="fa fa-smile-o"></i></p>
+            <a style="padding: 5px;" routerLink="/charities/list" routerLinkActive="active"><b>Clique aqui para conhecer as entidades <i class="fa fa-home"></i></b></a>     
+        </div>
+        <div class="col-md-6 col-xs-12" id="info_image">
+          <img src="./assets/home/info_image.jpg" alt="">
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-xs-12">
+          <div class="card">
+            <img class="card-img-top" src="/assets/home/card_01.jpg" alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">Doe as roupas que <strong>não utiliza</strong> e que <strong>se encontram em bom estado</strong> para as entidades beneficentes. Muitas vezes o nosso guarda-roupas está cheio de coisas das quais não utilizamos e há muitas pessoas que ficariam muito felizes com elas.</p>
+            </div>
+          </div>      
+        </div>
+
+        <div class="col-md-4 col-xs-12">
+          <div class="card">
+            <img class="card-img-top" src="/assets/home/card_02.jpg" alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text"><strong>Promova a caridade</strong> doando alimentos dentro da data de validade ou ajude através de <strong>doações onlines</strong> que serão convertidas em créditos para a compra de itens necessários para o funcionamento da entidade beneficiente.</p>
+            </div>
+          </div>      
+        </div>
+
+        <div class="col-md-4 col-xs-12">
+          <div class="card">
+            <img class="card-img-top" src="/assets/home/card_03.jpg"  alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">Sabe aquele brinquedinho que o seu filh(o)(a) não brinca mais com ele ou aquele outro brinquedo que está pegando poeira no armário  ? <strong>Doe e faça uma criança feliz</strong>, este brinquedo pode trazer alegria para muitas crianças.</p>
+            </div>
+          </div>      
+        </div>
+      </div>
+    </div>
+</section>

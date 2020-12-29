@@ -1,0 +1,82 @@
+.header img {
+    height: 200px;
+    max-width: 400px;
+    border-radius: 5px;
+    border: 1px dotted orangered;
+    margin-top: 10px;
+}
+
+#picture{
+    text-align: center;
+}
+
+#main_information{
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.container{   
+    background-color: #FFF;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#about, #transparecy, #value{
+    margin-top: 40px;
+}
+
+#value{
+    text-align: center;
+}
+
+#donate{
+    margin: 40px 0px;
+}
+
+.card-img-top{
+    max-width:250px;
+    height:180px;
+    margin: auto;
+    
+}
+
+.card{
+    margin: 10px;
+}
+
+#charity-dash, #charity-approval{
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#charity-approval h1{
+    font-size: 24px;
+}
+
+#charity-approval h2{
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+
+#pending-details{
+    margin: auto;
+    max-width: 500px;
+    min-height: 250px;
+    padding: 10px;
+    border: 1px solid beige;
+    overflow-y: auto;
+}
+
+#pending-details p:last-child{
+    margin-bottom: 0px;
+}
+
+#warning-message{
+    margin-bottom: 40px;
+}
+
+#warning-message a{
+   color: #FF0000;
+   text-decoration: none;
+}

@@ -1,0 +1,21 @@
+
+#group-list{
+    margin: auto; 
+    min-height: 400px;
+    overflow-x: auto;
+}
+
+#group-table{
+    background-color: #fff;  
+}
+
+header{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#groupPagination{
+    margin-top: 20px;
+}
+
+

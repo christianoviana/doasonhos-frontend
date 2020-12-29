@@ -1,0 +1,60 @@
+<div id="user-list" class="container p-0 no-gutters" *ngIf="users && users.length > 0">
+
+    <header>
+      <div class="row no-gutters">
+        <div class="col-6 col-md-6 col-xs-2">                
+            <a routerLink="../create" class="btn btn-success">Novo Usuário</a>                
+        </div>   
+    
+        <div class="col-6 col-md-6 col-xs-10">
+          <div class="input-group">
+            <input type="search" id="txtSearch" name='search' class="form-control" placeholder="Pesquisar" aria-label="Procurar Usuário" aria-describedby="btnSearch">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="button" id="btnSearch"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header> 
+     
+      <div class="table-responsive">
+        <table id="user-table" class="table table-hover">
+          <thead>
+            <tr>        
+              <th>Login</th>
+              <th>Ativo</th>        
+              <th>Tipo</th>        
+              <th></th>        
+              <th></th>        
+              <th></th>        
+            </tr>
+          </thead>
+          <tbody>
+            <tr [id]="user.id"
+            *ngFor='let user of users | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>    
+              <td>{{user.login}}</td>
+              <td>{{user.active == true ? 'Sim' : 'Não'}}</td>        
+              <td>{{TranslateUserType(user.type)}}</td>        
+              <td><a href="#"><i class="fa fa-eye"></i></a></td>              
+              <td><a [routerLink]="['../update/', user.id]"><i class="fa fa-edit"></i></a></td>
+              <td><a href="#"><i class="fa fa-trash"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+     
+      <div class="row no-gutters" id="groupPagination">
+        <div class="col-12 text-center">
+          <pagination-controls 
+          (pageChange)="onHandlePageChange($event)"
+          maxSize="8"
+          responsive="true"
+          previousLabel=""
+          nextLabel="">
+          </pagination-controls>
+        </div>
+      </div>      
+    </div>   
+      
+  </div>
+  
+  

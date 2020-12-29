@@ -1,0 +1,41 @@
+#login-form{
+    padding: 20px;
+    background-color: #fff;
+    max-width: 450px;
+    margin: 20px auto 40px;
+    border-radius: 10px;
+}
+
+#login-buttons{
+    margin-top: 20px;
+}
+
+.btn-full-width{
+    width: 100%;
+}
+
+#google-login{
+    margin: auto;
+    text-align: center;
+    margin-top: 20px ;
+}
+
+#google-login > button{
+    background-color: #dd4b39;
+    color: white;
+    border: 1px solid gray;        
+    opacity: 1;
+    max-width: 250px;
+}
+
+#google-login > button.btn:hover{
+   opacity: 0.8;
+}
+
+
+#google-login > button.btn:focus, 
+#google-login > button.btn:active,
+#google-login > button.btn:active:focus {
+    outline: none !important;
+    box-shadow: none;
+}

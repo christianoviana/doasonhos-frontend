@@ -1,0 +1,10 @@
+<div class="charity text-center" [id]="charity.id">    
+    <img id="picture" [src]="charity.information && charity.information.picture_url"> 
+
+    <div id="informations">
+        <p id="title"><b>{{charity.name.length > 25 ? (charity.name | slice:0:25) + '..' : charity.name }}</b></p>   
+        <p id="cnpj">{{charity.cnpj}}</p>  
+        <p id="address">{{charity.address.city}} - {{charity.address.city}}</p>
+    </div>       
+</div>
+
