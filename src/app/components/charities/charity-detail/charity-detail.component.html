@@ -12,25 +12,21 @@
         </div>
 
         <div class="header row no-gutters">
-            <div id="picture" class="col-sm-5 col-xs-12">
+            <div id="picture" class="col-md-4 col-xs-12">
                 <img [src]='charity.information.picture_url' *ngIf="charity.information && charity.information.picture_url!=undefined">
             </div>
-            <div id="main_information" class="col-sm-7 col-xs-12">
-                <div class="row">
-                    <div class="col-6">
-                        <p><b>CNPJ: </b>{{charity.cnpj}}</p>
-                        <p><b><i class="fa fa-phone"></i></b> {{charity.telephone}}</p>
-                        <p><b><i class="fa fa-mobile"></i></b> {{charity.cellphone}}</p>  
-                    </div>
+            <div id="main_information" class="col-md-4 col-xs-12">
+               
+                    <p><b>CNPJ: </b>{{charity.cnpj}}</p>
+                    <p><b><i class="fa fa-phone"></i></b> {{charity.telephone}}</p>
+                    <p><b><i class="fa fa-mobile"></i></b> {{charity.cellphone}}</p>  
+            </div>
 
-                    <div class="col-6">                  
-                        <p><b>Endereço: </b>{{charity.address.address_name}}</p>                        
-                        <p><b>Cidade: </b>{{charity.address.city}}</p>                        
-                        <p><b>Estado: </b>{{charity.address.state}}</p>                        
-                        <p><b><i class="fa fa-map-marker"></i></b> {{charity.address.cep}}</p>  
-                    </div>
-                </div>
-                          
+            <div id="main_information" class="col-md-4 col-xs-12">                
+                    <p><b>Endereço: </b>{{charity.address.address_name}}</p>                        
+                    <p><b>Cidade: </b>{{charity.address.city}}</p>                        
+                    <p><b>Estado: </b>{{charity.address.state}}</p>                        
+                    <p><b><i class="fa fa-map-marker"></i></b> {{charity.address.cep}}</p>  
             </div>
         </div>
         <hr>
@@ -38,24 +34,27 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <p><b>({{charity.information.nickname}})</b></p>                      
-                    <a [href]="charity.information.site_url" target="_blank">{{charity.information.site_url}}</a>  
+                    <a [href]="getLinkWithProtocol(charity.information.site_url)" target="_blank">{{charity.information.site_url}}</a>  
                 </div>
             </div>
 
-            <div id="donate" class="col-12 text-center" *ngIf="!isCharityUser">
-                <button id="btn-donate" class="btn btn-warning"><b>Doar Agora </b><i class="fa fa-credit-card"></i></button>
+            <div id="donate" class="col-12 text-center">
+                <a *ngIf='!isCharityUser' class="btn btn-warning" id="btn-donate" [routerLink]="['/donations', charity.id]"><b>Doar Agora </b><i class="fa fa-credit-card"></i></a>
+                <button *ngIf='isCharityUser' [disabled]='isCharityUser' id="btn-donate" class="btn btn-warning"><b>Doar Agora </b><i class="fa fa-credit-card"></i></button>
             </div>
 
-            <div id="about" class="row p-0 no-gutters text-center">
-                <div class="col-md-6 col-xs-12">
-                   <p>{{charity.information.about}}</p>
+            <div id="about" class="row p-0 no-gutters">
+                <div class="col-md-6 col-xs-12">   
+                    <p style="text-align: center;"><b>Sobre</b></p>
+                   <p style="padding: 10px;margin: 10px;">{{charity.information.about}}</p>
                 </div>
                 <div class="col-md-6 col-xs-12">
-                    <p>{{charity.information.goal}}</p>
+                    <p style="text-align: center;"><b>Objetivo</b></p>
+                    <p style="padding: 10px;margin: 10px;">{{charity.information.goal}}</p>
                  </div>
             </div>
 
-            <div id="galery" class="row p-0">
+            <div id="galery" class="row p-0 text-center">
                 <div class="col-md-6 col-xs-12">
                     <div class="card">
                         <img class="card-img-top" [src]='charity.information.image01_url' alt="Card image 01">
@@ -77,23 +76,43 @@
         </div>
 
         <div id="transparecy">
-            <div class="row p-0 no-gutters text-center">
-                <div class="col-md-12 col-xs-12">
-                   <p>{{charity.information.transparency_description}}</p>
-                </div>                
+            <div class="row p-0 no-gutters">                                
+                <div class="col-md-6 col-xs-12">
+                   <p style="text-align: center;"><b>Gerenciamento</b></p>
+                   <p style="padding: 10px;margin: 10px;">{{charity.information.manager_description}}</p>
+                </div>    
+                <div class="col-md-6 col-xs-12">
+                   <p style="text-align: center;"><b>Transparência</b></p>
+                   <p style="padding: 10px;margin: 10px;">{{charity.information.transparency_description}}</p>
+                </div>       
             </div>
         </div>
 
         <div id="value">
             <div class="row p-0 no-gutters">
                 <div class="col-md-4 col-xs-12">
-                   <p>{{charity.information.mission}}</p>
+                    <div class="card">
+                        <div class="card-header"><b>Missão</b></div>
+                        <div class="card-body">
+                          <p class="card-text">{{charity.information.mission}}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4 col-xs-12">
-                    <p>{{charity.information.vision}}</p>
+                    <div class="card">
+                        <div class="card-header"><b>Visão</b></div>
+                        <div class="card-body">
+                          <p class="card-text">{{charity.information.vision}}</p>
+                        </div>
+                    </div>
                  </div>
                  <div class="col-md-4 col-xs-12">
-                    <p>{{charity.information.value}}</p>
+                    <div class="card">
+                        <div class="card-header"><b>Valores</b></div>
+                        <div class="card-body">
+                          <p class="card-text">{{charity.information.value}}</p>
+                        </div>
+                    </div>
                  </div>
             </div>
         </div>

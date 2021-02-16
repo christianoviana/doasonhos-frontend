@@ -1,0 +1,97 @@
+<div id="shopping-list" class="container no-gutters">
+    <div class="row  text-right p-2">
+        <div class="col-12">                
+            <a [routerLink]="['/charities', charity.id]" class="btn btn-outline-success" *ngIf="charity"><i class="fa fa-arrow-circle-left"></i></a>                
+        </div>
+    </div>
+
+    <div id="donation-type" class="row no-gutters">  
+        <div class="col-md-3 hidden-xs hidden-sm" [ngClass]="{'food-image-cart': charity}"></div>      
+        <div class="col-sm-12 col-md-6 col-xs-12 text-center">
+            <img *ngIf="charity && charity.information" class="picture" [src]="charity.information.picture_url"> 
+            <h1 style="text-align: center;font-size: 24px;">{{charity && charity.name}}</h1>
+            <h2 *ngIf="charity" style="text-align: center;font-size: 18px;">({{charity && charity.cnpj}})</h2>
+
+            <div class="text-center" style="margin: 20px 0px;">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" (change)='onRadioChange($event.target.value)' type="radio" name="inlineRadioOptions" id="rdo-online" value="online" checked>
+                    <label class="form-check-label" for="rdo-online">Doação Online</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" (change)='onRadioChange($event.target.value)' type="radio" name="inlineRadioOptions" id="rdo-presencial" value="presencial">
+                    <label class="form-check-label" for="rdo-presencial">Doação Presencial</label>
+                  </div>
+            </div>         
+        </div>                 
+        <div class="col-md-3 hidden-xs hidden-sm" [ngClass]="{'clothes-image-cart': charity}"></div>                  
+    </div> 
+        
+    <hr>  
+
+    <div  id="donate" class="col-12 text-center">
+        <button *ngIf="donationType=='online'" id="btn-donate" class="btn btn-warning"><b>DOAR <i class="fa fa-credit-card"></i></b><br><span style="color: red; font-weight: bold; font-size: 14px;">* Escolha o Valor</span></button>
+    </div>
+
+    <div id="shopping" class="row no-gutters">
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xs-12" *ngFor="let item of filteredItems">
+            <app-donate-item (ItemClickedEvent)='onItemClicked($event)' [item]="item" data-toggle="modal" data-target="#exampleModalLong"></app-donate-item>
+        </div>      
+    </div>  
+
+    <div class="row no-gutters" id="noItems" *ngIf="filteredItems == undefined || filteredItems.length==0">
+        <div class="col-12 text-center" *ngIf="hasSearch && (filteredItems == undefined || filteredItems.length==0)">
+          <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+          <h1 style="font-size: 20px;">Não há itens cadastrados</h1>
+          <h2 style="font-size: 14px;">A entidade beneficente não cadastrou itens de doação {{donationType}}</h2>
+        </div>
+    </div> 
+</div>
+
+<div>               
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Detalhes do Item</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body" *ngIf='selectedItem'> 
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <img id="picture" [src]="selectedItem.image_url==undefined ? '/assets/utils/none.png' : selectedItem.image_url">   
+                    </div>                       
+                </div>       
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p><b>{{selectedItem.name > 25 ? (selectedItem.name | slice:0:25) + '..' : selectedItem.name }}</b></p>
+                    </div>                       
+                </div>               
+                <div class="row text-center">
+                    <div class="col-12">
+                        <p>{{selectedItem.description}}</p>
+                    </div>
+                </div>     
+                <div class="row text-center">
+                    <div class="col-12 col-sm-12">
+                        <p *ngIf="selectedItem.price > 0"><b style="font-size: 22px;" >{{selectedItem.price | currency:'BRL':true}}</b></p>
+                        <p *ngIf="selectedItem.price <= 0"><b style="font-size: 22px;">R$ --</b></p>
+                    </div>
+                </div>                                                                                                       
+            </div>
+            <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->  
+                <div class="row no-gutters text-center" style="width: 100%;">
+                    <div class="col-12">
+                        <button *ngIf="!alreadyAdded" type="button" (click)='AddToCart(selectedItem)' class="btn btn-success" data-dismiss="modal" aria-label="Close">Adicionar ao Carrinho <i class="fa fa-cart-plus"></i></button>
+                        <button *ngIf="alreadyAdded" type="button" (click)='RemoveFromCart(selectedItem)' class="btn btn-danger" data-dismiss="modal" aria-label="Close">Remover do Carrinho <i class="fa fa-cart-minus"></i></button>
+                    </div>                                           
+                </div>                                                                                          
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+

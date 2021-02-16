@@ -66,6 +66,14 @@ export class CharityListComponent implements OnInit {
     }).catch(err => {   
       console.log(err);     
     });  
+
+    const lastSearch = this.charityApi.getLastCharitySearch();
+    if(lastSearch){
+      this.charities = <Charity[]>lastSearch.Charities;
+      this.pagination = <Pagination> lastSearch.Pagination;
+
+      console.log('There are last search');
+    }   
    
       // this.charityApi.getCharities(this.firstPage, this.itemsPerPage).then(res => {
       //   this.charities = <Charity[]>res.Charities;

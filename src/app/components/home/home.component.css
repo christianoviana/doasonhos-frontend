@@ -40,6 +40,10 @@
     padding: 5px;
 }
 
+#info_text{
+    margin-bottom: 20px;
+}
+
 #info_text p:first-child{
    margin-top: 30px;
 }

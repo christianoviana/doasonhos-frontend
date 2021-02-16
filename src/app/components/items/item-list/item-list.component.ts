@@ -14,7 +14,9 @@ export class ItemListComponent implements OnInit {
   items:Array<Item>;
   pagination:Pagination;
   itemsPerPage = 5;
-  firstPage = 1
+  firstPage = 1;
+  selectedItemToDelete:Item = undefined;
+  isLoading = false;
 
   onHandlePageChange(page){
     this.itemApi.getItems(page, this.itemsPerPage).subscribe(res => {
@@ -26,10 +28,35 @@ export class ItemListComponent implements OnInit {
   ngOnInit(): void {
     this.itemApi.getItems(this.firstPage, this.itemsPerPage).subscribe(res => {
       this.items = <Item[]>res.Items;
-      
-      console.log(this.items[1].image_url);
       this.pagination = <Pagination> res.Pagination;
     });
+  }
+
+  setItemToDelete(item:Item){
+    this.selectedItemToDelete = item;
+  }
+
+  deleteItem(item:Item){
+    this.isLoading = true;
+   
+    try {
+      this.itemApi.deleteItem(item).subscribe(() => {
+        try {
+          this.itemApi.getItems(this.firstPage, this.itemsPerPage).subscribe(res => {
+            this.items = <Item[]>res.Items;
+            this.pagination = <Pagination> res.Pagination;
+            
+            this.isLoading = false;
+          });
+        } catch (error) {        
+          this.isLoading = false;
+          console.log(error);
+        }
+      });
+    } catch (error) {
+      this.isLoading = false;
+      console.log(error);
+    }   
   }
 }
 

@@ -1,0 +1,31 @@
+#thumbnail{
+    margin-top: 20px;
+    border: 1px dotted orange;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+}
+
+#thumbnail input[type='file']{
+    display: none;
+}
+
+#charity-info-create{
+    max-width: 800px;
+    background-color: #FFF;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.btn-large-width{
+    width: 180px;
+}
+
+#login-buttons > button, H3 {
+    margin-top: 20px;
+}
+
+textarea{
+    resize: none;
+}

@@ -66,9 +66,11 @@ export class ItemCreateComponent implements OnInit {
           this.file = undefined;
               
           this.alertService.success('Cadastro realizado com sucesso.'); 
+          window.scroll(0,0);
         }, error=> {     
           this.alertService.error(error);
           this.isLoading = false;
+          window.scroll(0,0);
         });       
       }
     } 

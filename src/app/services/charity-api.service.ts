@@ -9,6 +9,7 @@ import { Pagination } from '../core/models/pagination.model';
 import { PendingCharities } from '../components/pendings/pending-approve/pending-charities.model';
 import { AppSetting } from '../shared/appsetting';
 import { CharityStatus } from '../components/pendings/pending-detail/charity-status.model';
+import { Item } from '../components/Items/item.model';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,8 +20,13 @@ const httpOptions = {
 })
 export class CharityApiService{    
     private readonly baseUrl = AppSetting.apiBaseUrl;
+    private lastCharityResponse:CharityResponse = undefined;
 
     constructor(private httpClient: HttpClient){
+    }
+
+    getLastCharitySearch(){
+        return this.lastCharityResponse;
     }
 
     async getCharities(page:number = 1, size: number = 100, search:string = '') : Promise<CharityResponse> {
@@ -39,7 +45,9 @@ export class CharityApiService{
     
                             if(response.Pagination !== undefined && response.Charities.length > 0){
                                 response.Pagination = new Pagination(data.pagination);                                  
-                            }      
+                            }   
+                            
+                            this.lastCharityResponse = response;
                         }                                            
                         
                         return response;
@@ -66,6 +74,15 @@ export class CharityApiService{
             .toPromise();
     } 
     
+    async getCharitiesRestrictedById(id:string) : Promise<Charity> {
+        return await this.httpClient
+            .get<any>(`${this.baseUrl}/charities/${id}/restricted`)                   
+            .pipe(  
+                retry(2)
+            )
+            .toPromise();
+    } 
+
     async getCharityApproval(id:string) : Promise<Array<CharityApproval>> {
         return await this.httpClient
             .get<any>(`${this.baseUrl}/charities/${id}/approval`)                   
@@ -81,6 +98,18 @@ export class CharityApiService{
             .get<any>(`${this.baseUrl}/charities/status?cnpj=${cnpj}`)                   
             .pipe(  
                 retry(1)
+            )
+            .toPromise();
+    }  
+
+    async getCharityItems(id:string) : Promise<Array<Item>> {
+        return await this.httpClient
+            .get<any>(`${this.baseUrl}/charities/${id}/item`)                   
+            .pipe(  
+                retry(1),
+                map((e) => {
+                    return e.items;
+                })
             )
             .toPromise();
     }  
@@ -116,10 +145,78 @@ export class CharityApiService{
             .toPromise();
     }    
 
+    async postCharityInformation(id:string, charityInfo: any) : Promise<void> {
+
+        return await this.httpClient
+            .post<any>(`${this.baseUrl}/charities/${id}/information`, charityInfo)                   
+            .pipe(  
+                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                            return throwError(errorMessage);
+                    }
+
+                    console.log(res.error);
+                       
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }    
+
+    async putCharityInformation(id:string, charityInfoUpdate: any) : Promise<void> {
+
+        return await this.httpClient
+            .put<any>(`${this.baseUrl}/charities/${id}/information`, charityInfoUpdate)                   
+            .pipe(  
+                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                            return throwError(errorMessage);
+                    }
+
+                    console.log(res.error);
+                       
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }    
+
+
+
     async putCharityPeding(id:string, charityApprove: any) : Promise<void> {
 
         return await this.httpClient
             .put<any>(`${this.baseUrl}/charities/${id}/pending`, charityApprove , httpOptions)                   
+            .pipe(  
+                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                            return throwError(errorMessage);
+                    }
+
+                    console.log(res.error);
+                       
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }   
+    
+    async putCharityItem(id:string, items: any) : Promise<void> {
+
+        return await this.httpClient
+            .put<any>(`${this.baseUrl}/charities/${id}/item`, items)                   
             .pipe(  
                 retry(2),
                 catchError((res:any) => {                     

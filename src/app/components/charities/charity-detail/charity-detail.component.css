@@ -1,6 +1,6 @@
 .header img {
     height: 200px;
-    max-width: 400px;
+    max-width: 300px;
     border-radius: 5px;
     border: 1px dotted orangered;
     margin-top: 10px;
@@ -12,7 +12,7 @@
 
 #main_information{
     margin-top: 20px;
-    padding: 20px;
+    padding: 10px;
 }
 
 .container{   
@@ -33,13 +33,21 @@
     margin: 40px 0px;
 }
 
-.card-img-top{
+#galery .card-img-top{
+    width:100%;
+    height:180px;   
+}
+
+#galery .card{
     max-width:250px;
-    height:180px;
-    margin: auto;
-    
+    height: 300px;
+    margin: 40px auto 0px;    
 }
 
 .card{
     margin: 10px;
+}
+
+#value .card{
+    height: 180px;
 }

@@ -38,7 +38,7 @@
         </div>
       </div>
   
-    <div class="clearfix" *ngIf="charities && charities.length > 0"> 
+    <div id="charities" class="clearfix" *ngIf="charities && charities.length > 0"> 
         <a [routerLink]="['../', charity.id]" *ngFor='let charity of charities | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>   
             <app-charity [charity]='charity'></app-charity>
         </a>

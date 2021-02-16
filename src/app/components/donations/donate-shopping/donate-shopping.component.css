@@ -1,0 +1,47 @@
+#shopping{
+    margin: 0px auto;
+    text-align: center;
+}
+
+#donate{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#noItems{
+    margin-top: 20px;
+    height: 150px;
+}
+
+.picture{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: 10px 0px; 
+    box-shadow: 2px 2px 10px orangered;
+}
+
+.food-image-cart{
+    background-image: url('/assets/donation/food_donation.png');
+    background-repeat: no-repeat; 
+    background-position: center;
+    background-size: 200px;
+}
+
+.clothes-image-cart{
+    background-image: url('/assets/donation/clothes_donation.png');
+    background-repeat: no-repeat; 
+    background-position: center;
+    background-size: 200px;
+}
+
+#shopping-list{
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 5px;
+}
+
+#picture{
+    width: 100px;
+    height: 100px;
+  }

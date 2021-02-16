@@ -30,4 +30,8 @@ export class CharityDetailComponent implements OnInit {
      });
   }
 
+  getLinkWithProtocol = link => {
+    return link.startsWith("http://") || link.startsWith("https://") ? link : `http://${link}`;
+  };
+
 }

@@ -1,3 +1,7 @@
+<div *ngIf="isLoading">
+  <app-loading [fullscreen]="true"></app-loading>
+</div>
+
 <div class="container-fluid p-0 no-gutters">
 
   <div  id="item-list" *ngIf="items && items.length > 0">
@@ -37,11 +41,11 @@
             <td><img [src]="item.image_url==undefined || item.image_url == '' ? '/assets/utils/none.png' : item.image_url"></td>
             <td>{{item.name}}</td>
             <td>{{item.description}}</td>
-            <td *ngIf="item.price > 0">{{item.price}}</td>
+            <td *ngIf="item.price > 0">{{item.price | currency:'':''}}</td>
             <td *ngIf="item.price <= 0">-</td>            
             <td>{{item.group.name}}</td>
-            <td><a [routerLink]="['../update/', item.id]"><i class="fa fa-edit"></i></a></td>
-            <td><a href="#"><i class="fa fa-trash"></i></a></td>
+            <td><a class="btn btn-warning btn-sm" [routerLink]="['../update/', item.id]"><i class="fa fa-edit"></i></a></td>
+            <td><button (click)="setItemToDelete(item)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -60,5 +64,33 @@
     </div>
  </div>            
 </div>
+
+<div>               
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Excluir Item</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body" *ngIf='selectedItemToDelete'>     
+              <div class="row">
+                  <div class="col-12 text-center">
+                      <p>Tem certeza que deseja excluir o item "<b>{{selectedItemToDelete.name > 25 ? (selectedItemToDelete.name | slice:0:25) + '..' : selectedItemToDelete.name }}</b>" ?</p>
+                  </div>                       
+              </div>                                                                                                     
+          </div>
+          <div class="modal-footer">             
+            <button (click)="deleteItem(selectedItemToDelete)" type="button" class="btn btn-success" data-dismiss="modal" aria-label="Yes">Sim</button>                           
+            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="No">Não</button>   
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+
   
   

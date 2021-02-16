@@ -33,15 +33,10 @@
     margin: 40px 0px;
 }
 
-.card-img-top{
+#galery .card{
     max-width:250px;
-    height:180px;
-    margin: auto;
-    
-}
-
-.card{
-    margin: 10px;
+    height: 300px;
+    margin: 40px auto 0px;    
 }
 
 #charity-dash, #charity-approval{
@@ -79,4 +74,12 @@
 #warning-message a{
    color: #FF0000;
    text-decoration: none;
+}
+
+.card{
+    margin: 10px;
+}
+
+#value .card{
+    height: 180px;
 }

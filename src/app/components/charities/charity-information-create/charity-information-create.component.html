@@ -1,0 +1,125 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div id="charity-info-create" class="container no-gutters" *ngIf="charity && charity.information == null && charity.status.toUpperCase() == 'APPROVED'">  
+    <div class="row  text-right p-2">
+        <div class="col-12">                
+            <a routerLink="../" class="btn btn-outline-success"><i class="fa fa-arrow-circle-left"></i></a>                
+        </div>
+    </div>
+
+    <form #charityInfoForm='ngForm' (ngSubmit)='onSaveCharityInfo(charityInfoForm)' id="charity-info-form">
+        
+        <app-alert></app-alert>
+                    
+        <h3 class="text-center" style="margin-bottom: 20px;">Informações Complementares</h3>  
+       
+        <div class="form-row">  
+            <div class="form-group text-center col-md-6 col-12">
+                <label id="thumbnail">                                          
+                    <input
+                    accept=".jpg,.jpeg,.png,.bmp,.tiff"
+                    type="file"
+                    (change)='onFileChange($event.target.files[0], "profile")'
+                    />    
+                    <i *ngIf='fileUrl == undefined && !charity.information' #FaUpload style="margin-top: 50%;" class="fa fa-upload"></i>   
+                    <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='fileUrl != undefined' [src]='fileUrl' #PicturePreview/>                      
+                </label> 
+            </div> 
+            <div class="form-group col-md-6 col-12">  
+                <div class="form-row">              
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label for="nickName">Apelido *</label>
+                        <input type="text" ngModel name="nickname" id="nickname" class="form-control">                
+                    </div>   
+                    
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label for="siteUrl">Site Url *</label>
+                        <input type="text" required ngModel name="siteUrl" id="siteUrl" class="form-control">
+                    </div>            
+                </div> 
+            </div>                   
+        </div>    
+
+        <div class="form-row">             
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="about">Sobre *</label>
+                <textarea class="form-control" required ngModel minlength="1" name="about" id="about"  maxlength="200"></textarea>           
+            </div>   
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="goal">Objetivo *</label>
+                <textarea class="form-control" required ngModel minlength="1" name="goal" id="goal"  maxlength="200"></textarea>           
+            </div>        
+        </div>
+
+        <div class="form-row">    
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="manager">Gerencimento *</label>
+                <textarea class="form-control" required ngModel minlength="1" name="manager" id="manager"  maxlength="200"></textarea>           
+
+            </div>               
+            <div class="form-group col-md-6 col-sm-12">
+                <label for="transparency">Transparência *</label>
+                <textarea class="form-control" required ngModel minlength="1" name="transparency" id="transparency"  maxlength="200"></textarea>           
+            </div>                
+        </div>
+
+        <div class="form-row">                
+            <div class="form-group col-md-4 col-sm-12">
+                <label for="mission">Missão *</label>
+                <textarea id="mission"class="form-control" required ngModel minlength="1" name="mission" maxlength="200"></textarea>           
+            </div>  
+            <div class="form-group col-md-4 col-sm-12">
+                <label for="vision">Visão *</label>                
+                <textarea id="vision"class="form-control" required ngModel minlength="1" name="vision" maxlength="200"></textarea>           
+            </div> 
+            <div class="form-group col-md-4 col-sm-12">
+                <label for="values">Valores *</label>
+                <textarea id="values"class="form-control" required ngModel minlength="1" name="values" maxlength="200"></textarea>           
+            </div>                             
+        </div>      
+             
+        <div class="text-center" style="margin-top: 20px;">
+            <i>Imagens das Atividades da Entidade</i>   
+        </div>
+
+        <div class="form-row" style="margin-top: 20px;">            
+            <div class="form-group text-center col-md-6 col-12">
+                <p><b>Imagem 01 *</b></p>              
+                <label id="thumbnail">                                          
+                    <input
+                    accept=".jpg,.jpeg,.png,.bmp,.tiff"
+                    type="file"
+                    (change)='onFileChange($event.target.files[0], "image01")'
+                    />    
+                    <i *ngIf='imageOneUrl == undefined' #FaUpload style="margin-top: 50%;" class="fa fa-upload"></i>   
+                    <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='imageOneUrl != undefined' [src]='imageOneUrl'/>                      
+                </label> 
+                <input style="text-align: center;width: 300px;margin: auto;" required placeholder="Título Imagem 01" type="text" ngModel name="titleImage01" id="titleImage01" class="form-control"> 
+            </div>  
+            <div class="form-group text-center col-md-6 col-12">
+                <p><b>Imagem 02 *</b></p>   
+                <label id="thumbnail">                                          
+                    <input
+                    accept=".jpg,.jpeg,.png,.bmp,.tiff"
+                    type="file"
+                    (change)='onFileChange($event.target.files[0], "image02")'
+                    />    
+                    <i *ngIf='imageTwoUrl == undefined' #FaUpload style="margin-top: 50%;" class="fa fa-upload"></i>   
+                    <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='imageTwoUrl != undefined' [src]='imageTwoUrl'/>                      
+                </label> 
+                <input style="text-align: center;width: 300px;margin: auto;" required placeholder="Título Imagem 02" type="text" ngModel name="titleImage02" id="titleImage02" class="form-control">
+            </div>                           
+        </div>     
+
+
+        <div class="text-center" id="login-buttons">
+            <button 
+                class="btn btn-primary btn-large-width"
+                [disabled]="!charityInfoForm.valid || !fileUrl || !imageTwoUrl || !imageOneUrl"
+                >
+                Cadastrar <i class="fa fa-save"></i></button>             
+        </div>                     
+    </form>
+</div>

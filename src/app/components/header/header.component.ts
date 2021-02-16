@@ -83,7 +83,13 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout(){
+    var userType = this.userLogged.userType.toUpperCase();
     this.authService.logout();
+
+    if(userType == 'EXTERNAL')
+    {
+      document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://localhost:4200/home"; 
+    }     
   }
   
   @HostListener('window:scroll', ['$event']) onScrollEvent($event){

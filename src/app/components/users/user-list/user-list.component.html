@@ -36,8 +36,8 @@
               <td>{{user.active == true ? 'Sim' : 'Não'}}</td>        
               <td>{{TranslateUserType(user.type)}}</td>        
               <td><a href="#"><i class="fa fa-eye"></i></a></td>              
-              <td><a [routerLink]="['../update/', user.id]"><i class="fa fa-edit"></i></a></td>
-              <td><a href="#"><i class="fa fa-trash"></i></a></td>
+              <td><a class="btn btn-warning btn-sm" [routerLink]="['../update/', user.id]"><i class="fa fa-edit"></i></a></td>
+              <td><button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
             </tr>
           </tbody>
         </table>

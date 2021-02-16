@@ -6,11 +6,11 @@ import { CepApiService } from '../../../services/cep.service';
 import { Cep } from '../../../core/models/cep.model';
 
 @Component({
-  selector: 'app-pending-update',
-  templateUrl: './pending-update.component.html',
-  styleUrls: ['./pending-update.component.css']
+  selector: 'app-charity-update',
+  templateUrl: './charity-update.component.html',
+  styleUrls: ['./charity-update.component.css']
 })
-export class PendingUpdateComponent implements OnInit {
+export class CharityUpdateComponent implements OnInit {
   cep:Cep = undefined;
   isLoading = false;
 

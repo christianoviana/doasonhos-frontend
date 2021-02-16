@@ -23,9 +23,15 @@ import { UserCreateComponent } from './components/users/user-create/user-create.
 import { CharitiesComponent} from "./components/charities/charities.component";
 import { CharityListComponent } from './components/charities/charity-list/charity-list.component';
 import { CharityCreateComponent } from './components/charities/charity-create/charity-create.component';
+import { CharityItemComponent } from './components/charities/charity-item/charity-item.component';
 import { CharityDetailComponent } from './components/charities/charity-detail/charity-detail.component';
 import { CharityInformationComponent } from './components/charities/charity-information/charity-information.component';
 import { CharityInformationUpdateComponent } from './components/charities/charity-information-update/charity-information-update.component';
+import { CharityInformationCreateComponent } from './components/charities/charity-information-create/charity-information-create.component';
+
+import { DonationsComponent} from "./components/donations/donations.component";
+import { DonateShoppingComponent} from "./components/donations/donate-shopping/donate-shopping.component";
+import { DonateCartItemsComponent} from "./components/donations/donate-cart/donate-cart-items/donate-cart-items.component";
 
 import { PendingsComponent} from "./components/pendings/pendings.component";
 import { PendingDetailComponent } from './components/pendings/pending-detail/pending-detail.component';
@@ -38,6 +44,7 @@ import {AboutComponent} from "./components/about/about.component";
 import {HomeComponent} from "./components/home/home.component";
 
 import { AuthGuard } from './helpers/auth.guard';
+import { DonateCartComponent } from './components/donations/donate-cart/donate-cart.component';
 
 const routes: Routes = [
   {
@@ -91,8 +98,18 @@ const routes: Routes = [
       {path:'list', component: CharityListComponent},              
       {path:'information', component: CharityInformationComponent, canActivate: [AuthGuard]},              
       {path:'information/update', component: CharityInformationUpdateComponent, canActivate: [AuthGuard]},              
-      {path:'create', component: CharityCreateComponent},              
-      {path:':id', component: CharityDetailComponent},           
+      {path:'information/create', component: CharityInformationCreateComponent, canActivate: [AuthGuard]},              
+      {path:'create', component: CharityCreateComponent},                    
+      {path:'item', component: CharityItemComponent, canActivate: [AuthGuard]},         
+      {path:':id', component: CharityDetailComponent},          
+      {path:'', redirectTo:'/charities/list', pathMatch:'full'}
+    ]
+  },
+  {
+    path:'donations', component: DonationsComponent,
+    children: [           
+      {path:'cart', component: DonateCartComponent},       
+      {path:':id', component: DonateShoppingComponent},        
       {path:'', redirectTo:'/charities/list', pathMatch:'full'}
     ]
   },

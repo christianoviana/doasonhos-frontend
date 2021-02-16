@@ -8,6 +8,11 @@ import {JwtInterceptor} from "./helpers/jwt.interceptor";
 import {ErrorInterceptor} from "./helpers/error.interceptor";
 import { AppComponent } from './app.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import {LOCALE_ID} from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt);
 
 import {
   GoogleLoginProvider,
@@ -49,6 +54,8 @@ import { UserUpdateComponent } from './components/users/user-update/user-update.
 
 import { CharitiesComponent } from './components/charities/charities.component';
 import { CharityCreateComponent } from './components/charities/charity-create/charity-create.component';
+import { CharityUpdateComponent } from './components/Charities/Charity-update/Charity-update.component';
+
 import { CharityListComponent } from './components/charities/charity-list/charity-list.component';
 import { CharityComponent } from './components/charities/charity-list/charity/charity.component';
 import { CharityDetailComponent } from './components/charities/charity-detail/charity-detail.component';
@@ -57,9 +64,17 @@ import { AboutComponent } from './components/about/about.component';
 import { PendingsComponent } from './components/pendings/pendings.component';
 import { PendingApproveComponent } from './components/pendings/pending-approve/pending-approve.component';
 import { PendingDetailComponent } from './components/pendings/pending-detail/pending-detail.component';
+
 import { CharityInformationComponent } from './components/charities/charity-information/charity-information.component';
-import { PendingUpdateComponent } from './components/pendings/pending-update/pending-update.component';
 import { CharityInformationUpdateComponent } from './components/charities/charity-information-update/charity-information-update.component';
+import { CharityInformationCreateComponent } from './components/charities/charity-information-create/charity-information-create.component';
+import { CharityItemComponent } from './components/charities/charity-item/charity-item.component';
+import { DonationsComponent } from './components/donations/donations.component';
+import { DonateShoppingComponent } from './components/donations/donate-shopping/donate-shopping.component';
+import { DonateCartComponent } from './components/donations/donate-cart/donate-cart.component';
+import { DonateItemComponent } from './components/donations/donate-shopping/donate-item/donate-item.component';
+import { CartComponent } from './shared/cart/cart.component';
+import { DonateCartItemsComponent } from './components/donations/donate-cart/donate-cart-items/donate-cart-items.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +107,7 @@ import { CharityInformationUpdateComponent } from './components/charities/charit
     UserUpdateComponent,
     CharitiesComponent,
     CharityCreateComponent,
+    CharityUpdateComponent,
     CharityListComponent,
     CharityComponent,
     CharityDetailComponent,
@@ -100,8 +116,15 @@ import { CharityInformationUpdateComponent } from './components/charities/charit
     PendingApproveComponent,
     PendingDetailComponent,
     CharityInformationComponent,
-    PendingUpdateComponent,
-    CharityInformationUpdateComponent
+    CharityInformationUpdateComponent,
+    CharityInformationCreateComponent,
+    CharityItemComponent,
+    DonationsComponent,
+    DonateShoppingComponent,
+    DonateCartComponent,
+    DonateItemComponent,
+    CartComponent,
+    DonateCartItemsComponent
   ],
   imports: [
     BrowserModule,
@@ -112,6 +135,7 @@ import { CharityInformationUpdateComponent } from './components/charities/charit
     NgxPaginationModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue:'pt-BR'},
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi:true},
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi:true},
     {

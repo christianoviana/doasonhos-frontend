@@ -32,11 +32,19 @@
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">                                                       
                                 <a class="dropdown-item" routerLink="/charities/create" routerLinkActive="active" *ngIf="!userLogged"><i class="fa fa-save"></i> Cadastrar</a>
                                 <a class="dropdown-item" routerLink="/charities/list" routerLinkActive="active"><i class="fa fa-search"></i> Procurar</a>      
-                                <a class="dropdown-item" routerLink="/pendings/detail" routerLinkActive="active" *ngIf="!userLogged"><i class="fa fa-check"></i> Acompanhar Solicitação</a>     
+                                <a class="dropdown-item" routerLink="/pendings/detail" routerLinkActive="active"><i class="fa fa-check"></i> Acompanhar Solicitação</a>     
                                 <a class="dropdown-item" routerLink="/pendings/approve" routerLinkActive="active" *ngIf="userLogged && isMaster()"><i class="fa fa-vcard"></i> Aprovações</a>        
                             </div>
                         </li>  
-                        <li class="nav-item" *ngIf="userLogged"><a class="nav-link" href="#">Doações</a></li>                                                            
+                        <li class="nav-item dropdown" routerLinkActive="active" *ngIf="userLogged && !isAdmin()">
+                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Doações</a>
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">                                                       
+                                <a class="dropdown-item" routerLink="charities/donate" routerLinkActive="active" *ngIf="!isCharity()"><i style="color: red;" class="fa fa-heart"></i> Minhas Doações</a>     
+                                <a class="dropdown-item" routerLink="/charities/donate" routerLinkActive="active" *ngIf="isCharity()"><i class="fa fa-credit-card"></i> Doações Recebidas</a>     
+                                <a class="dropdown-item" routerLink="/charities/item" routerLinkActive="active" *ngIf="isCharity()"><i class="fa fa-cart-plus"></i> Cadastrar Itens</a>     
+                            </div>
+                        </li>  
+
                         <li class="nav-item dropdown" routerLinkActive="active" *ngIf="userLogged && isAdmin()">
                             <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Configurações</a>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
@@ -53,7 +61,7 @@
                             <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Olá, <b>{{getName()}}</b></a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">Dados Cadastrais</a>
-                                <a *ngIf="userLogged && isCharity()" class="dropdown-item" href="#">Dados Complementares</a>
+                                <a *ngIf="userLogged && isCharity()" class="dropdown-item" routerLink="/charities/information/update" routerLinkActive="active">Dados Complementares</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" routerLink="" (click)="onLogout()">Sair</a>
                             </div>

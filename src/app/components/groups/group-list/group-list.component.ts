@@ -13,7 +13,9 @@ export class GroupListComponent implements OnInit {
   groups:Array<Group>;
   pagination:Pagination;
   itemsPerPage = 5;
-  firstPage = 1
+  firstPage = 1;  
+  selectedGroupToDelete:Group = undefined;
+  isLoading = false;
 
   onHandlePageChange(page){
     this.groupApi.getGroups(page, this.itemsPerPage).then(res => {
@@ -31,6 +33,24 @@ export class GroupListComponent implements OnInit {
     }).catch(err => {
       
     });
+  }
+
+  setGroupToDelete(group:Group){
+    this.selectedGroupToDelete = group;
+  }
+
+  deleteGroup(group:Group){
+      this.isLoading = true;   
+    
+      this.groupApi.deleteGroup(group).then(async () => {       
+        let res = await this.groupApi.getGroups(this.firstPage, this.itemsPerPage);
+        this.groups = <Group[]>res.Groups;
+        this.pagination = <Pagination> res.Pagination;         
+      }).catch(err =>  {
+      console.log(err);
+    }).finally(()=>{      
+      this.isLoading = false;
+    });   
   }
 
 }

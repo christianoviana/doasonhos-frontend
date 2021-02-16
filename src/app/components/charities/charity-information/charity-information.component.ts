@@ -14,11 +14,13 @@ export class CharityInformationComponent implements OnInit {
   charityApprovals:Array<CharityApproval>;
   firstApproval:CharityApproval;
   isApproved:boolean = false;
+  isLoading: boolean;
   
   constructor(private charityApi:CharityApiService,
               private authService:AuthApiService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     const id = this.authService.userValue && this.authService.userValue.ownerId;
 
      this.charityApi.getCharityApproval(id).then(charityApprovals => {
@@ -35,7 +37,10 @@ export class CharityInformationComponent implements OnInit {
       }
 
      }).catch(error => {
-     });
+     }).finally(() => this.isLoading = false);
   }
 
+  getLinkWithProtocol = link => {
+    return link.startsWith("http://") || link.startsWith("https://") ? link : `http://${link}`;
+  };
 }

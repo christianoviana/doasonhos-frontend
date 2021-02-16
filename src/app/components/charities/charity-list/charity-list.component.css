@@ -25,3 +25,7 @@
 .clearfix > a {
     color: black;
 }
+
+#charities{
+    text-align: center;
+}

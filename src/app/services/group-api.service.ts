@@ -112,5 +112,23 @@ export class GroupApiService{
                 })
             )
             .toPromise();
-    }    
+    }  
+    
+    async deleteGroup(group: Group) : Promise<void> {        
+      return await this.httpClient
+            .delete<any>(`${this.baseUrl}/groups/${group.id}`)                   
+            .pipe(  
+                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                            return throwError(errorMessage);
+                    }
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }
 }

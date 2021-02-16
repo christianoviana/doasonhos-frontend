@@ -1,0 +1,11 @@
+<div class="donate-item text-center" (click)='onClickItem(item)' [id]="item.id">    
+    <img id="picture" [src]="item.image_url==undefined ? '/assets/utils/none.png' : item.image_url"> 
+
+    <div id="informations">
+        <p id="name"><b>{{item.name > 25 ? (item.name | slice:0:25) + '..' : item.name }}</b></p>         
+        <hr>
+        <p *ngIf="item.price > 0" id="price"><b style="font-size: 22px;" >{{item.price | currency:'BRL'}}</b></p>
+        <p *ngIf="item.price <= 0"><b style="font-size: 22px;">R$ --</b></p>
+    </div>    
+</div>
+

@@ -25,3 +25,7 @@
 #login-buttons > button, H3 {
     margin-top: 20px;
 }
+
+textarea{
+    resize: none;
+}

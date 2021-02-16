@@ -1,0 +1,25 @@
+
+#cart-button{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+}
+
+#cart-button > button{
+    border-radius: 50%;   
+    width: 60px;
+    height: 60px; 
+    border: 1px solid #FFF;
+}
+
+#total{
+    position: fixed;
+    bottom: 70px;
+    right: 38px;
+    z-index: 99999;
+    border-radius: 50%;
+    background-color: orangered;
+    color: #FFF;
+    padding: 0px 5px;
+}

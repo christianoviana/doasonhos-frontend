@@ -2,7 +2,7 @@
     <app-loading [fullscreen]="true"></app-loading>
 </div>
 
-<div id="charity-info-update" class="container no-gutters">  
+<div id="charity-info-update" class="container no-gutters" *ngIf="charity && charity.information && charity.status.toUpperCase() == 'APPROVED'">  
     <div class="row  text-right p-2">
         <div class="col-12">                
             <a routerLink="../" class="btn btn-outline-success"><i class="fa fa-arrow-circle-left"></i></a>                
@@ -21,22 +21,21 @@
                     <input
                     accept=".jpg,.jpeg,.png,.bmp,.tiff"
                     type="file"
-                    (change)='onFileChange($event.target.files[0])'
+                    (change)='onFileChange($event.target.files[0], "profile")'
                     />    
-                    <i *ngIf='fileUrl == undefined' #FaUpload style="margin-top: 50%;" class="fa fa-upload"></i>   
                     <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='fileUrl != undefined' [src]='fileUrl' #PicturePreview/>                      
                 </label> 
             </div> 
             <div class="form-group col-md-6 col-12">  
                 <div class="form-row">              
                     <div class="form-group col-md-12 col-sm-12">
-                        <label for="nickName">Apelido *</label>
-                        <input type="text" required ngModel name="nickName" id="nickName" class="form-control">                
+                        <label for="nickName">Apelido</label>
+                        <input type="text" [(ngModel)]='charityInfo.nickname' name="nickname" id="nickname" class="form-control">                
                     </div>   
                     
                     <div class="form-group col-md-12 col-sm-12">
                         <label for="siteUrl">Site Url *</label>
-                        <input type="text" required ngModel name="siteUrl" id="siteUrl" class="form-control">
+                        <input type="text" required [(ngModel)]='charityInfo.site_url' name="siteUrl" id="siteUrl" class="form-control">
                     </div>            
                 </div> 
             </div>                   
@@ -45,51 +44,40 @@
         <div class="form-row">             
             <div class="form-group col-md-6 col-sm-12">
                 <label for="about">Sobre *</label>
-                <textarea class="form-control" required ngModel minlength="1" name="about" id="about"  maxlength="200"></textarea>           
+                <textarea class="form-control" required [(ngModel)]='charityInfo.about' minlength="1" name="about" id="about"  maxlength="200"></textarea>           
             </div>   
             <div class="form-group col-md-6 col-sm-12">
                 <label for="goal">Objetivo *</label>
-                <textarea class="form-control" required ngModel minlength="1" name="goal" id="goal"  maxlength="200"></textarea>           
+                <textarea class="form-control" required [(ngModel)]='charityInfo.goal' minlength="1" name="goal" id="goal"  maxlength="200"></textarea>           
             </div>        
         </div>
 
         <div class="form-row">    
             <div class="form-group col-md-6 col-sm-12">
                 <label for="manager">Gerencimento *</label>
-                <textarea class="form-control" required ngModel minlength="1" name="manager" id="manager"  maxlength="200"></textarea>           
+                <textarea class="form-control" required [(ngModel)]='charityInfo.manager_description' minlength="1" name="manager" id="manager"  maxlength="200"></textarea>           
 
             </div>               
             <div class="form-group col-md-6 col-sm-12">
                 <label for="transparency">Transparência *</label>
-                <textarea class="form-control" required ngModel minlength="1" name="transparency" id="transparency"  maxlength="200"></textarea>           
+                <textarea class="form-control" required [(ngModel)]='charityInfo.transparency_description' minlength="1" name="transparency" id="transparency"  maxlength="200"></textarea>           
             </div>                
         </div>
 
         <div class="form-row">                
             <div class="form-group col-md-4 col-sm-12">
                 <label for="mission">Missão *</label>
-                <textarea id="mission"class="form-control" required ngModel minlength="1" name="mission" maxlength="200"></textarea>           
+                <textarea id="mission"class="form-control" required [(ngModel)]='charityInfo.mission' minlength="1" name="mission" maxlength="200"></textarea>           
             </div>  
             <div class="form-group col-md-4 col-sm-12">
                 <label for="vision">Visão *</label>                
-                <textarea id="vision"class="form-control" required ngModel minlength="1" name="vision" maxlength="200"></textarea>           
+                <textarea id="vision"class="form-control" required [(ngModel)]='charityInfo.vision' minlength="1" name="vision" maxlength="200"></textarea>           
             </div> 
             <div class="form-group col-md-4 col-sm-12">
                 <label for="values">Valores *</label>
-                <textarea id="values"class="form-control" required ngModel minlength="1" name="values" maxlength="200"></textarea>           
+                <textarea id="values"class="form-control" required [(ngModel)]='charityInfo.value' minlength="1" name="values" maxlength="200"></textarea>           
             </div>                             
-        </div>   
-
-        <div class="form-row">                
-            <div class="form-group col-md-10 col-9">
-                <label for="items">Itens Aceitos *</label>
-                <textarea id="items"class="form-control" required ngModel minlength="1" name="items"></textarea>           
-            </div>    
-            <div class="form-group col-md-2 col-3">
-                <button class="btn" data-toggle="modal" data-target="#ModalGruposItems"><i style="color: green;" class="fa fa-plus-circle"></i></button>
-                <button class="btn" disabled><i style="color: red;" class="fa fa-minus-circle"></i></button>
-            </div>                                                       
-        </div>   
+        </div>      
              
         <div class="text-center" style="margin-top: 20px;">
             <i>Imagens das Atividades da Entidade</i>   
@@ -102,11 +90,11 @@
                     <input
                     accept=".jpg,.jpeg,.png,.bmp,.tiff"
                     type="file"
-                    (change)='onFileChange($event.target.files[0])'
-                    />    
-                    <i *ngIf='fileUrl == undefined' #FaUpload style="margin-top: 50%;" class="fa fa-upload"></i>   
-                    <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='fileUrl != undefined' [src]='fileUrl' #PicturePreview/>                      
+                    (change)='onFileChange($event.target.files[0], "image01")'
+                    />                       
+                    <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='imageOneUrl != undefined' [src]='imageOneUrl'/>                      
                 </label> 
+                <input style="text-align: center;width: 300px;margin: auto;" required placeholder="Título Imagem 01" type="text" [(ngModel)]='charityInfo.title_image01' name="titleImage01" id="titleImage01" class="form-control"> 
             </div>  
             <div class="form-group text-center col-md-6 col-12">
                 <p><b>Imagem 02 *</b></p>   
@@ -114,11 +102,11 @@
                     <input
                     accept=".jpg,.jpeg,.png,.bmp,.tiff"
                     type="file"
-                    (change)='onFileChange($event.target.files[0])'
+                    (change)='onFileChange($event.target.files[0], "image02")'
                     />    
-                    <i *ngIf='fileUrl == undefined' #FaUpload style="margin-top: 50%;" class="fa fa-upload"></i>   
-                    <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='fileUrl != undefined' [src]='fileUrl' #PicturePreview/>                      
+                     <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='imageTwoUrl != undefined' [src]='imageTwoUrl'/>                      
                 </label> 
+                <input style="text-align: center;width: 300px;margin: auto;" required placeholder="Título Imagem 02" type="text" [(ngModel)]='charityInfo.title_image02' name="titleImage02" id="titleImage02" class="form-control">
             </div>                           
         </div>     
 
@@ -126,41 +114,9 @@
         <div class="text-center" id="login-buttons">
             <button 
                 class="btn btn-primary btn-large-width"
-                [disabled]="!charityInfoForm.valid"
+                [disabled]="!charityInfoForm.valid || !fileUrl || !imageTwoUrl || !imageOneUrl"
                 >
-                Cadastrar <i class="fa fa-save"></i></button>             
+                Atualizar <i class="fa fa-save"></i></button>             
         </div>                     
     </form>
-</div>
-
-<div>               
-    <!-- Modal -->
-    <div class="modal fade" id="ModalGruposItems" tabindex="-1" role="dialog" aria-labelledby="ModalGruposItemsTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="ModalGruposItemsTitle">Itens Doação</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">              
-                <div class="row">
-                    <select id="groupId"class="form-control" required ngModel name="groupId">
-                        <option selected value="">Selecione...</option>
-                        <option [value]="group.id" *ngFor="let group of groupItems">{{group.name}}</option>
-                    </select>   
-                </div>                                                                                           
-            </div>
-            <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->  
-                <div class="row no-gutters" style="width: 100%;">
-                    <div class="col-12 text-center" >
-                        <button type="button" class="btn btn-success btn-approve">Adicionar <i class="fa fa-plus-square"></i></button>
-                    </div>                                           
-                </div>                                                                                          
-            </div>
-        </div>
-        </div>
-    </div>
 </div>

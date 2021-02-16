@@ -20,7 +20,7 @@
             <p><b>Cnpj: </b>{{charityStatus.cnpj}}</p>            
             <p><b>Cadastro Ativo: </b> {{charityStatus.active == 0 ? 'Não' : 'Sim'}}</p>
             <p><b>Status: </b> {{getStatus()}}</p>
-            <p><b>Última Atualização: </b>{{charityStatus.approver_data == undefined ? '-' : getFormatedDate(charityStatus.approver_data)}}</p>
+            <p><b>Data Aprovação: </b>{{charityStatus.approver_data == undefined ? '-' : getFormatedDate(charityStatus.approver_data)}}</p>
             <p *ngIf="charityStatus.status == 'APPROVED' && !charityStatus.charity_information" style="color: red;"><b>*</b> Pendente Atualização das Informações Complementares</p>
         </div> 
     </div>   

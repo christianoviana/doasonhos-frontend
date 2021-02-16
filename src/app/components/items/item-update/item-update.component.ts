@@ -32,9 +32,11 @@ export class ItemUpdateComponent implements OnInit {
       this.itemService.updateItem(this.item).subscribe(() => {  
         this.isLoading = false;           
         this.alertService.success('O item foi atualizado com sucesso.'); 
+        window.scroll(0,0);
       }, error=> {     
         this.alertService.error(error);
         this.isLoading = false;
+        window.scroll(0,0);
       });       
     }
 }
@@ -77,7 +79,6 @@ onFileChange(file){
     this.itemService.getItemById(itemId).subscribe(item => {                  
       this.fileUrl = item.image_url;
       this.item = item;
-      console.log(item)
     }, error=> {    
       this.item = undefined; 
       this.alertService.error(error);

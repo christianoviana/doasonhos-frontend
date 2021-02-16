@@ -1,0 +1,39 @@
+<div class="table-responsive" *ngIf="cartItems && cartItems.length > 0">
+    <table id="group-table" class="table table-hover text-center">
+      <thead>
+        <tr>        
+          <th class="d-none d-sm-table-cell"></th>
+          <th>Item</th>
+          <th class="d-none d-sm-table-cell" *ngIf="type()=='online'">Preço</th>
+          <th class="d-none d-sm-table-cell"></th>
+          <th class="d-none d-sm-table-cell">Quantidade</th>   
+          <th class="d-sm-none">Qnt</th>   
+          <th class="d-none d-sm-table-cell"></th>     
+          <th *ngIf="type()=='online'">Total</th>       
+          <th></th>       
+        </tr>
+      </thead>
+      <tbody>
+        <tr [id]="cartItem.getItemId()" *ngFor="let cartItem of cartItems">    
+          <td class="d-none d-sm-table-cell"><img width="40" height="40" [src]="cartItem.getItem().image_url"></td>
+          <td>{{cartItem.getItem().name}}</td> 
+          <td class="d-none d-sm-table-cell" *ngIf="type()=='online'">{{cartItem.getItem().price | currency:'BRL'}}</td> 
+          <td class="d-none d-sm-table-cell"><button (click)='decrease(cartItem)' class="btn btn-outline-success btn-sm"><i class="fa fa-minus"></i></button></td>        
+          <td class="d-none d-sm-table-cell">{{cartItem.getQuantity()}}</td>
+          <td class="d-table-cell d-sm-none"><select style="width: 65px;" class="form-control text-center"><option *ngFor="let qnt of lstQnt; let i = index">{{i + 1}}</option></select></td>
+          <td class="d-none d-sm-table-cell"><button (click)='increase(cartItem)' class="btn btn-outline-success btn-sm"><i class="fa fa-plus"></i></button></td>       
+          <td *ngIf="type()=='online'">{{cartItem.getTotal() | currency:'BRL'}}</td>
+          <td><button (click)='removeFromCart(cartItem.getItem())' class="btn btn-outline-danger btn-sm"><i class="fa fa-remove"></i></button></td>
+        </tr>      
+      </tbody>     
+    </table>
+</div>
+
+<!--No Itens-->
+<div class="row no-gutters" id="noItems" *ngIf="cartItems == undefined || cartItems.length == 0">
+  <div class="col-12 text-center">
+    <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+    <h1 style="font-size: 20px;">Não há itens no carrinho</h1>
+    <a style="padding: 5px;" routerLink="/charities/list" routerLinkActive="active"><b>Clique aqui para conhecer as entidades <i class="fa fa-home"></i></b></a>     
+  </div>
+</div> 

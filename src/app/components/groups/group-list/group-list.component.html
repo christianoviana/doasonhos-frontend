@@ -1,3 +1,7 @@
+<div *ngIf="isLoading">
+  <app-loading [fullscreen]="true"></app-loading>
+</div>
+
 <div id="group-list" class="container p-0 no-gutters" *ngIf="groups && groups.length > 0">
 
   <header>
@@ -32,8 +36,8 @@
           *ngFor='let group of groups | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>    
             <td>{{group.name}}</td>
             <td>{{group.description}}</td>        
-            <td><a [routerLink]="['../update/', group.id]"><i class="fa fa-edit"></i></a></td>
-            <td><a href="#"><i class="fa fa-trash"></i></a></td>
+            <td><a class="btn btn-warning btn-sm" [routerLink]="['../update/', group.id]"><i class="fa fa-edit"></i></a></td>
+            <td><button (click)="setGroupToDelete(group)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -52,4 +56,32 @@
   </div>   
     
 </div>
+
+<div>               
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Excluir Item</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body" *ngIf='selectedGroupToDelete'>     
+              <div class="row">
+                  <div class="col-12 text-center">
+                      <p>Tem certeza que deseja excluir o grupo "<b>{{selectedGroupToDelete.name > 25 ? (selectedGroupToDelete.name | slice:0:25) + '..' : selectedGroupToDelete.name }}</b>" ?</p>
+                  </div>                       
+              </div>                                                                                                     
+          </div>
+          <div class="modal-footer">             
+            <button (click)="deleteGroup(selectedGroupToDelete)" type="button" class="btn btn-success" data-dismiss="modal" aria-label="Yes">Sim</button>                           
+            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="No">Não</button>   
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+
 

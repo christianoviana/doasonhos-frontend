@@ -114,6 +114,22 @@ export class ItemApiService{
                         // Parse response  
                         return throwError(res.error.message);                  
                     }));
-    }    
-
+    } 
+    
+    deleteItem(item: any) : Observable<void> {
+        return this.httpClient
+                    .delete<any>(this.baseUrl +'/items/'+item.id)                   
+                    .pipe(  
+                            retry(2)
+                    )
+                    .pipe(catchError((res:any) => {                     
+                        let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                    
+                        if(res.error && res.status === 0 ){
+                                return throwError(errorMessage);
+                        } 
+                        // Parse response  
+                        return throwError(res.error.message);                  
+                    }));
+    } 
 }

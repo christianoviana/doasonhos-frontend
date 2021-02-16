@@ -1,9 +1,13 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
 <div *ngIf="charity && isApproved">       
     <div id="charity-dash" class="container no-gutters">
 
-        <div class="col-12 text-center" id="warning-message">
+        <div class="col-12 text-center" id="warning-message" *ngIf="!charity.information">
             <h1 style="color: red; font-size: 22px;font-weight: bold;"><i class="fa fa-exclamation-triangle"></i> Cadastro Incompleto !!</h1>
-            <h2 style="color: red; font-size: 18px;font-weight: bold;"><a [routerLink]="[ '/charities/information/update']">Clique Aqui Para Preencher as Informações Complementares</a></h2>
+            <h2 style="color: red; font-size: 18px;font-weight: bold;"><a [routerLink]="[ '/charities/information/create']">Clique Aqui Para Preencher as Informações Complementares</a></h2>
         </div>
 
         <div class="col-12 text-center">
@@ -15,44 +19,43 @@
                 <img [src]='charity.information.picture_url' *ngIf="charity.information && charity.information.picture_url!=undefined">
                 <img src='/assets/utils/none.png' *ngIf="!charity.information || charity.information.picture_url==undefined">
             </div>
+          
+            <div id="main_information" class="col-md-4 col-xs-12">               
+                <p><b>CNPJ: </b>{{charity.cnpj}}</p>
+                <p><b><i class="fa fa-phone"></i></b> {{charity.telephone}}</p>
+                <p><b><i class="fa fa-mobile"></i></b> {{charity.cellphone}}</p>  
+            </div>
 
-            <div id="main_information" class="col-sm-8 col-xs-12">
-                <div class="row">
-                    <div class="col-6">
-                        <p><b>CNPJ: </b>{{charity.cnpj}}</p>
-                        <p><b><i class="fa fa-phone"></i></b> {{charity.telephone}}</p>
-                        <p><b><i class="fa fa-mobile"></i></b> {{charity.cellphone}}</p>  
-                    </div>
-
-                    <div class="col-6">                  
-                        <p><b>Endereço: </b>{{charity.address.address_name}}</p>                        
-                        <p><b>Cidade: </b>{{charity.address.city}}</p>                        
-                        <p><b>Estado: </b>{{charity.address.state}}</p>                        
-                        <p><b><i class="fa fa-map-marker"></i></b> {{charity.address.cep}}</p>  
-                    </div>
-                </div>
-                          
+            <div id="main_information" class="col-md-4 col-xs-12">                
+                <p><b>Endereço: </b>{{charity.address.address_name}}</p>                        
+                <p><b>Cidade: </b>{{charity.address.city}}</p>                        
+                <p><b>Estado: </b>{{charity.address.state}}</p>                        
+                <p><b><i class="fa fa-map-marker"></i></b> {{charity.address.cep}}</p>  
             </div>
         </div>
+
         <hr *ngIf="charity.information">
+        
         <div class="content" *ngIf="charity.information">
             <div class="row">
                 <div class="col-12 text-center">
-                    <p><b>({{charity.information.nickname}})</b></p>                      
-                    <a [href]="charity.information.site_url" target="_blank">{{charity.information.site_url}}</a>  
+                    <p *ngIf="charity.information.nickname !=''"><b>({{charity.information.nickname}})</b></p>                      
+                    <a [href]="getLinkWithProtocol(charity.information.site_url)" target="_blank">{{charity.information.site_url}}</a>  
                 </div>
             </div>
 
             <div id="donate" class="col-12 text-center">
-                <button id="btn-donate" class="btn btn-warning"><b>Doaçãoes Recebidas</b><i class="fa fa-credit-card"></i></button>
+                <button id="btn-donate" class="btn btn-warning"><b>Doações Recebidas </b><i class="fa fa-credit-card"></i></button>
             </div>
 
-            <div id="about" class="row p-0 no-gutters text-center">
-                <div class="col-md-6 col-xs-12">
-                   <p>{{charity.information.about}}</p>
+            <div id="about" class="row p-0 no-gutters">
+                <div class="col-md-6 col-xs-12">   
+                    <p style="text-align: center;"><b>Sobre</b></p>
+                   <p style="padding: 10px;margin: 10px;">{{charity.information.about}}</p>
                 </div>
                 <div class="col-md-6 col-xs-12">
-                    <p>{{charity.information.goal}}</p>
+                    <p style="text-align: center;"><b>Objetivo</b></p>
+                    <p style="padding: 10px;margin: 10px;">{{charity.information.goal}}</p>
                  </div>
             </div>
 
@@ -77,24 +80,44 @@
             </div>
         </div>
 
-        <div id="transparecy" *ngIf="charity.information">
-            <div class="row p-0 no-gutters text-center">
-                <div class="col-md-12 col-xs-12">
-                   <p>{{charity.information.transparency_description}}</p>
-                </div>                
+        <div id="transparecy" *ngIf="charity.information"> 
+            <div class="row p-0 no-gutters">                                
+                <div class="col-md-6 col-xs-12">
+                   <p style="text-align: center;"><b>Gerenciamento</b></p>
+                   <p style="padding: 10px;margin: 10px;">{{charity.information.manager_description}}</p>
+                </div>    
+                <div class="col-md-6 col-xs-12">
+                   <p style="text-align: center;"><b>Transparência</b></p>
+                   <p style="padding: 10px;margin: 10px;">{{charity.information.transparency_description}}</p>
+                </div>       
             </div>
         </div>
 
         <div id="value" *ngIf="charity.information">
             <div class="row p-0 no-gutters">
                 <div class="col-md-4 col-xs-12">
-                   <p>{{charity.information.mission}}</p>
+                    <div class="card">
+                        <div class="card-header"><b>Missão</b></div>
+                        <div class="card-body">
+                          <p class="card-text">{{charity.information.mission}}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4 col-xs-12">
-                    <p>{{charity.information.vision}}</p>
+                    <div class="card">
+                        <div class="card-header"><b>Visão</b></div>
+                        <div class="card-body">
+                          <p class="card-text">{{charity.information.vision}}</p>
+                        </div>
+                    </div>
                  </div>
                  <div class="col-md-4 col-xs-12">
-                    <p>{{charity.information.value}}</p>
+                    <div class="card">
+                        <div class="card-header"><b>Valores</b></div>
+                        <div class="card-body">
+                          <p class="card-text">{{charity.information.value}}</p>
+                        </div>
+                    </div>
                  </div>
             </div>
         </div>

@@ -1,0 +1,68 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div id="charity-item" class="container no-gutters">  
+    <form #charityItemForm='ngForm' (ngSubmit)='onSaveCharityItem(charityItemForm)' id="charity-item-form">
+        
+        <app-alert></app-alert>
+                    
+        <h3 class="text-center" style="margin-bottom: 40px;">Itens Doação</h3>                      
+
+        <div class="form-row">             
+            <div class="form-group col-md-6 col-sm-12">
+                <div class="text-center">
+                    <label for="about"><b>Selecione o item por grupo ou nome</b></label>
+                    <select (change)='onChangeTypeSearch($event.target.value)' class="form-control" #optItem ngModel='name' id='opt-item' name='optItem'>
+                        <option selected value="group">Grupo</option>
+                        <option value="name">Nome</option>
+                    </select>   
+                </div>            
+
+               <div style="margin-top: 10px;" *ngIf="optItem.value=='name'">
+                    <div class="input-group mb-3">
+                        <input #search type="search" class="form-control" id="name-info" autocomplete="off">   
+                        <div class="input-group-append">
+                            <button (click)='onSearch(search.value)' class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                        </div>                    
+                    </div>
+               </div>
+
+               <div style="margin-top: 10px;" *ngIf="optItem.value=='group' && groupItems">
+                    <select (change)="onChangeGroup($event.target.value)" class="form-control" #optGroup ngModel='' id='opt-group' name='optGroup'>
+                        <option value="">Selecione o Grupo</option>
+                        <option [value]='group.id' *ngFor="let group of groupItems">{{group.name}}</option>
+                    </select>  
+                </div>                                                               
+                    
+                <div *ngIf='filteredItems && filteredItems.length > 0' [ngClass]="{'gray-border': filteredItems && filteredItems.length > 0}" style="max-height: 200px; overflow-y:auto;margin-top: 20px;">
+                    <li class="list-group">
+                        <ul class="list-group-item"><span><input #chkAllItems (click)='onAllItems(chkAllItems.checked)' class="chk-all-item" type="checkbox"></span> Selecionar Todos</ul>
+                        <ul #lstItems [id]="index" *ngFor="let item of filteredItems; let index = index" class="list-group-item"><span><input [id]="item.id" (click)='onCheckItems($event.target)' class="chk-item" type="checkbox"></span> {{item.name}}</ul>
+                    </li> 
+                </div>                          
+            </div>        
+
+            <div class="form-group col-md-6 col-sm-12">
+                <div class="text-center"> 
+                    <label for="about"><b>Meus Itens</b></label>
+                    
+                    <div style="max-height: 305px; overflow-y:auto;border: 1px solid lightgrey;" class="text-center"> 
+                        <li class="list-group">
+                            <ul [id]='item.id' class="list-group-item" *ngFor="let item of myItems">{{item.name}} <span class="badge" [ngClass]="{'badge-info': item.price == 0, 'badge-success': item.price > 0}">{{item.price > 0 ? 'online' : 'presencial'}}</span></ul>
+                        </li>    
+                        <p style="margin-bottom: 0px;padding: 5px;" *ngIf="myItems == undefined || myItems.length == 0"><i class="fa fa-warning" style="color: orangered;"></i> Nenhum Item Encontrado!</p>
+                    </div> 
+                </div>                    
+            </div>                              
+        </div>     
+                
+        <div class="text-center" id="login-buttons">
+            <button 
+                class="btn btn-primary btn-large-width"
+                [disabled]="!charityItemForm.valid"
+                >
+                Salvar <i class="fa fa-save"></i></button>             
+        </div>                     
+    </form>
+</div>

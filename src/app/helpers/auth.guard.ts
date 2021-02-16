@@ -16,10 +16,30 @@ export class AuthGuard implements CanActivate {
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
 
-       if(this.authService.userValue && this.authService.userValue.token)                      
-          return true;
+       if(this.authService.userValue && this.authService.userValue.token) {
+            let hasPermission = this.checkPermission(state.url);
+                
+            if(!hasPermission)
+            this.router.navigate(['home']);
+
+            return this.checkPermission(state.url);
+       }                  
 
        this.router.navigate(['oauth/login'], { queryParams: { returnUrl:state.url }});
        return false;
+    }
+
+    checkPermission(route:string){
+        switch (route.toLowerCase()) {
+            case '/charities/information':
+            case '/charities/information/update':                
+                return  this.authService.userValue.userType.toLowerCase() == 'charitable_entity'; 
+            case '/groups/create':     
+            case '/groups/update':   
+            case '/groups/list':                  
+                return  this.authService.userValue.userType.toLowerCase() == 'administrator';        
+            default:
+                return true;
+        }
     }
 }
