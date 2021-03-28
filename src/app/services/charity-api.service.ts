@@ -9,7 +9,7 @@ import { Pagination } from '../core/models/pagination.model';
 import { PendingCharities } from '../components/pendings/pending-approve/pending-charities.model';
 import { AppSetting } from '../shared/appsetting';
 import { CharityStatus } from '../components/pendings/pending-detail/charity-status.model';
-import { Item } from '../components/Items/item.model';
+import { Item } from '../components/items/item.model';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
