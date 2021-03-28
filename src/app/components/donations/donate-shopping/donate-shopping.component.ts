@@ -4,7 +4,7 @@ import { AuthApiService } from '../../../services/auth-api.service';
 import { ShoppingCartService } from '../../../services/shopping-cart.service';
 import { ActivatedRoute } from '@angular/router';
 import { Charity } from '../../charities/charity.model';
-import { Item } from '../../Items/item.model';
+import { Item } from '../../items/item.model';
 import { CartItem } from '../../../core/models/cart-item.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 
