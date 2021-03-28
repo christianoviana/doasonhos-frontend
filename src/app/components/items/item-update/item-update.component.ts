@@ -26,9 +26,9 @@ export class ItemUpdateComponent implements OnInit {
               private alertService:AlertService) { }
 
   onUpdateItem(updateForm:NgForm){
+    this.isLoading = true;
+
     if(updateForm.valid){
-      this.isLoading = true;
-                
       this.itemService.updateItem(this.item).subscribe(() => {  
         this.isLoading = false;           
         this.alertService.success('O item foi atualizado com sucesso.'); 
@@ -74,14 +74,19 @@ onFileChange(file){
 }
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     const itemId = this.route.snapshot.paramMap.get('id');
 
     this.itemService.getItemById(itemId).subscribe(item => {                  
       this.fileUrl = item.image_url;
+      item.price = item.price.toLocaleString('pt-BR', {currency: "BRL", minimumFractionDigits: 2})
       this.item = item;
+      this.isLoading = false;
     }, error=> {    
       this.item = undefined; 
       this.alertService.error(error);
+      this.isLoading = false;
     });   
     
     this.groupService.getGroups(1, 100).then(res => {

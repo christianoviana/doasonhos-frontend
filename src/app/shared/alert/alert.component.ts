@@ -10,13 +10,14 @@ import { Subscription } from 'rxjs';
 export class AlertComponent implements OnInit {
 
   private subscription: Subscription;
-  @Input() message:Message;
+  @Input() messages:Array<Message>;
 
   constructor(private alertService:AlertService) { }
 
   ngOnInit(): void {
     this.subscription = this.alertService.getMessage().subscribe(message => {
-        this.message = message;
+        this.messages =[];
+        this.messages.push(message);
     });
   }
 

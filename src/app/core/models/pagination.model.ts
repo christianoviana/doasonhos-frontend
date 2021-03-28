@@ -19,9 +19,11 @@ export class Pagination{
         this.HasNext = pagination.has_next_page;
         this.HasPrevious = pagination.has_previous_page;
 
-        this.FirstPage = pagination.links.first_page;
-        this.LastPage = pagination.links.last_page;
-        this.NextPage = pagination.links.next_page;
-        this.PreviousPage = pagination.links.previous_page;
+        if(pagination.links){
+            this.FirstPage = pagination.links.first_page;
+            this.LastPage = pagination.links.last_page;
+            this.NextPage = pagination.links.next_page;
+            this.PreviousPage = pagination.links.previous_page;
+        }      
     }
 }

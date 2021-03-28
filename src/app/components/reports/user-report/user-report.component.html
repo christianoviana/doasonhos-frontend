@@ -1,0 +1,26 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<h1 style="text-align: center;font-size: 24px;margin: 20px;">Relatório Usuários</h1>  
+<h2 style="text-align: center;font-size: 20px;margin: 20px;">Acompanhamento Cadastro de Usuários</h2>  
+
+<div class="container p-0 no-gutters"  *ngIf="searched">  
+
+    <div style="padding: 10px;" class="pull-right">
+        <button class="align-items-end" (click)="print()" class="btn btn-outline-primary"><i class="fa fa-print"></i></button>
+    </div>
+    
+
+    <div id="chart-container">       
+        <canvas id="canvas" baseChart  height="30vh" width="80vw"
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [plugins]="barChartPlugins"
+                [chartType]="barChartType"
+                [colors]="chartColors">           
+        </canvas>
+    </div>
+</div>

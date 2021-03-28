@@ -4,6 +4,9 @@ import {Location} from '@angular/common';
 import { Charity } from '../../charities/charity.model';
 import { CharityApiService } from '../../../services/charity-api.service';
 import { CartItem } from '../../../core/models/cart-item.model';
+import { Subscription } from 'rxjs';
+import { DonationApiService } from '../../../services/donation-api.service';
+import { AuthApiService } from '../../../services/auth-api.service';
 
 @Component({
   selector: 'app-donate-cart',
@@ -13,11 +16,20 @@ import { CartItem } from '../../../core/models/cart-item.model';
 export class DonateCartComponent implements OnInit, OnDestroy {
   charity:Charity;
   charityId: string;
-  cartSubscribe: any;
+  cartSubscribe: Subscription;  
+  isLoading: boolean;
+
+  cartItems:Array<CartItem>;
 
   constructor(private shoppingCartService:ShoppingCartService,
               private charityApi:CharityApiService,
-              private _location: Location) { }
+              private DonationApi:DonationApiService,
+              private _location: Location,
+              private authService:AuthApiService) { }
+
+  ngOnDestroy(): void {   
+    this.cartSubscribe.unsubscribe();
+  }
 
   async ngOnInit() {
     this.charityId =  this.shoppingCartService.getCharityEntityFromSession();
@@ -26,6 +38,7 @@ export class DonateCartComponent implements OnInit, OnDestroy {
 
     try {      
       this.charity = await charityPromise;
+      this.cartItems = this.shoppingCartService.itemsValue();
     } catch (error) {
       console.log(error);
     }   
@@ -34,7 +47,20 @@ export class DonateCartComponent implements OnInit, OnDestroy {
 
     this.cartSubscribe = this.shoppingCartService.itemsObservable().subscribe((_cartItems:Array<CartItem>) => {
       this.charityId =  this.shoppingCartService.getCharityEntityFromSession();
+      this.cartItems = _cartItems;
     });
+  }
+
+  clearShoppingCart(){
+    try {      
+      this.isLoading = true; 
+      this.shoppingCartService.clear();
+    } catch (error) {
+      console.log(error);
+    }   
+    finally{
+      this.isLoading = false;
+    }  
   }
 
   type(){
@@ -53,8 +79,4 @@ export class DonateCartComponent implements OnInit, OnDestroy {
   total(){
     return this.shoppingCartService.total();
   }
-
-  ngOnDestroy(): void {
-  }
-
 }

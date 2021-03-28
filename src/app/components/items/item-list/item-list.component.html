@@ -3,49 +3,51 @@
 </div>
 
 <div class="container-fluid p-0 no-gutters">
-
-  <div  id="item-list" *ngIf="items && items.length > 0">
+  
+  <div  id="item-list">
     <header>
       <div class="row no-gutters">
-        <div class="col-6 col-md-6 col-xs-2">                
+        <div class="col-4 col-md-4 col-xs-2">                
             <a routerLink="../create" class="btn btn-success">Novo Item</a>                
         </div>   
     
-        <div class="col-6 col-md-6 col-xs-10">
+        <div class="col-8 col-md-8 col-xs-10">
           <div class="input-group">
-            <input type="search" id="txtSearch" name='search' class="form-control" placeholder="Pesquisar" aria-label="Procurar Item" aria-describedby="btnSearch">
+            <input type="search" [(ngModel)]="txtSearch" id="txtSearch" name='search' class="form-control" placeholder="Pesquisar" aria-label="Procurar Item" aria-describedby="btnSearch">
             <div class="input-group-append">
-              <button class="btn btn-success" type="button" id="btnSearch"><i class="fa fa-search"></i></button>
+              <button (click)="searchItems()" class="btn btn-success" type="button" id="btnSearch"><i class="fa fa-search"></i></button>
             </div>
           </div>
         </div>
       </div>
     </header> 
       
-    <div class="table-responsive">
+    <div class="table-responsive" *ngIf="items && items.length > 0">
       <table id="item-table" class="table table-hover">
         <thead>
           <tr>
-            <th></th>
+            <th class="d-none d-sm-table-cell"></th>
             <th>Nome</th>
-            <th>Descrição</th>            
+            <th class="d-none d-sm-table-cell">Descrição</th>            
             <th>Preço</th>           
-            <th>Grupo</th>
+            <th class="d-none d-sm-table-cell">Grupo</th>
+            <th class="d-none d-sm-table-cell">Ativo</th>
             <th></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr [id]="item.id"
-          *ngFor='let item of items | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>    
-            <td><img [src]="item.image_url==undefined || item.image_url == '' ? '/assets/utils/none.png' : item.image_url"></td>
-            <td>{{item.name}}</td>
-            <td>{{item.description}}</td>
+          *ngFor='let item of items | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};' (click)="setSelectedItem(item)">    
+            <td class="d-none d-sm-table-cell"><img [src]="item.image_url==undefined || item.image_url == '' ? '/assets/utils/none.png' : item.image_url"></td>
+            <td  [title]="item.name">{{item.name > 15 ? (item.name | slice:0:15) + '..' : item.name }}</td>
+            <td class="d-none d-sm-table-cell">{{item.description}}</td>
             <td *ngIf="item.price > 0">{{item.price | currency:'':''}}</td>
             <td *ngIf="item.price <= 0">-</td>            
-            <td>{{item.group.name}}</td>
+            <td class="d-none d-sm-table-cell">{{item.group.name}}</td>
+            <td class="d-none d-sm-table-cell">{{item.activated == true ? 'Sim' : 'Não'}}</td>
             <td><a class="btn btn-warning btn-sm" [routerLink]="['../update/', item.id]"><i class="fa fa-edit"></i></a></td>
-            <td><button (click)="setItemToDelete(item)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i></button></td>
+            <td><button id="bntDelete" (click)="setItemToDelete(item);$event.stopPropagation()" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -62,12 +64,56 @@
         </div>
       </div> 
     </div>
- </div>            
+
+    <div class="row no-gutters" id="noItem" *ngIf="items == undefined || items == null || (items && items.length == 0)">
+      <div class="col-12 text-center"  *ngIf="search && errorMessage == '' && ((items && items.length == 0) || items == null)">
+        <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+        <h2 style="font-size: 20px;">Não encontramos nenhum item</h2>
+      </div>
+      <div class="col-12 text-center"  *ngIf="errorMessage !=''">
+        <h2 style="font-size: 22px;"><i style="color: red;font-size: 24px;" class="fa fa-warning"></i> Erro</h2>
+        <h3 style="font-size: 20px;">{{errorMessage}}</h3>
+      </div>
+    </div> 
+    
+ </div>   
 </div>
+
+<button style="visibility: hidden;" id="detailModalTrigger" data-toggle="modal" data-target="#ItemDetailsModal"></button>
 
 <div>               
   <!-- Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal fade" id="ItemDetailsModal" tabindex="-1" role="dialog" aria-labelledby="ItemDetailsModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Detalhes</h5>             
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body" *ngIf='selectedItem'>                      
+                <div class="row">
+                    <div class="col-12">
+                      <p><b>Name: </b>{{selectedItem.name}}</p>                        
+                      <p><b>Descrição: </b>{{selectedItem.description}}</p>                        
+                      <p><b>Grupo: </b>{{selectedItem.group.name}}</p>               
+                      <p *ngIf="selectedItem.price > 0"><b>Preço: </b>{{selectedItem.price | currency:'BRL' }}</p>  
+                      <p *ngIf="selectedItem.price <= 0"><b>Preço: </b>--</p>                                            
+                      <p><b>Ativo: </b>{{selectedItem.activated == true ? 'Sim' : 'Não'}}</p>                        
+                    </div>                       
+                </div>                                       
+              </div>                                                                                                                                           
+            </div>                
+        </div>
+      </div>
+  </div>
+
+<button style="visibility: hidden;" id="deleteModalTrigger" data-toggle="modal" data-target="#deleteModal"></button>
+
+<div>               
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-2" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
       <div class="modal-dialog" role="document">
       <div class="modal-content">
           <div class="modal-header">
@@ -91,6 +137,8 @@
       </div>
   </div>
 </div>
+
+
 
   
   

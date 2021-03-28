@@ -1,0 +1,132 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div class="container-fluid p-2 no-gutters">
+  
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div id="searchCharity">
+                <h1 style="text-align: center;font-size: 24px;">Relatório Entidades</h1>
+                <hr>          
+
+                <div class="row text-center">
+                    <div class="form-group col-6">
+                        <label for="begin_date">Data Inicial *</label>
+                        <input type="date" required [(ngModel)]='begin_date' name="begin_date" id="begin_date" class="form-control">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="final_date">Data Final </label>
+                        <input type="date" required [(ngModel)]='end_date' name="final_date" id="final_date" class="form-control">
+                    </div>
+                </div>
+              
+
+                <div class="row searchName no-gutters">      
+                    <div class="col-11">
+                        <div class="form-group">
+                            <input style="text-align: center;" [(ngModel)]="search" type="search" class="form-control" placeholder="Cnpj ou Nome">
+                        </div>
+                    </div>
+                    <div class="col-1" style="text-align: right;">
+                        <div class="form-group">
+                            <button (click)="searchCharities()" class=" btn btn-success"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>               
+              </div>
+          
+              <div id="charityContainer" class="row no-gutters" [ngClass]="{'orange-border': charities}" *ngIf="charities && charities.length > 0">
+                <div class="col-12">
+                    <div class="card">
+                        <ul class="list-group list-group-flush"> 
+                             <!-- trigger modal -->                           
+                            <li (click)="onCharityChange(charity)" class="list-group-item" *ngFor='let charity of charities | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>                       
+                                <b>({{charity.cnpj}})</b> {{charity.name.length > 30 ? (charity.name | slice:0:30) + '..' : charity.name }}                     
+                            </li>                 
+                        </ul>
+                      </div>
+                </div>
+            </div>
+        
+            <div class="row no-gutters" id="charityPagination" *ngIf="charities && charities.length > 0">
+                <div class="col-12 text-center">
+                  <pagination-controls 
+                  (pageChange)="onHandlePageChange($event)"
+                  maxSize="8"
+                  responsive="true"
+                  previousLabel=""
+                  nextLabel="">
+                  </pagination-controls>
+                </div>
+            </div> 
+        
+            <div class="row no-gutters" id="noCharityInfo" *ngIf="charities == undefined" >
+                <div class="col-12 text-center" *ngIf="hasSearch && charities == undefined">
+                  <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+                  <h1 style="font-size: 20px;">Não encontramos nenhuma entidade</h1>
+                  <h2 style="font-size: 14px;">Verifique se as informações foram digitadas corretamente</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-sm-12">
+            <div style="border: 1px dotted orangered;" *ngIf="reportData == undefined || reportData == null">
+                <div class="row no-gutters" id="noCharityInfo" >
+                    <div class="col-12 text-center">
+                      <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+                      <h1 style="font-size: 20px;">Nenhum relatório gerado</h1>
+                      <h2 style="font-size: 14px;">Selecione a data e clique na entidade beneficente para gerar o relatório</h2>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="border: 1px dotted orangered;" *ngIf="reportData">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center" style="margin: 10px;">
+                            <h1 style="font-size: 18px;">Total de Doações ({{reportData.total_donations_value | currency:'BRL'}})</h1>
+                            <h2 style="font-size: 16px;">Dinheiro <b>x</b> Compras de Itens Online</h2>
+                        </div>
+                      
+                        <div class="chart" style="margin: 20px 0px;">
+                            <canvas baseChart height="80"
+                              [data]="pieChartDataTotal"
+                              [labels]="pieChartLabelsTotal"
+                              [chartType]="pieChartType"
+                              [options]="pieChartOptionsTotal"
+                              [plugins]="pieChartPlugins"
+                              [colors]="pieChartColors"
+                              [legend]="pieChartLegend">
+                            </canvas>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center" style="margin: 10px;">
+                            <h1 style="font-size: 18px;">Quantidade de Itens Doados ({{(reportData.total_online_items + reportData.total_presential_items)}})</h1>
+                            <h2 style="font-size: 16px;">Online <b>x</b> Presencial</h2>
+                        </div>
+                       
+                        <div class="chart" style="margin-top: 20px;">
+                            <canvas baseChart height="80"
+                              [data]="pieChartDataItem"
+                              [labels]="pieChartLabelsItem"
+                              [chartType]="pieChartType"
+                              [options]="pieChartOptions"
+                              [plugins]="pieChartPlugins"
+                              [colors]="pieChartColorsItems"
+                              [legend]="pieChartLegend">
+                            </canvas>
+                          </div>
+                    </div>                  
+            </div>
+                
+        </div>
+    </div>
+    
+     
+</div>
+

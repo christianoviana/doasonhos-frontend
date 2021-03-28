@@ -1,3 +1,13 @@
+.money label{
+    margin-left: 5px;
+    padding: 5px;
+}
+
+.money input{
+    margin-left: 5px;
+    padding: 5px;
+}
+
 #shopping{
     margin: 0px auto;
     text-align: center;

@@ -11,6 +11,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {LOCALE_ID} from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { ChartsModule } from 'ng2-charts';
 
 registerLocaleData(localePt);
 
@@ -54,7 +55,7 @@ import { UserUpdateComponent } from './components/users/user-update/user-update.
 
 import { CharitiesComponent } from './components/charities/charities.component';
 import { CharityCreateComponent } from './components/charities/charity-create/charity-create.component';
-import { CharityUpdateComponent } from './components/Charities/Charity-update/Charity-update.component';
+import { CharityUpdateComponent } from './components/charities/charity-update/charity-update.component';
 
 import { CharityListComponent } from './components/charities/charity-list/charity-list.component';
 import { CharityComponent } from './components/charities/charity-list/charity/charity.component';
@@ -75,6 +76,20 @@ import { DonateCartComponent } from './components/donations/donate-cart/donate-c
 import { DonateItemComponent } from './components/donations/donate-shopping/donate-item/donate-item.component';
 import { CartComponent } from './shared/cart/cart.component';
 import { DonateCartItemsComponent } from './components/donations/donate-cart/donate-cart-items/donate-cart-items.component';
+import { DonorsComponent } from './components/donors/donors.component';
+import { DonorPfUpdateComponent } from './components/donors/donor-pf-update/donor-pf-update.component';
+import { DonorPjUpdateComponent } from './components/donors/donor-pj-update/donor-pj-update.component';
+import { DonateListComponent } from './components/donations/donate-list/donate-list.component';
+import { DonorDonationComponent } from './components/donors/donor-donation/donor-donation.component';
+import { DonatePaymentComponent } from './components/donations/donate-payment/donate-payment.component';
+import { CharityDonationComponent } from './components/charities/charity-donation/charity-donation.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { UserReportComponent } from './components/reports/user-report/user-report.component';
+import { CharityReportComponent } from './components/reports/charity-report/charity-report.component';
+
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
@@ -124,7 +139,17 @@ import { DonateCartItemsComponent } from './components/donations/donate-cart/don
     DonateCartComponent,
     DonateItemComponent,
     CartComponent,
-    DonateCartItemsComponent
+    DonateCartItemsComponent,
+    DonorsComponent,
+    DonorPfUpdateComponent,
+    DonorPjUpdateComponent,
+    DonateListComponent,
+    DonorDonationComponent,
+    DonatePaymentComponent,
+    CharityDonationComponent,
+    ReportsComponent,
+    UserReportComponent,
+    CharityReportComponent
   ],
   imports: [
     BrowserModule,
@@ -132,7 +157,9 @@ import { DonateCartItemsComponent } from './components/donations/donate-cart/don
     SocialLoginModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ChartsModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     { provide: LOCALE_ID, useValue:'pt-BR'},
@@ -147,18 +174,18 @@ import { DonateCartItemsComponent } from './components/donations/donate-cart/don
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
               '1055013042266-bgqj135lt6tq6vfinq1qev5ao7h1tkae.apps.googleusercontent.com'
-            ),
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('clientId'),
-          },
-          {
-            id: AmazonLoginProvider.PROVIDER_ID,
-            provider: new AmazonLoginProvider(
-              'clientId'
-            ),
-          },
+            )
+          }//,
+          // {
+          //   id: FacebookLoginProvider.PROVIDER_ID,
+          //   provider: new FacebookLoginProvider('clientId'),
+          // },
+          // {
+          //   id: AmazonLoginProvider.PROVIDER_ID,
+          //   provider: new AmazonLoginProvider(
+          //     'clientId'
+          //   ),
+          // },
         ],
       } as SocialAuthServiceConfig,
     }    

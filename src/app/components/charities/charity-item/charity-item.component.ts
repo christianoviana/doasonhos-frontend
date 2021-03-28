@@ -16,7 +16,7 @@ export class CharityItemComponent implements OnInit {
   isLoading: boolean;
   groupItems: any;
   filteredItems: any =[];
-  myItems:Array<any>=[];
+  myItems:Array<any>=[] = new Array<any>();
   hasChanged=false;
   
   constructor(private groupService:GroupApiService,
@@ -35,7 +35,7 @@ export class CharityItemComponent implements OnInit {
       const [groupItems, items] = await Promise.all([this.groupService.getGroupsItems(), this.charityService.getCharityItems(id)]);
            
       this.groupItems = groupItems && groupItems.filter(e => e.items.length > 0);  
-  
+        
       items.forEach(item => {
         this.myItems.push({id:item.id, name:item.name, price:item.price, group:item.group.name})
       });
@@ -46,7 +46,6 @@ export class CharityItemComponent implements OnInit {
       });
 
       this.filteredItems = ArrayItems.reduce((acc, val) => acc.concat(val), []);  
-      //console.table(this.filteredItems); 
     } catch (error) {
       console.log(error);
     }finally{      
@@ -125,7 +124,7 @@ export class CharityItemComponent implements OnInit {
         let item = this.filteredItems.find(i => i.id == target.id);
         let group = this.groupItems.find(g => g.items && g.items.find(gr => gr.id == target.id))
         
-        this.myItems.push({id:item.id, name:item.name, group:group.name})
+        this.myItems.push({id:item.id, name:item.name, price:item.price, group:group.name})
         this.myItems = this.myItems.sort((a, b) => a.name.localeCompare(b.name));
       }   
     }   
@@ -134,18 +133,23 @@ export class CharityItemComponent implements OnInit {
   onSearch(text:string){
     this.filteredItems = [];
     this.onAllItems(false);
-    let ArrayItems = this.groupItems.map(e => {
-      return e.items.filter(e => e.name.toLowerCase().includes(text.toLowerCase()));
-    });
 
-    this.filteredItems = ArrayItems.reduce((acc, val) => acc.concat(val), []);                            
+    if(this.groupItems){      
+      let ArrayItems = this.groupItems.map(e => {
+        return e.items.filter(e => e.name.toLowerCase().includes(text.toLowerCase()));
+      });
+      
+      this.filteredItems = ArrayItems.reduce((acc, val) => acc.concat(val), []);   
+    }                         
   }
 
   onChangeGroup(id:any){
     this.filteredItems = [];
     this.onAllItems(false);
 
-    let group = this.groupItems.find(e => e.id == id);
-    this.filteredItems = [].concat(group.items);
+    if(this.groupItems){    
+      let group = this.groupItems.find(e => e.id == id);
+      this.filteredItems = [].concat(group.items);
+    }
   }
 }

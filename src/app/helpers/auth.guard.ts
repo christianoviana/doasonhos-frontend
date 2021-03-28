@@ -32,12 +32,39 @@ export class AuthGuard implements CanActivate {
     checkPermission(route:string){
         switch (route.toLowerCase()) {
             case '/charities/information':
+            case '/charities/create':
+            case '/charities/update':
+            case '/charities/item':
+            case '/charities/donation':
             case '/charities/information/update':                
+            case '/charities/information/create':                
                 return  this.authService.userValue.userType.toLowerCase() == 'charitable_entity'; 
+            case '/donors/donation':                
+                return  this.authService.userValue.userType.toLowerCase() == 'donor_pf' || 
+                        this.authService.userValue.userType.toLowerCase() == 'donor_pj' ||
+                        this.authService.userValue.userType.toLowerCase() == 'external';
+            case '/donors/update-pf': 
+                return  this.authService.userValue.userType.toLowerCase() == 'donor_pf';             
+            case '/donors/update-pj':                
+                return this.authService.userValue.userType.toLowerCase() == 'donor_pj'; 
             case '/groups/create':     
             case '/groups/update':   
-            case '/groups/list':                  
-                return  this.authService.userValue.userType.toLowerCase() == 'administrator';        
+            case '/groups/list':   
+            case '/items/create':     
+            case '/items/update':   
+            case '/items/list':   
+            case '/roles/create':     
+            case '/roles/update':   
+            case '/roles/list':    
+            case '/users/create':   
+            case '/users/list':                   
+                return  this.authService.userValue.userType.toLowerCase() == 'administrator';    
+            case '/pendings/approve':                
+                return  this.authService.userValue.userType.toLowerCase() == 'administrator' ||
+                        this.authService.userValue.userType.toLowerCase() == 'manager';  
+            case '/donations/payment':                
+            return  this.authService.userValue.userType.toLowerCase() == 'donor_pf' || 
+                    this.authService.userValue.userType.toLowerCase() == 'donor_pj';                              
             default:
                 return true;
         }

@@ -17,46 +17,100 @@ export class ItemListComponent implements OnInit {
   firstPage = 1;
   selectedItemToDelete:Item = undefined;
   isLoading = false;
+  search = false;
+  txtSearch:string = '';
+  errorMessage:string = '';  
+  selectedItem:any;
+
 
   onHandlePageChange(page){
-    this.itemApi.getItems(page, this.itemsPerPage).subscribe(res => {
+    this.isLoading = true;
+    this.errorMessage = '';
+ 
+    this.itemApi.getItems(page, this.itemsPerPage).then(res => {
       this.items = <Item[]>res.Items;
       this.pagination = <Pagination> res.Pagination;
-    });
+
+      this.isLoading = false;
+    }).catch(error => {
+      console.log(error);     
+      this.errorMessage = error;  
+    }).finally(()=>{
+      this.isLoading = false;     
+    }); 
   }
 
   ngOnInit(): void {
-    this.itemApi.getItems(this.firstPage, this.itemsPerPage).subscribe(res => {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.itemApi.getItems(this.firstPage, this.itemsPerPage, this.txtSearch).then(res => {
       this.items = <Item[]>res.Items;
-      this.pagination = <Pagination> res.Pagination;
-    });
+      this.pagination = <Pagination> res.Pagination;    
+
+      this.isLoading = false;
+    }).catch(error => {
+      console.log(error);  
+      this.errorMessage = error;   
+    }).finally(()=>{
+      this.isLoading = false;     
+      this.search = true;
+    }); 
   }
 
   setItemToDelete(item:Item){
-    this.selectedItemToDelete = item;
+   console.log(item);
+    this.selectedItemToDelete = item;  
+
+    const deleteModal = document.getElementById('deleteModalTrigger');
+    deleteModal.click(); 
+  }
+
+  setSelectedItem(item:Item){
+    this.selectedItem = item;
+
+    const itemDetailsmodal = document.getElementById('detailModalTrigger');
+    itemDetailsmodal.click();    
+  }
+
+  searchItems(){
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.itemApi.getItems(this.firstPage, this.itemsPerPage, this.txtSearch).then(res => {
+      this.items = <Item[]>res.Items;
+      this.pagination = <Pagination> res.Pagination;
+      this.search = true;
+
+      this.isLoading = false;
+    }).catch(error => {
+      console.log(error);   
+      this.errorMessage = error;
+    }).finally(()=>{
+      this.isLoading = false;     
+    }); 
   }
 
   deleteItem(item:Item){
-    this.isLoading = true;
-   
-    try {
-      this.itemApi.deleteItem(item).subscribe(() => {
-        try {
-          this.itemApi.getItems(this.firstPage, this.itemsPerPage).subscribe(res => {
-            this.items = <Item[]>res.Items;
-            this.pagination = <Pagination> res.Pagination;
-            
-            this.isLoading = false;
-          });
-        } catch (error) {        
-          this.isLoading = false;
-          console.log(error);
-        }
-      });
-    } catch (error) {
-      this.isLoading = false;
+    this.isLoading = true;   
+    this.errorMessage = '';
+  
+    this.itemApi.deleteItem(item).then(() => {       
+      this.itemApi.getItems(this.firstPage, this.itemsPerPage).then(res => {
+        this.items = <Item[]>res.Items;
+        this.pagination = <Pagination> res.Pagination;
+        
+        this.isLoading = false;
+      }).catch (error => {      
       console.log(error);
-    }   
+      this.errorMessage = error;
+      }).finally(()=>{
+        this.isLoading = false;
+      })      
+  }).catch (error=> {
+    this.isLoading = false;
+    console.log(error);
   }
+    )};
 }
 

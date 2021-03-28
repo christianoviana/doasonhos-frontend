@@ -15,18 +15,18 @@
         </div>
 
         <div class="header row no-gutters">
-            <div id="picture" class="col-sm-4 col-xs-12">
+            <div id="picture" class="col-sm-4 col-xs-12 text-center">
                 <img [src]='charity.information.picture_url' *ngIf="charity.information && charity.information.picture_url!=undefined">
                 <img src='/assets/utils/none.png' *ngIf="!charity.information || charity.information.picture_url==undefined">
             </div>
           
-            <div id="main_information" class="col-md-4 col-xs-12">               
+            <div id="main_information" class="col-md-4 col-xs-12 text-center">               
                 <p><b>CNPJ: </b>{{charity.cnpj}}</p>
                 <p><b><i class="fa fa-phone"></i></b> {{charity.telephone}}</p>
                 <p><b><i class="fa fa-mobile"></i></b> {{charity.cellphone}}</p>  
             </div>
 
-            <div id="main_information" class="col-md-4 col-xs-12">                
+            <div id="main_information" class="col-md-4 col-xs-12 text-center">                
                 <p><b>Endereço: </b>{{charity.address.address_name}}</p>                        
                 <p><b>Cidade: </b>{{charity.address.city}}</p>                        
                 <p><b>Estado: </b>{{charity.address.state}}</p>                        
@@ -45,10 +45,12 @@
             </div>
 
             <div id="donate" class="col-12 text-center">
-                <button id="btn-donate" class="btn btn-warning"><b>Doações Recebidas </b><i class="fa fa-credit-card"></i></button>
+
+                <a [routerLink]="[ '/charities/donation']" id="btn-donate" class="btn btn-warning"><b>Doações Recebidas </b><i class="fa fa-credit-card"></i></a>
+               
             </div>
 
-            <div id="about" class="row p-0 no-gutters">
+            <div id="about" class="row p-0 no-gutters text-center">
                 <div class="col-md-6 col-xs-12">   
                     <p style="text-align: center;"><b>Sobre</b></p>
                    <p style="padding: 10px;margin: 10px;">{{charity.information.about}}</p>
@@ -81,7 +83,7 @@
         </div>
 
         <div id="transparecy" *ngIf="charity.information"> 
-            <div class="row p-0 no-gutters">                                
+            <div class="row p-0 no-gutters text-center">                                
                 <div class="col-md-6 col-xs-12">
                    <p style="text-align: center;"><b>Gerenciamento</b></p>
                    <p style="padding: 10px;margin: 10px;">{{charity.information.manager_description}}</p>
@@ -129,11 +131,22 @@
 <div id="charity-approval" class="container no-gutters" *ngIf='charityApprovals && !isApproved'>    
     <div style="text-align: center;">
         <h1><i class="fa fa-exclamation-triangle" style="color: orangered;"></i> Pendências no Cadastro</h1>
-        <h2 *ngIf="firstApproval.status == 'APPROVED'">A sua aprovação está no status ({{firstApproval.message}})</h2>
+        <h2 *ngIf="firstApproval.status == 'APPROVED' || firstApproval.status == 'PENDING_DATA'">A sua aprovação está no status ({{firstApproval.message}})</h2>
         <h2 *ngIf="firstApproval.status == 'REPROVED'">Solicitação Reprovada :(</h2>
     </div>
 
+    <div class="col-12 text-center" id="warning-message" *ngIf="firstApproval.status == 'PENDING_DATA'">
+        <h2 style="color: red; font-size: 18px;font-weight: bold;"><a [routerLink]="[ '/charities/update']">Clique Aqui Para Corrigir as Informações Cadastrais</a></h2>
+    </div>
+
     <div id="pending-details">
-        <p *ngFor="let approval of charityApprovals;let index = index;"><i [ngClass]="(index != 0) ? 'fa fa-check-square-o':'fa fa-flag'"></i> {{approval.date}} - {{approval.message}}</p>
+        <div *ngFor="let approval of charityApprovals;let index = index;">
+            <p><i [ngClass]="(index != 0) ? 'fa fa-check-square-o':'fa fa-flag'"></i> {{approval.date | date:'dd/MM/yyyy hh:mm:ss'}} - {{approval.message}} <i style="font-size: 18px;" *ngIf="approval.detail && approval.detail!=''" class="fa fa-arrow-circle-o-down" type="button" data-toggle="collapse" [attr.data-target]="'#collapse' + index" aria-expanded="false" aria-controls="erro"></i></p>          
+            <div *ngIf="approval.detail && approval.detail!=''" class="collapse" [id]="'collapse'+index">
+                <div class="card card-body">
+                    {{approval.detail}}
+                </div>
+            </div>
+        </div>
     </div>      
 </div>

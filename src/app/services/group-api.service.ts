@@ -20,16 +20,16 @@ export class GroupApiService{
     constructor(private httpClient: HttpClient){
     }
 
-    async getGroups(page:number = 1, size: number = 100) : Promise<GroupResponse> {
+    async getGroups(page:number = 1, size: number = 100, term = '') : Promise<GroupResponse> {
         return await this.httpClient
-            .get<any>(`${this.baseUrl}/groups?page=${page}&size=${size}`)            
+            .get<any>(`${this.baseUrl}/groups?page=${page}&size=${size}&term=${term}`)            
             .pipe(  
                     retry(2),                          
                     map(data => {
                         let response = new GroupResponse();
                         response.Groups = data.data;
 
-                        if(response.Groups !== undefined && response.Groups.length > 0){
+                        if(response.Groups != null && response.Groups !== undefined && response.Groups.length > 0){
                             response.Pagination = new Pagination(data.pagination);                                  
                         }                              
 

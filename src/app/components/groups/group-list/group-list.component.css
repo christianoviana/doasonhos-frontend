@@ -18,4 +18,13 @@ header{
     margin-top: 20px;
 }
 
+#noGroup{
+    margin-top: 60px;
+    height: 150px;
+}
+
+tbody tr {
+    cursor: pointer;
+}
+
 

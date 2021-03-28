@@ -1,3 +1,7 @@
+<div *ngIf="isLoading">
+  <app-loading [fullscreen]="true"></app-loading>
+</div>
+
 <div id="cart" class="container no-gutters p-0">
   <div class="row  text-right p-2">
     <div class="col-12">                
@@ -7,9 +11,11 @@
 
   <h1  id="title" class="text-center" style="font-size: 24px;">Carrinho de Compras <i class="fa fa-cart-plus"></i></h1>
   
-  <div *ngIf="charityId !=''" id="charity-info" class="row no-gutters">       
+  <div *ngIf="charity && charityId !=''" id="charity-info" class="row no-gutters">       
     <div class="col-md-12 col-xs-12 text-center">
-        <img *ngIf="charity && charity.information" class="picture" [src]="charity.information.picture_url"> 
+        <a [routerLink]="[ '/donations', charity.id ]">
+          <img *ngIf="charity && charity.information" class="picture" [src]="charity.information.picture_url"> 
+        </a>       
         <h1 style="text-align: center;font-size: 24px;">{{charity && charity.name}}</h1>
         <h2 *ngIf="charity" style="text-align: center;font-size: 18px;">({{charity && charity.cnpj}})</h2>
     </div>
@@ -17,84 +23,28 @@
 
   <app-donate-cart-items [charityId]='charityId'></app-donate-cart-items>
 
-  <div *ngIf="type()=='online'" class="text-center" style="background-color: lightgray;">
-    <div class="row no-gutters p-0">
-      <div class="col-12">
-        <p style="padding: 20px;margin: 0px;"><b>Total: {{total() | currency:'BRL'}}</b></p>
+  <div *ngIf="this.cartItems && this.cartItems.length > 0">
+    <div *ngIf="type()=='online'" class="text-center" style="background-color: lightgray;">
+      <div class="row no-gutters p-0">
+        <div class="col-12">
+          <p style="padding: 20px;margin: 0px;"><b>Total: {{total() | currency:'BRL'}}</b></p>
+        </div>
       </div>
     </div>
-  </div>
+  
+    <div class="text-center" style="padding: 30px;"> 
+        <div class="row">
+          <div class="col-12">
+            <a style="width: 200px;" class="btn btn-warning btn-md" id="btn-payment" [routerLink]="['../payment']"><b>Realizar Doação <i class="fa fa-credit-card-alt"></i></b></a> 
+          </div>        
+        </div>
 
-  <!-- <form #donateForm='ngForm' id="charity-form">
-          
-      <app-alert></app-alert>
-                  
-      <h3>Realizar Pagamento</h3>                                                                   
-      
-      <hr>
-
-      <div class="text-center" style="margin: 20px 0px;">
-          <div class="form-check form-check">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="rdo-credit" value="online" checked>
-              <label class="form-check-label" for="rdo-online">Cartão de Crédito Online</label>
+        <div class="row" style="margin-top: 20px;">         
+          <div class="col-12"> 
+             <button  style="width: 200px;" (click)="clearShoppingCart()" class="btn btn-danger btn-md" id="btn-clear"><b>Limpar Carrinho <i class="fa fa-trash-o"></i></b></button>     
           </div>
+        </div>
+     </div>
+  </div>  
 
-          <div class="form-check form-check">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="rdo-debit" value="online">
-              <label class="form-check-label" for="rdo-online">Débito Online</label>
-          </div>
-      </div>
-    
-      <div class="form-row">              
-          <div class="form-group col-md-9 col-sm-12">
-              <label for="name">Nome do Portador (Nome Gravado no Cartão) *</label>
-              <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
-          </div>    
-          <div class="form-group col-md-9 col-sm-12">
-              <label for="name">Número do Cartão *</label>
-              <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
-          </div>    
-          <div class="form-group col-md-9 col-sm-12">
-              <label for="name">Validade (MM/AAAA) *</label>
-              <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
-          </div>  
-          <div class="form-group col-md-9 col-sm-12">
-            <label for="name">Código de Segurança *</label>
-            <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-          </div>      
-          <div class="form-group col-md-9 col-sm-12">
-            <label for="name">CPF do Portador *</label>
-            <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-          </div> 
-          <div class="form-group col-md-9 col-sm-12">
-            <label for="name">Data de Nascimento *</label>
-            <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-          </div>     
-          <div class="form-group col-md-9 col-sm-12">
-            <label for="name">Telefone do Portador *</label>
-            <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-          </div>                         
-      </div>
-  </form> -->
-</div>
+  

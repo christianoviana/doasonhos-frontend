@@ -21,16 +21,16 @@ export class UserApiService{
     constructor(private httpClient: HttpClient){
     }
 
-    async getUsers(page:number = 1, size: number = 100) : Promise<UserResponse> {
+    async getUsers(page:number = 1, size: number = 100, term:string = '') : Promise<UserResponse> {
         return await this.httpClient
-            .get<any>(`${this.baseUrl}/users?page=${page}&size=${size}`)                   
+            .get<any>(`${this.baseUrl}/users?page=${page}&size=${size}&term=${term}`)                   
             .pipe(  
                 retry(2),                          
                 map(data => {
                     let response = new UserResponse();
                     response.Users = data.data;
 
-                    if(response.Users !== undefined && response.Users.length > 0){
+                    if(response.Users !== null && response.Users !== undefined && response.Users.length > 0){
                         response.Pagination = new Pagination(data.pagination);                                   
                     }                              
 

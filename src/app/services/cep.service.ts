@@ -48,13 +48,18 @@ export class CepApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/${cep}/json`)            
             .pipe(  
-                    retry(2),                          
+                    retry(1),                          
                     map(data => {
-                      const _state = this.statesDefault.find(e => e.initial == data.uf).name;
+                        console.log(data);
+                        if(data && data.erro == true){                           
+                            return { logradouro:'', bairro:'', localidade:'', uf:'', estado:'' };
+                        }   
+                        
+                        const _state = this.statesDefault.find(e => e.initial == data.uf).name;
                    
-                      let response = { logradouro:data.logradouro, bairro:data.bairro, localidade:data.localidade, uf:data.uf, estado:_state };
-            
-                      return response;
+                        let response = { logradouro:data.logradouro, bairro:data.bairro, localidade:data.localidade, uf:data.uf, estado:_state };
+              
+                        return response;
                     }),
                     catchError((res:any) => {                     
                         let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';

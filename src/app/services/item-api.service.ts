@@ -16,21 +16,21 @@ const httpOptions = {
     providedIn:'root'
 })
 export class ItemApiService{    
-    private readonly baseUrl = 'http://localhost:5000/api/v1';
+    private readonly baseUrl =  AppSetting.apiBaseUrl;
 
     constructor(private httpClient: HttpClient){
     }
 
-    getItems(page:number = 1, size: number = 100) : Observable<ItemResponse> {
+    getItems(page:number = 1, size: number = 100, term='') : Promise<ItemResponse> {
         return this.httpClient
-                   .get<any>(this.baseUrl + '/items?page=' + page + '&' + 'size=' + size)                   
+                   .get<any>(`${this.baseUrl}/items?page=${page}&size=${size}&Term=${term}`)                   
                    .pipe(  
                             retry(2),                          
                             map(data => {
                                 let response = new ItemResponse();
                                 response.Items = data.data;
-
-                                if(response.Items !== undefined && response.Items.length > 0){
+                            
+                                if(response.Items != null && response.Items !== undefined && response.Items.length > 0){
                                     response.Pagination = new Pagination(data.pagination);                                  
                                 }                              
 
@@ -43,8 +43,9 @@ export class ItemApiService{
                              return throwError(errorMessage);
                         }
 
+                        console.log(res);
                         return throwError(res.error.message);                  
-                    }));
+                    })).toPromise();
     }    
 
     getItemById(id:string) : Observable<Item> {
@@ -77,7 +78,10 @@ export class ItemApiService{
     }    
 
     updateItem(item: any) : Observable<void> {
-        const itemToUpdate = { name:item.name, description:item.description, price:item.price, group_id:item.group.id }
+        const itemToUpdate = { name:item.name, description:item.description, price:item.price.replace(',', '.'), group_id:item.group.id, activated:item.activated }
+
+        console.log(itemToUpdate);
+
         return this.httpClient
                    .put<any>(this.baseUrl +'/items/'+item.id, itemToUpdate)                   
                    .pipe(  
@@ -116,7 +120,7 @@ export class ItemApiService{
                     }));
     } 
     
-    deleteItem(item: any) : Observable<void> {
+    deleteItem(item: any) : Promise<void> {
         return this.httpClient
                     .delete<any>(this.baseUrl +'/items/'+item.id)                   
                     .pipe(  
@@ -130,6 +134,6 @@ export class ItemApiService{
                         } 
                         // Parse response  
                         return throwError(res.error.message);                  
-                    }));
+                    })).toPromise();
     } 
 }

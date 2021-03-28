@@ -23,14 +23,17 @@ import { UserCreateComponent } from './components/users/user-create/user-create.
 import { CharitiesComponent} from "./components/charities/charities.component";
 import { CharityListComponent } from './components/charities/charity-list/charity-list.component';
 import { CharityCreateComponent } from './components/charities/charity-create/charity-create.component';
+import { CharityUpdateComponent } from './components/charities/charity-update/charity-update.component';
 import { CharityItemComponent } from './components/charities/charity-item/charity-item.component';
 import { CharityDetailComponent } from './components/charities/charity-detail/charity-detail.component';
 import { CharityInformationComponent } from './components/charities/charity-information/charity-information.component';
 import { CharityInformationUpdateComponent } from './components/charities/charity-information-update/charity-information-update.component';
 import { CharityInformationCreateComponent } from './components/charities/charity-information-create/charity-information-create.component';
+import { CharityDonationComponent } from './components/charities/charity-donation/charity-donation.component';
 
 import { DonationsComponent} from "./components/donations/donations.component";
 import { DonateShoppingComponent} from "./components/donations/donate-shopping/donate-shopping.component";
+import { DonatePaymentComponent} from "./components/donations/donate-payment/donate-payment.component";
 import { DonateCartItemsComponent} from "./components/donations/donate-cart/donate-cart-items/donate-cart-items.component";
 
 import { PendingsComponent} from "./components/pendings/pendings.component";
@@ -45,6 +48,15 @@ import {HomeComponent} from "./components/home/home.component";
 
 import { AuthGuard } from './helpers/auth.guard';
 import { DonateCartComponent } from './components/donations/donate-cart/donate-cart.component';
+
+import { DonorsComponent } from './components/donors/donors.component';
+import { DonorPfUpdateComponent } from './components/donors/donor-pf-update/donor-pf-update.component';
+import { DonorPjUpdateComponent } from './components/donors/donor-pj-update/donor-pj-update.component';
+import { DonorDonationComponent } from './components/donors/donor-donation/donor-donation.component';
+
+import { ReportsComponent } from './components/reports/reports.component';
+import {UserReportComponent } from './components/reports/user-report/user-report.component';
+import { CharityReportComponent } from './components/reports/charity-report/charity-report.component';
 
 const routes: Routes = [
   {
@@ -100,7 +112,9 @@ const routes: Routes = [
       {path:'information/update', component: CharityInformationUpdateComponent, canActivate: [AuthGuard]},              
       {path:'information/create', component: CharityInformationCreateComponent, canActivate: [AuthGuard]},              
       {path:'create', component: CharityCreateComponent},                    
-      {path:'item', component: CharityItemComponent, canActivate: [AuthGuard]},         
+      {path:'update', component: CharityUpdateComponent, canActivate: [AuthGuard]},       
+      {path:'item', component: CharityItemComponent, canActivate: [AuthGuard]},       
+      {path:'donation', component: CharityDonationComponent, canActivate: [AuthGuard]},          
       {path:':id', component: CharityDetailComponent},          
       {path:'', redirectTo:'/charities/list', pathMatch:'full'}
     ]
@@ -108,6 +122,7 @@ const routes: Routes = [
   {
     path:'donations', component: DonationsComponent,
     children: [           
+      {path:'payment', component: DonatePaymentComponent, canActivate: [AuthGuard]},       
       {path:'cart', component: DonateCartComponent},       
       {path:':id', component: DonateShoppingComponent},        
       {path:'', redirectTo:'/charities/list', pathMatch:'full'}
@@ -116,9 +131,25 @@ const routes: Routes = [
   {
     path:'pendings', component: PendingsComponent,
     children: [
-      {path:'approve', component: PendingApproveComponent},       
+      {path:'approve', component: PendingApproveComponent, canActivate: [AuthGuard]},   
       {path:'detail', component: PendingDetailComponent},       
       {path:'', redirectTo:'/pendings/detail', pathMatch:'full'}
+    ]
+  },
+  {
+    path:'donors', component: DonorsComponent, canActivate: [AuthGuard],
+    children: [
+      {path:'update-pf', component: DonorPfUpdateComponent},       
+      {path:'update-pj', component: DonorPjUpdateComponent},       
+      {path:'donation', component: DonorDonationComponent},       
+      {path:'', redirectTo:'/home', pathMatch:'full'}
+    ]
+  },
+  {
+    path:'reports', component: ReportsComponent, canActivate: [AuthGuard],
+    children: [
+      {path:'charities', component: CharityReportComponent},       
+      {path:'users', component: UserReportComponent},       
     ]
   },
   {

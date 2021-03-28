@@ -2,44 +2,44 @@
     <app-loading [fullscreen]="true"></app-loading>
 </div>
 
-<div id="charity" class="container no-gutters">          
-    <form #charityForm='ngForm' (ngSubmit)='onSaveCharity(charityForm)' id="charity-form">        
+<div id="charity" class="container no-gutters" *ngIf="charity">          
+    <form #charityForm='ngForm' (ngSubmit)='onUpdateCharity(charityForm)' id="charity-form">        
         <app-alert></app-alert>
                     
-        <h3>Corrigir Dados Cadastrais</h3>                                                                   
+        <h3>Atualizar Dados Cadastrais</h3>                                                                   
         
         <hr>
        
         <div class="form-row">              
             <div class="form-group col-md-9 col-sm-12">
                 <label for="name">Nome da Entidade *</label>
-                <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
+                <input [disabled]='isApproved' type="text" required [(ngModel)]='charity.name' name="name" id="name" class="form-control is-valid" [readonly]='isApproved'>
                   <div class="valid-feedback">
                     Looks good!
                   </div>
             </div>   
             <div class="form-group col-md-3 col-sm-12">
                 <label for="cnpj">CNPJ *</label>
-                <input type="text" required ngModel name="cnpj" id="cnpj" class="form-control">
+                <input [disabled]='isApproved' type="text" required [(ngModel)]='charity.cnpj' name="cnpj" id="cnpj" class="form-control" [readonly]='isApproved'>
             </div>            
         </div>
 
         <div class="form-row">             
             <div class="form-group col-md-6 col-sm-12">
                 <label for="representantName">Nome Representante *</label>
-                <input type="text" required ngModel name="representantName" id="representantName" class="form-control is-invalid">
+                <input type="text" required  [(ngModel)]='charity.representant_name' name="representantName" id="representantName" class="form-control is-invalid">
                   <div class="invalidfeedback">
                     Looks good!
                   </div>
             </div>   
             <div class="form-group col-md-3 col-sm-12">
                 <label for="telphone">Telefone *</label>
-                <input type="text" required ngModel name="telephone" id="telephone" class="form-control">
+                <input type="text" required [(ngModel)]='charity.telephone' name="telephone" id="telephone" class="form-control" mask="(00) 0000-0000||(00) 0 0000-0000">
             </div>   
 
             <div class="form-group col-md-3 col-sm-12">
                 <label for="cellphone">Celular *</label>
-                <input type="text" required ngModel name="cellphone" id="cellphone" class="form-control is-invalid">
+                <input type="text" required [(ngModel)]='charity.cellphone' name="cellphone" id="cellphone" class="form-control is-invalid" mask="(00) 0000-0000||(00) 0 0000-0000">
                   <div class="invalid-feedback">
                     Looks good!
                   </div>
@@ -49,7 +49,7 @@
         <div class="form-row"> 
             <div class="form-group col-md-12 col-sm-12">
                 <label for="cep">CEP *</label>
-                <input maxlength="9" (blur)="onCepEvent($event)" type="text" required ngModel name="cep" id="cep" class="form-control">
+                <input maxlength="9" (blur)="onCepEvent($event)" type="text" required [(ngModel)]='charity.address.cep' name="cep" id="cep" class="form-control" mask='00000-000'>
             </div>                                    
         </div>
 
@@ -64,7 +64,7 @@
             </div> 
             <div class="form-group col-md-2 col-sm-12">
                 <label for="city">Número *</label>
-                <input  [disabled]="cep==undefined" type="text" required ngModel name="number" id="number" class="form-control">
+                <input  [disabled]="cep==undefined" type="text" required [(ngModel)]='charity.address.number' name="number" id="number" class="form-control">
             </div>    
             <div class="form-group col-md-2 col-sm-12">
                 <label for="city">Complemento</label>

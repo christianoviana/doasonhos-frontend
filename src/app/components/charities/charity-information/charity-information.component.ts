@@ -21,23 +21,35 @@ export class CharityInformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    const id = this.authService.userValue && this.authService.userValue.ownerId;
 
-     this.charityApi.getCharityApproval(id).then(charityApprovals => {
-      this.charityApprovals = charityApprovals;
+    try {
+      const id = this.authService.userValue && this.authService.userValue.ownerId;
 
-      this.firstApproval = this.charityApprovals[0];
-      this.isApproved = this.firstApproval.status.toUpperCase() == 'APPROVED';
+      this.charityApi.getCharityApproval(id).then(charityApprovals => {
+       this.charityApprovals = charityApprovals;
+ 
+       this.firstApproval = this.charityApprovals[0];
+       this.isApproved = this.firstApproval.status.toUpperCase() == 'APPROVED';
+ 
+       if(this.isApproved){
+           this.charityApi.getCharitiesById(id).then(charity => {
+             this.charity = charity;
+           }).catch(error => {
+             this.isLoading = false
+           }).finally(() => {
+             this.isLoading = false
+           });
+       } 
+      }).catch(error => {
+       this.isLoading = false
+      }).finally(() => {
+        this.isLoading = false
+      });
+    } catch (error) {
+      console.log(error)
+      this.isLoading = false
+    }
 
-      if(this.isApproved){
-          this.charityApi.getCharitiesById(id).then(charity => {
-            this.charity = charity;
-          }).catch(error => {
-          });
-      }
-
-     }).catch(error => {
-     }).finally(() => this.isLoading = false);
   }
 
   getLinkWithProtocol = link => {

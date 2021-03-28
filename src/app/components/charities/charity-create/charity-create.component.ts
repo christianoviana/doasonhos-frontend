@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CharityApiService } from '../../../services/charity-api.service';
@@ -14,6 +14,11 @@ import { Cep } from '../../../core/models/cep.model';
 export class CharityCreateComponent implements OnInit {
   isLoading = false;
   cep:Cep = undefined;
+  message ='';
+
+  @ViewChild('charityForm') private charityForm: NgForm;
+
+  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z0-9 \]')} };
 
   constructor(private charityService: CharityApiService,
               private alertService:AlertService,
@@ -35,11 +40,14 @@ export class CharityCreateComponent implements OnInit {
         address:{cep:form.value.cep, address_name:form.value.addressName, district:form.value.district, country:form.value.country, state:form.value.state, city:form.value.city, number:form.value.number, complement:form.value.complement}, 
         login:form.value.email, password:form.value.password
       };
+
+      form.resetForm();
     
       this.charityService.postCharity(charity).then(() => {            
-        form.reset();
+        form.resetForm();
+        console.log(form)
         this.isLoading = false;           
-        this.alertService.success('Cadastro realizado com sucesso.'); 
+        this.alertService.success('Cadastro enviado com sucesso para aprovação.'); 
       }).catch(error => {     
         this.alertService.error(error);
         this.isLoading = false;
@@ -51,11 +59,22 @@ export class CharityCreateComponent implements OnInit {
   onCepEvent(event:any){
     let cep:string = event.target.value.replace('-','').substring(0, 9);
 
-    this.cepService.getCep(cep).then(address => {
-        this.cep = address;
-    }).catch(error => {
-      this.cep = { logradouro:'', localidade:'', uf:'', estado:'', bairro:'' };
-    });
+    this.message = '';
+
+    if(cep.length == 8){
+        this.cepService.getCep(cep).then(address => {      
+          if(address.estado == '')
+          {
+            this.message = 'O cep é inválido';            
+            return;
+          }
+
+          this.cep = address;
+      }).catch(error => {
+        console.log(error);
+        this.cep = { logradouro:'', localidade:'', uf:'', estado:'', bairro:'' };
+      });
+    }   
   }
 
 }

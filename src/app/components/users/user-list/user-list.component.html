@@ -1,23 +1,27 @@
-<div id="user-list" class="container p-0 no-gutters" *ngIf="users && users.length > 0">
+<div *ngIf="isLoading">
+  <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div id="user-list" class="container p-0 no-gutters">
 
     <header>
       <div class="row no-gutters">
-        <div class="col-6 col-md-6 col-xs-2">                
+        <div class="col-4 col-md-4 col-xs-2">                
             <a routerLink="../create" class="btn btn-success">Novo Usuário</a>                
         </div>   
     
-        <div class="col-6 col-md-6 col-xs-10">
+        <div class="col-8 col-md-8 col-xs-10">
           <div class="input-group">
-            <input type="search" id="txtSearch" name='search' class="form-control" placeholder="Pesquisar" aria-label="Procurar Usuário" aria-describedby="btnSearch">
+            <input type="search" id="txtSearch" [(ngModel)]="txtSearch" name='search' class="form-control" placeholder="Pesquisar" aria-label="Procurar Usuário" aria-describedby="btnSearch">
             <div class="input-group-append">
-              <button class="btn btn-success" type="button" id="btnSearch"><i class="fa fa-search"></i></button>
+              <button (click)="searchUsers()" class="btn btn-success" type="button" id="btnSearch"><i class="fa fa-search"></i></button>
             </div>
           </div>
         </div>
       </div>
     </header> 
      
-      <div class="table-responsive">
+      <div class="table-responsive" *ngIf="users && users.length > 0">
         <table id="user-table" class="table table-hover">
           <thead>
             <tr>        
@@ -34,10 +38,10 @@
             *ngFor='let user of users | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>    
               <td>{{user.login}}</td>
               <td>{{user.active == true ? 'Sim' : 'Não'}}</td>        
-              <td>{{TranslateUserType(user.type)}}</td>        
-              <td><a href="#"><i class="fa fa-eye"></i></a></td>              
-              <td><a class="btn btn-warning btn-sm" [routerLink]="['../update/', user.id]"><i class="fa fa-edit"></i></a></td>
-              <td><button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+              <td>{{TranslateUserType(user.type)}}</td>                    
+              <td *ngIf="user.type=='ADMINISTRATOR'"><button disabled=true class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button></td>
+              <td *ngIf="user.type!='ADMINISTRATOR'"><a class="btn btn-warning btn-sm" [routerLink]="['../update/', user.id]"><i class="fa fa-edit"></i></a></td>
+              <td><button [disabled]="user.type != 'MANAGER'" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
             </tr>
           </tbody>
         </table>
@@ -53,7 +57,18 @@
           </pagination-controls>
         </div>
       </div>      
-    </div>   
+    </div>  
+    
+    <div class="row no-gutters" id="noUser" *ngIf="users == undefined || users == null || (users && users.length == 0)">
+      <div class="col-12 text-center"  *ngIf="search && errorMessage == '' && ((users && users.length == 0) || users == null)">
+        <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+        <h2 style="font-size: 20px;">Não encontramos nenhum usuário</h2>
+      </div>
+      <div class="col-12 text-center"  *ngIf="errorMessage !=''">
+        <h2 style="font-size: 22px;"><i style="color: red;font-size: 24px;" class="fa fa-warning"></i> Erro</h2>
+        <h3 style="font-size: 20px;">{{errorMessage}}</h3>
+      </div>
+    </div> 
       
   </div>
   

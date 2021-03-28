@@ -52,6 +52,7 @@ export class DonateShoppingComponent implements OnInit, OnDestroy {
     }   
     finally{
       this.hasSearch = true;
+      this.isLoading = false;
     }  
 
     this.itemSubscribe = this.shoppingCartService.itemsObservable().subscribe((_cartItems:Array<CartItem>) => {

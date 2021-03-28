@@ -5,6 +5,6 @@ export interface Item{
     name, 
     description,
     price,
-    image_url
+    image_url,
     group:Group
  }

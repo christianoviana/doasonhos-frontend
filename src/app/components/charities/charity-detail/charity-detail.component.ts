@@ -12,22 +12,30 @@ import { Charity } from '../charity.model';
 })
 export class CharityDetailComponent implements OnInit {
   charity:Charity;
-  isCharityUser = false;
+  isCharityOrManagerUser = false;  
+  isLoading = false;
 
   constructor(private route:ActivatedRoute,
               private charityApi:CharityApiService,
               private authService:AuthApiService) { }
 
   ngOnInit(): void {
-    
-     this.isCharityUser = this.authService.userValue && this.authService.userValue.userType.toUpperCase() == 'CHARITABLE_ENTITY';
-     const id = this.route.snapshot.paramMap.get('id');
+    this.isLoading = true;
 
-     this.charityApi.getCharitiesById(id).then(charity => {
-      this.charity = charity;
-      console.log(this.charity);
-     }).catch(error => {
-     });
+    try {
+      this.isCharityOrManagerUser = this.authService.userValue && (this.authService.userValue.userType.toUpperCase() == 'CHARITABLE_ENTITY' || this.authService.userValue.userType.toUpperCase() == 'MANAGER');
+      const id = this.route.snapshot.paramMap.get('id');
+ 
+      this.charityApi.getCharitiesById(id).then(charity => {
+       this.charity = charity;
+       console.log(this.charity);
+      }).catch(error => {
+      }).finally(()=>{
+        this.isLoading = false;
+      });
+    } catch (error) {
+      this.isLoading = false;
+    }   
   }
 
   getLinkWithProtocol = link => {

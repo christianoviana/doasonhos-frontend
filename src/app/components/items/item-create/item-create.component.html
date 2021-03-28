@@ -20,6 +20,7 @@
     <div class="row">
         <div class="col-12">                             
             <fieldset [disabled]='isLoading'>
+                <p>{{itemCreateForm.value | json}}</p>
                 <h1>Adicionar Item</h1>
                 <form #itemCreateForm='ngForm' (ngSubmit)='onCreateItem(itemCreateForm)'>
                     <div class="form-row">  
@@ -51,7 +52,7 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label for="price"><b>Preço</b></label>
-                            <input type="number" id="price" class="form-control" required ngModel name="price">          
+                            <input type="text" id="price" class="form-control" required ngModel name="price" [dropSpecialCharacters]="false" mask="separator.2" thousandSeparator=".">          
                         </div>        
 
                         <div class="form-group col-8">

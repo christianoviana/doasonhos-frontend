@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthApiService } from '../../services/auth-api.service';
 import { User } from '../../core/models/user.model';
 import { Subscription } from 'rxjs';
+import { CharityApiService } from '../../services/charity-api.service';
+import { Charity } from '../charities/charity.model';
 
 @Component({
   selector: 'app-header',
@@ -12,28 +14,101 @@ export class HeaderComponent implements OnInit {
   fixedNavbar:boolean = false;
   userLogged:User;
   userSubscription:Subscription;
+  charity:Charity;
+  status:string = '';
+  hasInformation = false;
+  isFirst = true;
 
-  constructor(private authService:AuthApiService) { }
+  constructor(private charityApi:CharityApiService,
+              private authService:AuthApiService) { }
 
   ngOnInit(): void {
     this.userLogged = this.authService.userValue;
-    
+       
     this.userSubscription = this.authService.user.subscribe(user => {
       this.userLogged = user;
+
+
+      if(this.isCharity() && !this.isFirst){
+       
+        const id = this.userLogged.ownerId;
+
+        this.charityApi.getCharityStatusById(id).then(charityStatus => {     
+          if(charityStatus){            
+            this.status = charityStatus.status.toUpperCase();
+            this.hasInformation = charityStatus.charity_information;
+          }   
+        }).catch(err => {
+          this.status = '';
+          this.hasInformation = false
+        });
+      }  
     });
+
+    if(this.isCharity()){
+      const id = this.authService.userValue.ownerId;
+      this.charityApi.getCharityStatusById(id).then(charityStatus => {  
+        if(charityStatus){            
+          this.status = charityStatus.status.toUpperCase();
+          this.hasInformation = charityStatus.charity_information;
+        }   
+      }).catch(err => {
+        this.status = '';
+        this.hasInformation = false
+      });
+    } 
+    
+    this.isFirst = false;
   }
 
   isAdmin():boolean{
+    if(!this.userLogged){
+      return false;
+    }
+
     return this.userLogged.userType.toLowerCase() === 'administrator';
   }
 
   isMaster():boolean{
+    if(!this.userLogged){
+      return false;
+    }
+
     return this.userLogged.userType.toLowerCase() === 'administrator' || 
            this.userLogged.userType.toLowerCase() === 'manager';
   }
 
   isCharity():boolean{
+    if(!this.userLogged){
+      return false;
+    }
+
     return this.userLogged.userType.toLowerCase() === 'charitable_entity';
+  }
+
+  isDonor():boolean{
+    if(!this.userLogged){
+      return false;
+    }
+
+    return this.userLogged.userType.toLowerCase() === 'donor_pf' ||
+           this.userLogged.userType.toLowerCase() === 'donor_pj';
+  }
+
+  isDonorPf():boolean{
+    if(!this.userLogged){
+      return false;
+    }
+
+    return this.userLogged.userType.toLowerCase() === 'donor_pf';
+  }
+
+  isDonorPj():boolean{
+    if(!this.userLogged){
+      return false;
+    }
+
+    return this.userLogged.userType.toLowerCase() === 'donor_pj';
   }
 
   getName():string{
@@ -63,8 +138,8 @@ export class HeaderComponent implements OnInit {
   
       return userName;
     }
-    else{
-      if( this.userLogged.userType.toLowerCase() === 'administrator' ){
+    else if(this.userLogged){
+      if(this.userLogged.userType.toLowerCase() === 'administrator' ){
         return this.userLogged.userName + ' (Administrador)'; 
       }
       else if( this.userLogged.userType.toLowerCase() === 'manager' ){

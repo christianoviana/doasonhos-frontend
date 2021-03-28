@@ -5,8 +5,7 @@
             <app-loading></app-loading>
         </div>
              
-        <form #signUpForm='ngForm' (ngSubmit)='onSignUp(signUpForm)' id="signup-form">
-            
+        <form #signUpForm='ngForm' (ngSubmit)='onSignUp(signUpForm)' id="signup-form" novalidate autocomplete="off">
             <app-alert></app-alert>
             <p *ngIf='hasSuccessRegistered' style="text-align: center;"><a [routerLink]="[ '/oauth/login']">Obaa!! Clique aqui para entrar</a></p>  
                     
@@ -15,7 +14,7 @@
                     <h3>Doador ({{registerType === 'PF'?'Pessoa Física':'Pessoa Jurídica'}})</h3>                  
                 </div>
                 <div class="form-group col-md-4 col-sm-12">
-                    <select (change)="registerType = $event.target.value" class="form-control" name="donorType" id="donorType"> 
+                    <select (change)="registerType = $event.target.value;signUpForm.resetForm()" class="form-control" name="donorType" id="donorType"> 
                         <option selected value="PF">Pessoa Física</option>
                         <option value="PJ">Pessoa Jurídica</option>
                     </select>                  
@@ -27,71 +26,115 @@
             <div class="form-row" *ngIf="registerType === 'PF'">              
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="name">Nome *</label>
-                    <input type="text" required ngModel name="name" id="name" class="form-control is-invalid">
-                      <div class="invalid-feedback">
-                        Looks good!
-                      </div>
+                    <input type="text" #name='ngModel' [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" required minlength="3" maxlength="100" ngModel name="name" id="name" class="form-control"
+                        [ngClass]="{'is-invalid': (name.dirty || name.touched) && name.invalid, 'is-valid': (name.dirty || name.touched) && name.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        O nome deve ter entre 3 e 100 caracteres
+                    </div>
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="cpf">CPF *</label>
-                    <input type="text" required ngModel name="cpf" id="cpf" class="form-control">
+                    <input #cpf='ngModel' type="text" required ngModel name="cpf" id="cpf" class="form-control" [dropSpecialCharacters]="false" mask="000.000.000-00"
+                    [ngClass]="{'is-invalid': (cpf.dirty || cpf.touched) && cpf.invalid, 'is-valid': (cpf.dirty || cpf.touched) && cpf.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        O cnpj é obrigatório
+                    </div>
                 </div>
             </div>
 
             <div class="form-row" *ngIf="registerType === 'PF'">   
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="birthday">Data de Nascimento *</label>
-                    <input type="date" required ngModel name="birthday" id="birthday" class="form-control">
+                    <input #date='ngModel' type="date" required ngModel name="birthday" id="birthday" class="form-control"
+                    [ngClass]="{'is-invalid': (date.dirty || date.touched) && date.invalid, 'is-valid': (date.dirty || date.touched) && date.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        data inválida
+                    </div>
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="genre">Sexo *</label>
-                    <select required ngModel name="genre" id="genre" class="form-control">                         
-                        <option selected value="">Selecione...</option>
+                    <select #genre='ngModel' required ngModel='' name="genre" id="genre" class="form-control"
+                         [ngClass]="{'is-invalid': (genre.dirty || genre.touched) && (genre.invalid || (genre.valid && genre.value=='')), 'is-valid': (genre.dirty || genre.touched) && genre.valid}"
+                    >                      
                         <option value="feminino">Feminino</option>
                         <option value="masculino">Masculino</option>
-                        <option value="indefinido">Indefinido</option>
+                        <option value="outros">Outros</option>
                     </select>
+                   
+                    <div class="invalid-feedback">
+                        O gênero é obrigatório
+                    </div>
                 </div>    
             </div>
 
             <div class="form-row" *ngIf="registerType === 'PJ'">              
                 <div class="form-group col-12">
                     <label for="companyName">Nome da Empresa *</label>
-                    <input type="text" required ngModel name="companyName" id="companyName" class="form-control is-valid">
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
+                    <input #companyName='ngModel' type="text"  [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" required minlength="3" maxlength="100" ngModel name="companyName" id="companyName" class="form-control"
+                    [ngClass]="{'is-invalid': (companyName.dirty || companyName.touched) && companyName.invalid, 'is-valid': (companyName.dirty || companyName.touched) && companyName.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        O nome deve ter entre 3 e 100 caracteres
+                    </div>
                 </div>             
             </div>
 
             <div class="form-row" *ngIf="registerType === 'PJ'">              
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="contactName">Nome Representante *</label>
-                    <input type="text" required ngModel name="contactName" id="contactName" class="form-control is-invalid">
-                      <div class="invalid-feedback">
-                        Looks good!
-                      </div>
+                    <input #contact='ngModel' type="text"  [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" required minlength="3" maxlength="100" ngModel name="contactName" id="contactName" class="form-control"
+                    [ngClass]="{'is-invalid': (contact.dirty || contact.touched) && contact.invalid, 'is-valid': (contact.dirty || contact.touched) && contact.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        O nome deve ter entre 3 e 100 caracteres
+                    </div>
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="cnpj">CNPJ *</label>
-                    <input type="text" required ngModel name="cnpj" id="cnpj" class="form-control">
+                    <input type="text" #cnpj='ngModel' required ngModel name="cnpj" id="cnpj" class="form-control" [dropSpecialCharacters]="false" mask="00.000.000/0000-00" #cnpj='ngModel' 
+                         [ngClass]="{'is-invalid': (cnpj.dirty || cnpj.touched) && cnpj.invalid, 'is-valid': (cnpj.dirty || cnpj.touched) && cnpj.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        O cnpj é obrigatório
+                    </div>
                 </div>
             </div>
 
             <div class="form-row"> 
                 <div class="form-group col-md-5 col-sm-12">
                     <label for="country">País *</label>
-                    <select required ngModel="BR" name="country" id="country" class="form-control">
-                        <option selected value="BR">Brasil</option>
+                    <select #country='ngModel' required ngModel="" name="country" id="country" class="form-control"
+                        [ngClass]="{'is-invalid': (country.dirty || country.touched) && (country.invalid || (country.valid && country.value=='')), 'is-valid': (country.dirty || country.touched) && country.valid}"
+                    >                      
+                        <option value="BR">Brasil</option>
                     </select>
+                    <div class="invalid-feedback">
+                        O país é obrigatório
+                    </div>     
                 </div> 
                 <div class="form-group col-md-2 col-sm-12">
                     <label for="state">Estado *</label>
-                    <input type="text" required ngModel name="state" id="state" class="form-control">
+                    <select #state='ngModel' id="state" ngModel class="form-control" name="state"
+                        [ngClass]="{'is-invalid': (state.dirty || state.touched) && (state.invalid || (state.valid && (state.value==null || state.value==''))), 'is-valid': (state.dirty || state.touched) && (state.valid && state.value!='')}"
+                    >                
+                        <option [value]='state.initial' *ngFor='let state of States'>{{state.initial}}</option>
+                        
+                    </select>   
+                    <div class="invalid-feedback">
+                        O estado é obrigatório
+                    </div>                              
                 </div>  
                 <div class="form-group col-md-5 col-sm-12">
                     <label for="city">Cidade *</label>
-                    <input type="text" required ngModel name="city" id="city" class="form-control">
+                    <input #city='ngModel' type="text" minlength="3" maxlength="200" [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" required ngModel name="city" id="city" class="form-control"
+                    [ngClass]="{'is-invalid': (city.dirty || city.touched) && city.invalid, 'is-valid': (city.dirty || city.touched) && city.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        A cidade deve ter entre 3 e 200 caracteres
+                    </div>
                 </div>                          
             </div>
 
@@ -100,25 +143,40 @@
             <div class="form-row">
                 <div class="form-group col-md-12 col-sm-12">
                     <label for="email">E-mail *</label>
-                    <input type="email" required ngModel name="email" id="email" class="form-control" placeholder="digite o seu melhor email">
+                    <input #email='ngModel' minlength="3" maxlength="60" type="email" required ngModel name="email" id="email" class="form-control" placeholder="digite o seu melhor email"
+                    [ngClass]="{'is-invalid': (email.dirty || email.touched) && email.invalid, 'is-valid': (email.dirty || email.touched) && email.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        O email deve ser válido
+                    </div>
                 </div>                               
             </div>  
 
             <div class="form-row"> 
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="password">Senha *</label>
-                    <input type="password" required ngModel name="password" id="password" class="form-control" placeholder="digite a senha">
+                    <input #password='ngModel' minlength="6" maxlength="20" type="password" required ngModel name="password" id="password" class="form-control" placeholder="digite a senha"
+                        [ngClass]="{'is-invalid': (password.dirty || password.touched) && password.invalid, 'is-valid': (password.dirty || password.touched) && password.valid}"
+                    >
+                    <div class="invalid-feedback">
+                        A senha deve ter entre 6 e 20 caracteres
+                    </div>
                 </div>                     
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="confirmPassword">Confirme a Senha *</label>
-                    <input type="password" required ngModel name="confirmPassword" id="confirmPassword" class="form-control" placeholder="confirme a senha">
+                    <input #confirmPassword='ngModel' minlength="6" maxlength="20" type="password" required ngModel name="confirmPassword" id="confirmPassword" class="form-control" placeholder="confirme a senha"
+                    [ngClass]="{'is-invalid': (confirmPassword.dirty || confirmPassword.touched) && (password.invalid || (confirmPassword.value != password.value && password.valid)), 'is-valid': (password.dirty || password.touched) && password.valid && confirmPassword.value == password.value}"
+                    >
+                    <div class="invalid-feedback">
+                        A senha tem menos 6 caracteres ou as senhas são diferentes
+                    </div>
                 </div>
             </div>       
 
             <div class="text-center" id="login-buttons">
                 <button 
                     class="btn btn-primary btn-large-width"
-                    [disabled]="!signUpForm.valid"
+                    [disabled]="!signUpForm.valid || confirmPassword.value != password.value"
                     >
                     Cadastrar <i class="fa fa-save"></i></button>
                 <hr>

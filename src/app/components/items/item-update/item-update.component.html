@@ -19,9 +19,9 @@
 
     <div class="row">
         <div class="col-12">                             
-            <fieldset [disabled]='isLoading' *ngIf="item">
+            <fieldset [disabled]='isLoading' *ngIf="item">               
                 <h1>Atualizar Item</h1>
-                <form #itemUpdateForm='ngForm' (ngSubmit)='onUpdateItem(itemUpdateForm)'>
+                <form #itemUpdateForm='ngForm' (ngSubmit)='onUpdateItem(itemUpdateForm)'>                  
                     <div class="form-row">  
                         <div class="form-group text-center col-12">
                             <label id="thumbnail">                                          
@@ -52,7 +52,7 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label for="price"><b>Preço</b></label>
-                            <input type="number" id="price" class="form-control" required [(ngModel)]='item.price' name="price">          
+                            <input type="text" id="price" class="form-control" required [(ngModel)]="item.price" name="price" mask="separator.2" thousandSeparator=".">          
                         </div>
     
                         <div class="form-group col-8">
@@ -61,10 +61,16 @@
                                 <option [value]="group.id" *ngFor="let group of groups">{{group.name}}</option>
                             </select>           
                         </div>
-                    </div>                  
+                    </div>      
+                    
+                    <div class="form-row">
+                        <div class="form-group col-12">                                                   
+                            <label for="activated"><b>Ativo: </b> <input type="checkbox" id="activated" [(ngModel)]='item.activated' name="activated"></label>
+                        </div>                                
+                    </div>           
                     
                     <div id="btn-controls" class="text-center">
-                        <button type="submit" id="btn-save" class="btn btn-success" [disabled]='!itemUpdateForm.valid'>Atualizar <i class="fa fa-save"></i></button>
+                        <button type="submit" id="btn-save" class="btn btn-success" [disabled]='!itemUpdateForm.valid || itemUpdateForm.pristine'>Atualizar <i class="fa fa-save"></i></button>
                     </div>
                   
                 </form>  

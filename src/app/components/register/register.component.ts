@@ -5,6 +5,8 @@ import { RegisterApiService } from '../../services/register-api.service';
 import { DonorPF } from './donor-pf.model';
 import { DonorPJ } from './donor-pj.model';
 import { AlertService } from '../../services/alert.service';
+import { IbgeApiService } from '../../services/ibge.service';
+import { State } from '../../core/models/state.model';
 
 @Component({
   selector: 'app-register',
@@ -12,16 +14,23 @@ import { AlertService } from '../../services/alert.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
+  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z0-9 \]')} };
   registerType = 'PF';
   isLoading = false;
-  hasSuccessRegistered = false;
+  hasSuccessRegistered = false;  
+  States:Array<State>;
 
   constructor(private router:Router,
               private registerApi:RegisterApiService,
-              private alertService:AlertService) { }
+              private alertService:AlertService,
+              private ibgeService:IbgeApiService) { }
 
   ngOnInit(): void {
+    this.ibgeService.getStates().then(res => {
+      this.States = <State[]>res;
+  }).catch(err => {   
+    console.log(err);     
+  });  
   }
 
   onLogin():void{
@@ -37,7 +46,7 @@ export class RegisterComponent implements OnInit {
 
       if(this.registerType == 'PF'){
         let donorPF:DonorPF = { name:form.value.name, cpf:form.value.cpf, birthday: form.value.birthday, 
-                                genre:form.value.genre, country:form.value.country, state:form.value.state, 
+                                genre:form.value.genre, country:'BR', state:form.value.state, 
                                 city:form.value.city, login:form.value.email, password:form.value.password }
 
         this.registerApi.postDonorPF(donorPF).then(() => {

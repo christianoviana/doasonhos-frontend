@@ -1,0 +1,45 @@
+
+.searchName{
+    max-width: 500px;
+    margin: 0px auto;
+    padding: 5px;
+}
+
+#charityPagination{
+    margin-top: 20px;
+}
+
+#noCharityInfo{
+    margin-top: 20px;
+    height: 150px;
+}
+
+#searchCharity{
+    margin-top: 40px;
+}
+
+.clearfix > a {
+    color: black;
+}
+
+#charities{
+    text-align: center;
+}
+
+
+#charityContainer{
+    min-height: 180px;
+    max-height: 300px;
+    max-width: 500px;
+    margin: 10px auto;    
+    overflow-y: auto;
+}
+
+.orange-border{
+    border: 1px solid orange;
+}
+
+.card li:hover{
+   background-color: #F8F9F9;
+   cursor: pointer;
+}

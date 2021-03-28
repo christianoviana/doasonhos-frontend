@@ -19,12 +19,12 @@ export class UserCreateComponent implements OnInit {
     if(createForm.valid){
       this.isLoading = true;
 
-      let user = {id:null, login:createForm.value.login, active:createForm.value.active };
+      let user = {id:null, login:createForm.value.login, password:createForm.value.password, type:'MANAGER' };
     
       this.userService.postUser(user).then(() => {            
         createForm.reset();
         this.isLoading = false;           
-        this.alertService.success('Cadastro realizado com sucesso.'); 
+        this.alertService.success('Gerente cadastrado com sucesso.'); 
       }).catch(error => {     
         this.alertService.error(error);
         this.isLoading = false;

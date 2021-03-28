@@ -1,0 +1,15 @@
+#update-form{
+    padding: 20px;
+    background-color: #fff;
+    max-width: 800px;
+    margin: 40px auto;
+    border-radius: 10px;
+}
+
+#login-buttons{
+    margin-top: 20px;
+}
+
+.btn-large-width{
+    width: 300px;
+}

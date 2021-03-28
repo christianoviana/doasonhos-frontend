@@ -96,15 +96,15 @@
                     </div>       
                     <div class="row" *ngIf="newStatus=='PENDING_DATA' || newStatus=='REPROVED'">                       
                         <div class="col-md-12">
-                            <textarea maxlength="200" rows="2" placeholder="Mensagem" required style="width: 100%;resize: none;text-align: center;margin-top: 10px;"></textarea>
+                            <textarea [(ngModel)]="message" maxlength="200" rows="2" placeholder="Mensagem" required style="width: 100%;resize: none;text-align: center;margin-top: 10px;"></textarea>
                         </div>                                            
                     </div>                                       
                 </div>
                 <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->  
                     <div class="row no-gutters" style="width: 100%;">
-                        <div class="col-12">
-                            <button [disabled]='newStatus==""' (click)="charityChangeStatus(selectedCharity, newStatus)" type="button" class="btn btn-success btn-approve">Atualizar <i class="fa fa-save"></i></button>
+                        <div class="col-12">                          
+                            <button [disabled]='newStatus=="" || ((message == null || message == undefined || message=="") && (newStatus=="PENDING_DATA" || newStatus=="REPROVED"))'  (click)="charityChangeStatus(selectedCharity, newStatus)" type="button" class="btn btn-success btn-approve" data-dismiss="modal">Atualizar <i class="fa fa-save"></i></button>
                         </div>                                           
                     </div>                                                                                          
                 </div>

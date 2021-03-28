@@ -1,0 +1,22 @@
+#donationPagination{
+    margin-top: 20px;
+}
+
+#donation-list{
+    box-sizing: border-box; 
+    min-height: 400px;
+    margin: 0px 20px;
+}
+
+#donation-table{
+    background-color: #fff;   
+}
+
+header > h2{
+    margin: 30px 0px;
+}
+
+.modal-body{
+    max-height: 300px;
+    overflow-y: auto;
+}

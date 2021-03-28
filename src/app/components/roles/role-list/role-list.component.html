@@ -1,23 +1,18 @@
-<div id="role-list" class="container p-0 no-gutters" *ngIf="roles && roles.length > 0">
+<div *ngIf="isLoading">
+  <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div id="role-list" class="container p-0 no-gutters">
 
     <header>
       <div class="row no-gutters">
-        <div class="col-6 col-md-6 col-xs-2">                
+        <div class="col-12 col-md-12 col-xs-12">                
             <a routerLink="../create" class="btn btn-success">Nova Regra</a>                
         </div>   
-    
-        <div class="col-6 col-md-6 col-xs-10">
-          <div class="input-group">
-            <input type="search" id="txtSearch" name='search' class="form-control" placeholder="Pesquisar" aria-label="Procurar Regra" aria-describedby="btnSearch">
-            <div class="input-group-append">
-              <button class="btn btn-success" type="button" id="btnSearch"><i class="fa fa-search"></i></button>
-            </div>
-          </div>
-        </div>
       </div>
     </header> 
       
-    <div class="table-responsive">
+    <div class="table-responsive" *ngIf="roles && roles.length > 0">
       <table id="role-table" class="table table-hover">
         <thead>
           <tr>        
@@ -33,7 +28,8 @@
             <td>{{role.name}}</td>
             <td>{{role.description}}</td>        
             <td><a class="btn btn-warning btn-sm" [routerLink]="['../update/', role.id]"><i class="fa fa-edit"></i></a></td>
-            <td><button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+           
+            <td><button (click)="setRoleToDelete(role)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -49,6 +45,45 @@
           </pagination-controls>
         </div>
       </div>           
+  </div>
+
+  <div class="row no-gutters" id="noRole" *ngIf="roles == undefined || roles == null || (roles && roles.length == 0)">
+    <div class="col-12 text-center"  *ngIf="search && errorMessage == '' && ((roles && roles.length == 0) || roles == null)">
+      <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
+      <h2 style="font-size: 20px;">Não encontramos nenhuma regra</h2>
+    </div>
+    <div class="col-12 text-center"  *ngIf="errorMessage !=''">
+      <h2 style="font-size: 22px;"><i style="color: red;font-size: 24px;" class="fa fa-warning"></i> Erro</h2>
+      <h3 style="font-size: 20px;">{{errorMessage}}</h3>
+    </div>
+  </div> 
+
+
+  <div>               
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Excluir Regra</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body" *ngIf='selectedRoleToDelete'>     
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>Tem certeza que deseja excluir o grupo "<b>{{selectedRoleToDelete.name > 25 ? (selectedGroupToDelete.name | slice:0:25) + '..' : selectedRoleToDelete.name }}</b>" ?</p>
+                    </div>                       
+                </div>                                                                                                     
+            </div>
+            <div class="modal-footer">             
+              <button (click)="deleteRole(selectedRoleToDelete)" type="button" class="btn btn-success" data-dismiss="modal" aria-label="Yes">Sim</button>                           
+              <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="No">Não</button>   
+            </div>
+        </div>
+        </div>
+    </div>
   </div>
   
   

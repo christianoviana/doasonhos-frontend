@@ -37,8 +37,7 @@
                     
                 <div *ngIf='filteredItems && filteredItems.length > 0' [ngClass]="{'gray-border': filteredItems && filteredItems.length > 0}" style="max-height: 200px; overflow-y:auto;margin-top: 20px;">
                     <li class="list-group">
-                        <ul class="list-group-item"><span><input #chkAllItems (click)='onAllItems(chkAllItems.checked)' class="chk-all-item" type="checkbox"></span> Selecionar Todos</ul>
-                        <ul #lstItems [id]="index" *ngFor="let item of filteredItems; let index = index" class="list-group-item"><span><input [id]="item.id" (click)='onCheckItems($event.target)' class="chk-item" type="checkbox"></span> {{item.name}}</ul>
+                        <ul #lstItems [id]="index" *ngFor="let item of filteredItems; let index = index" class="list-group-item"><span><input [id]="item.id" (click)='onCheckItems($event.target)' class="chk-item" type="checkbox"></span> {{item.name}} <span class="badge badge-dark" *ngIf="item.price > 0">{{ item.price | currency:'BRL' }}</span></ul>
                     </li> 
                 </div>                          
             </div>        
@@ -47,11 +46,14 @@
                 <div class="text-center"> 
                     <label for="about"><b>Meus Itens</b></label>
                     
-                    <div style="max-height: 305px; overflow-y:auto;border: 1px solid lightgrey;" class="text-center"> 
+                    <div *ngIf='myItems && myItems.length > 0' style="max-height: 305px; overflow-y:auto;border: 1px solid lightgrey;" class="text-center"> 
                         <li class="list-group">
-                            <ul [id]='item.id' class="list-group-item" *ngFor="let item of myItems">{{item.name}} <span class="badge" [ngClass]="{'badge-info': item.price == 0, 'badge-success': item.price > 0}">{{item.price > 0 ? 'online' : 'presencial'}}</span></ul>
+                            <ul [id]='item.id' class="list-group-item" *ngFor="let item of myItems">{{item.name}} <span class="badge badge-dark" *ngIf="item.price > 0">{{ item.price | currency:'BRL' }}</span><span style="margin-left: 2px;" class="badge" [ngClass]="{'badge-info': item.price == 0, 'badge-success': item.price > 0}">{{item.price > 0 ? 'online' : 'presencial'}}</span></ul>
                         </li>    
-                        <p style="margin-bottom: 0px;padding: 5px;" *ngIf="myItems == undefined || myItems.length == 0"><i class="fa fa-warning" style="color: orangered;"></i> Nenhum Item Encontrado!</p>
+                    </div> 
+
+                    <div *ngIf='myItems == null || myItems == undefined || myItems.length == 0' style="max-height: 305px; overflow-y:auto;border: 1px solid lightgrey;" class="text-center">                        
+                        <p style="margin-bottom: 0px;padding: 5px;" *ngIf="myItems == undefined || myItems.length == 0"><i class="fa fa-warning" style="color: orangered;"></i> Nenhum Item Adicionado!</p>
                     </div> 
                 </div>                    
             </div>                              
@@ -60,7 +62,7 @@
         <div class="text-center" id="login-buttons">
             <button 
                 class="btn btn-primary btn-large-width"
-                [disabled]="!charityItemForm.valid"
+                [disabled]="!charityItemForm.valid || myItems==null || myItems==undefined ||  myItems.length == 0"
                 >
                 Salvar <i class="fa fa-save"></i></button>             
         </div>                     

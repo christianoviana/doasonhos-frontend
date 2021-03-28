@@ -1,3 +1,7 @@
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
 <div *ngIf="charity">    
    
     <div class="container p-0">   
@@ -12,17 +16,17 @@
         </div>
 
         <div class="header row no-gutters">
-            <div id="picture" class="col-md-4 col-xs-12">
+            <div id="picture" class="col-md-4 col-xs-12 text-center">
                 <img [src]='charity.information.picture_url' *ngIf="charity.information && charity.information.picture_url!=undefined">
             </div>
-            <div id="main_information" class="col-md-4 col-xs-12">
+            <div id="main_information" class="col-md-4 col-xs-12 text-center">
                
                     <p><b>CNPJ: </b>{{charity.cnpj}}</p>
                     <p><b><i class="fa fa-phone"></i></b> {{charity.telephone}}</p>
                     <p><b><i class="fa fa-mobile"></i></b> {{charity.cellphone}}</p>  
             </div>
 
-            <div id="main_information" class="col-md-4 col-xs-12">                
+            <div id="main_information" class="col-md-4 col-xs-12 text-center">                
                     <p><b>Endereço: </b>{{charity.address.address_name}}</p>                        
                     <p><b>Cidade: </b>{{charity.address.city}}</p>                        
                     <p><b>Estado: </b>{{charity.address.state}}</p>                        
@@ -39,11 +43,11 @@
             </div>
 
             <div id="donate" class="col-12 text-center">
-                <a *ngIf='!isCharityUser' class="btn btn-warning" id="btn-donate" [routerLink]="['/donations', charity.id]"><b>Doar Agora </b><i class="fa fa-credit-card"></i></a>
-                <button *ngIf='isCharityUser' [disabled]='isCharityUser' id="btn-donate" class="btn btn-warning"><b>Doar Agora </b><i class="fa fa-credit-card"></i></button>
+                <a *ngIf='!isCharityOrManagerUser' class="btn btn-warning" id="btn-donate" [routerLink]="['/donations', charity.id]"><b>Doar Agora </b><i class="fa fa-credit-card"></i></a>
+                <button *ngIf='isCharityOrManagerUser' [disabled]='isCharityOrManagerUser' id="btn-donate" class="btn btn-warning"><b>Doar Agora </b><i class="fa fa-credit-card"></i></button>
             </div>
 
-            <div id="about" class="row p-0 no-gutters">
+            <div id="about" class="row p-0 no-gutters text-center">
                 <div class="col-md-6 col-xs-12">   
                     <p style="text-align: center;"><b>Sobre</b></p>
                    <p style="padding: 10px;margin: 10px;">{{charity.information.about}}</p>
@@ -76,7 +80,7 @@
         </div>
 
         <div id="transparecy">
-            <div class="row p-0 no-gutters">                                
+            <div class="row p-0 no-gutters text-center">                                
                 <div class="col-md-6 col-xs-12">
                    <p style="text-align: center;"><b>Gerenciamento</b></p>
                    <p style="padding: 10px;margin: 10px;">{{charity.information.manager_description}}</p>

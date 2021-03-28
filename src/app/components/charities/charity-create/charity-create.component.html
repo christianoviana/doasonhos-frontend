@@ -3,54 +3,73 @@
 </div>
 
 <div id="charity" class="container no-gutters">          
-    <form #charityForm='ngForm' (ngSubmit)='onSaveCharity(charityForm)' id="charity-form">
-        
+    <form autocomplete="off"  #charityForm='ngForm' (ngSubmit)='onSaveCharity(charityForm)' id="charity-form" novalidate>
         <app-alert></app-alert>
-                    
+
         <h3>Cadastrar Entidade</h3>                                                                   
         
         <hr>
-       
+    
         <div class="form-row">              
-            <div class="form-group col-md-9 col-sm-12">
+            <div class="form-group col-md-8 col-sm-12">
                 <label for="name">Nome da Entidade *</label>
-                <input type="text" required ngModel name="name" id="name" class="form-control is-valid">
-                  <div class="valid-feedback">
-                    Looks good!
-                  </div>
+                <input type="text"  [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" #name='ngModel' required minlength="3" maxlength="100" ngModel name="name"
+                    [ngClass]="{'is-invalid': (name.dirty || name.touched) && name.invalid, 'is-valid': (name.dirty || name.touched) && name.valid}" id="name" class="form-control"
+                >
+                <div class="invalid-feedback">
+                    O nome deve ter entre 3 e 100 caracteres
+                </div>
             </div>   
-            <div class="form-group col-md-3 col-sm-12">
+            <div class="form-group col-md-4 col-sm-12">
                 <label for="cnpj">CNPJ *</label>
-                <input type="text" required ngModel name="cnpj" id="cnpj" class="form-control">
+                <input type="text" required ngModel name="cnpj" id="cnpj" class="form-control" [dropSpecialCharacters]="false" mask="00.000.000/0000-00" #cnpj='ngModel' [ngClass]="{'is-invalid': (cnpj.dirty || cnpj.touched) && cnpj.invalid, 'is-valid': (cnpj.dirty || cnpj.touched) && cnpj.valid}">
+                <div class="invalid-feedback">
+                    O cnpj é obrigatório
+                </div>
             </div>            
         </div>
 
         <div class="form-row">             
             <div class="form-group col-md-6 col-sm-12">
                 <label for="representantName">Nome Representante *</label>
-                <input type="text" required ngModel name="representantName" id="representantName" class="form-control is-invalid">
-                  <div class="invalidfeedback">
-                    Looks good!
+                <input type="text" [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" #representant='ngModel' required minlength="3" maxlength="100" required ngModel name="representantName" id="representantName" class="form-control" 
+                        [ngClass]="{'is-invalid': (representant.dirty || representant.touched) && representant.invalid, 'is-valid': (representant.dirty || representant.touched) && representant.valid}"
+                >
+                  <div class="invalid-feedback">
+                    O nome deve ter entre 3 e 100 caracteres
                   </div>
             </div>   
+
             <div class="form-group col-md-3 col-sm-12">
                 <label for="telphone">Telefone *</label>
-                <input type="text" required ngModel name="telephone" id="telephone" class="form-control">
+                <input type="text" #tel='ngModel' required ngModel name="telephone" id="telephone" class="form-control" [dropSpecialCharacters]="false" mask="(00) 0000-0000"
+                    [ngClass]="{'is-invalid': (tel.dirty || tel.touched) && tel.invalid, 'is-valid': (tel.dirty || tel.touched) && tel.valid}"
+                >
+                <div class="invalid-feedback">
+                    O telefone é obrigatório
+                </div>
             </div>   
 
             <div class="form-group col-md-3 col-sm-12">
                 <label for="cellphone">Celular *</label>
-                <input type="text" required ngModel name="cellphone" id="cellphone" class="form-control is-invalid">
-                  <div class="invalid-feedback">
-                    Looks good!
-                  </div>
+                <input type="text"  #cel='ngModel' required ngModel name="cellphone" id="cellphone" class="form-control is-invalid" [dropSpecialCharacters]="false" mask="(00) 0 0000-0000" 
+                    [ngClass]="{'is-invalid': (cel.dirty || cel.touched) && cel.invalid, 'is-valid': (cel.dirty || cel.touched) && cel.valid}"
+                >
+                <div class="invalid-feedback">
+                    O celular é obrigatório
+                </div>
             </div>           
         </div>
 
         <div class="form-row"> 
             <div class="form-group col-md-12 col-sm-12">
                 <label for="cep">CEP *</label>
-                <input maxlength="9" (blur)="onCepEvent($event)" type="text" required ngModel name="cep" id="cep" class="form-control">
+                <input maxlength="9" #cepNumber='ngModel' (blur)="onCepEvent($event)" type="text" required ngModel name="cep" id="cep" class="form-control" [dropSpecialCharacters]="false" mask='00000-000'
+                [ngClass]="{'is-invalid': (cepNumber.dirty || cepNumber.touched) && (cepNumber.invalid || cepNumber.valid && message!=''), 'is-valid': (cepNumber.dirty || cepNumber.touched) && cepNumber.valid && message==''}"
+                >
+                <div class="invalid-feedback">
+                    O cep é inválido
+                </div>
             </div>                                    
         </div>
 
@@ -95,29 +114,44 @@
         <div class="form-row">
             <div class="form-group col-md-12 col-sm-12">
                 <label for="email">E-mail *</label>
-                <input type="email" required ngModel name="email" id="email" class="form-control" placeholder="digite o seu melhor email">
+                <input #email='ngModel' minlength="3" maxlength="60" type="email" required ngModel name="email" id="email" class="form-control" placeholder="digite o seu melhor email"
+                    [ngClass]="{'is-invalid': (email.dirty || email.touched) && email.invalid, 'is-valid': (email.dirty || email.touched) && email.valid}"
+                >
+                <div class="invalid-feedback">
+                    O email deve ser válido
+                </div>
             </div>                               
         </div>  
 
         <div class="form-row"> 
             <div class="form-group col-md-6 col-sm-12">
                 <label for="password">Senha *</label>
-                <input type="password" required ngModel name="password" id="password" class="form-control" placeholder="digite a senha">
+                <input #password='ngModel' minlength="6" maxlength="20" type="password" required ngModel name="password" id="password" class="form-control" placeholder="digite a senha"
+                [ngClass]="{'is-invalid': (password.dirty || password.touched) && password.invalid, 'is-valid': (password.dirty || password.touched) && password.valid}"
+                >
+                <div class="invalid-feedback">
+                    A senha deve ter entre 6 e 20 caracteres
+                </div>
             </div>                     
             <div class="form-group col-md-6 col-sm-12">
                 <label for="confirmPassword">Confirme a Senha *</label>
-                <input type="password" required ngModel name="confirmPassword" id="confirmPassword" class="form-control" placeholder="confirme a senha">
+                <input #confirmPassword='ngModel' minlength="6" maxlength="20" type="password" required ngModel name="confirmPassword" id="confirmPassword" class="form-control" placeholder="confirme a senha"
+                [ngClass]="{'is-invalid': (confirmPassword.dirty || confirmPassword.touched) && (password.invalid || (confirmPassword.value != password.value && password.valid)), 'is-valid': (password.dirty || password.touched) && password.valid && confirmPassword.value == password.value}"
+                >
+                <div class="invalid-feedback">
+                    A senha tem menos 6 caracteres ou as senhas são diferentes
+                </div>
             </div>
         </div>       
 
         <div class="text-center" id="login-buttons">
             <button 
                 class="btn btn-primary btn-large-width"
-                [disabled]="!charityForm.valid"
+                [disabled]="!charityForm.valid || confirmPassword.value != password.value"
                 >
                 Cadastrar <i class="fa fa-save"></i></button>
             <hr>
-            <button class="btn btn-success">Acompanhar Solicitação <i class="fa fa-check"></i></button>               
+            <a [routerLink]="[ '/pendings/detail']" class="btn btn-success">Acompanhar Solicitação <i class="fa fa-check"></i></a>               
         </div>                     
     </form>
 </div>

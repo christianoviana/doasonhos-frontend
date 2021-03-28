@@ -31,27 +31,39 @@ export class CharityInformationUpdateComponent implements OnInit {
               private router: Router) { }
 
   async ngAfterViewInit() {
-    const id = this.authService.userValue && this.authService.userValue.ownerId;
-
-    if(id){      
-      this.charity = await this.charityApi.getCharitiesRestrictedById(id);
-      this.charityInfo = this.charity.information;
-      
-      this.fileUrl = this.charityInfo.picture_url;
-      this.imageOneUrl = this.charityInfo.image01_url;
-      this.imageTwoUrl = this.charityInfo.image02_url;
-      
-      if(this.charity.information == null && this.charity.status.toUpperCase() == 'APPROVED'){
-        this.router.navigate(['/charities/information/create']);
-      }
-      else if(this.charity.information != null && this.charity.status.toUpperCase() != 'APPROVED'){
-        this.router.navigate(['/charities/information']);
-      }
-    }      
+    
   }
 
-  ngOnInit(): void {
-   
+  async ngOnInit() {
+    this.isLoading = true;
+
+    try {
+      const id = this.authService.userValue && this.authService.userValue.ownerId;
+
+      if(id){      
+        this.charity = await this.charityApi.getCharitiesRestrictedById(id);
+
+        if(this.charity != null && this.charity != undefined){
+          this.charityInfo = this.charity.information;
+        
+          if(this.charity.information == null && this.charity.status.toUpperCase() == 'APPROVED'){
+            this.router.navigate(['/charities/information/create']);
+          }
+          else if(this.charity.information != null && this.charity.status.toUpperCase() != 'APPROVED'){
+            this.router.navigate(['/charities/information']);
+          }
+
+          this.fileUrl = this.charityInfo.picture_url;
+          this.imageOneUrl = this.charityInfo.image01_url;
+          this.imageTwoUrl = this.charityInfo.image02_url;                  
+        }   
+      }      
+    } catch (error) {
+      
+    }finally{
+      this.isLoading = false;
+    }
+    
   }
 
   onSaveCharityInfo(charityInfoForm:NgForm){

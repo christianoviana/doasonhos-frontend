@@ -18,17 +18,22 @@ export class PendingApproveComponent implements OnInit {
   total = 0;
   newStatus = '';  
   isLoading = false;
+  message:any;
 
   constructor(private charityApi:CharityApiService,
               private authService:AuthApiService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.charityApi.getCharityPendingsByState().then(res => {
       this.pendingCharities = res;
       this.total = this.pendingCharities.map(p=>p.charities.length).reduce((accumulate, current) => accumulate + current);
       this.hasSearch = true;
     }).catch(err => {
       console.log(err);    
+    }).finally(() => {
+      this.isLoading = false;
     });
   }
 
@@ -42,9 +47,19 @@ export class PendingApproveComponent implements OnInit {
 
     this.userLogged = this.authService.userValue;
     
-    let approveData = {message:this.getStatus(status), details:'', status:status, approver_name:this.userLogged.userName};
+    let approveData = {message:this.getStatus(status), details:this.message, status:status, approver_name:this.userLogged.userName};
     this.charityApi.putCharityPeding(charity.id, approveData).then(res => {
+      this.charityApi.getCharityPendingsByState().then(res => {
+        this.pendingCharities = res;
+        this.filteredPendingCharities = undefined;
+        this.total = this.pendingCharities.map(p=>p.charities.length).reduce((accumulate, current) => accumulate + current);
+        this.hasSearch = true;
       }).catch(err => {
+        console.log(err);    
+      }).finally(() => {
+        this.isLoading = false;
+      });
+    }).catch(err => {
       console.log(err);    
     }).finally(()=>{
       this.isLoading = false;

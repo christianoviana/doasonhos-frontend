@@ -29,9 +29,9 @@ export class CharityApiService{
         return this.lastCharityResponse;
     }
 
-    async getCharities(page:number = 1, size: number = 100, search:string = '') : Promise<CharityResponse> {
+    async getCharities(page:number = 1, size: number = 100, search:string = '', state:string = '', city:string = '') : Promise<CharityResponse> {
         return await this.httpClient
-            .get<any>(`${this.baseUrl}/charities?page=${page}&size=${size}&term=${search}`)            
+            .get<any>(`${this.baseUrl}/charities?page=${page}&size=${size}&term=${search}&state=${state}&city=${city}`)            
             .pipe(  
                     retry(2),                          
                     map(data => {                        
@@ -48,6 +48,40 @@ export class CharityApiService{
                             }   
                             
                             this.lastCharityResponse = response;
+                        }                                            
+                        
+                        return response;
+                    }),
+                    catchError((res:any) => {                     
+                        let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                    
+                        if(res.error && res.status === 0 ){
+                                return throwError(errorMessage);
+                        }
+        
+                        return throwError(res.error.message);                  
+                    })
+            )
+            .toPromise();
+    }    
+
+    async getCharitiesWithoutStore(page:number = 1, size: number = 100, search:string = '') : Promise<CharityResponse> {
+        return await this.httpClient
+            .get<any>(`${this.baseUrl}/charities?page=${page}&size=${size}&term=${search}`)            
+            .pipe(  
+                    retry(2),                          
+                    map(data => {                        
+                        let response = new CharityResponse();
+
+                        if(data.data == undefined){
+                            console.log('No Charities');
+                        }else{
+                            response.Charities = data.data;
+                            response.Pagination = data.pagination;
+    
+                            if(response.Pagination !== undefined && response.Charities.length > 0){
+                                response.Pagination = new Pagination(data.pagination);                                  
+                            }   
                         }                                            
                         
                         return response;
@@ -102,6 +136,15 @@ export class CharityApiService{
             .toPromise();
     }  
 
+    async getCharityStatusById(id:string) : Promise<CharityStatus> {
+        return await this.httpClient
+            .get<any>(`${this.baseUrl}/charities/status?id=${id}`)                   
+            .pipe(  
+                retry(1)
+            )
+            .toPromise();
+    }  
+
     async getCharityItems(id:string) : Promise<Array<Item>> {
         return await this.httpClient
             .get<any>(`${this.baseUrl}/charities/${id}/item`)                   
@@ -128,7 +171,33 @@ export class CharityApiService{
         return await this.httpClient
             .post<any>(`${this.baseUrl}/charities`, charity , httpOptions)                   
             .pipe(  
-                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                            return throwError(errorMessage);
+                    }
+
+                    console.log(res.error);
+                       
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    } 
+    
+    async putCharity(charity: any, id:string, isPendingData = false ) : Promise<void> {
+
+        let url = `${this.baseUrl}/charities/${id}`;
+
+        if(isPendingData){
+            url += '?pending_data=true'
+        }
+
+        return await this.httpClient
+            .put<any>(url, charity , httpOptions)                   
+            .pipe(  
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -150,7 +219,6 @@ export class CharityApiService{
         return await this.httpClient
             .post<any>(`${this.baseUrl}/charities/${id}/information`, charityInfo)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -172,7 +240,6 @@ export class CharityApiService{
         return await this.httpClient
             .put<any>(`${this.baseUrl}/charities/${id}/information`, charityInfoUpdate)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -196,7 +263,6 @@ export class CharityApiService{
         return await this.httpClient
             .put<any>(`${this.baseUrl}/charities/${id}/pending`, charityApprove , httpOptions)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -218,7 +284,6 @@ export class CharityApiService{
         return await this.httpClient
             .put<any>(`${this.baseUrl}/charities/${id}/item`, items)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 

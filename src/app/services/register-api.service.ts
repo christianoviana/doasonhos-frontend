@@ -28,6 +28,8 @@ export class RegisterApiService{
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
+                    console.log(res);
+                    
                     if(res.error && res.status === 0 ){
                             return throwError(errorMessage);
                     }
@@ -58,6 +60,87 @@ export class RegisterApiService{
                     if(res.status === 409){                            
                         return throwError('O doador já possui cadastro.');  
                     }     
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }
+
+    
+    async putDonorPF(donorPf: any, id:string) : Promise<void> {
+       
+        return await this.httpClient
+            .put<any>(`${this.baseUrl}/donorspf/${id}`, donorPf , httpOptions)                   
+            .pipe(  
+                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                        return throwError(errorMessage);
+                    }
+                       
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    } 
+
+    async putDonorPJ(donorPj: any, id:string) : Promise<void> {
+       
+        return await this.httpClient
+            .put<any>(`${this.baseUrl}/donorspj/${id}`, donorPj , httpOptions)                   
+            .pipe(  
+                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                        return throwError(errorMessage);
+                    }
+                       
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }
+
+    async getDonorPF(id: string) : Promise<any> {
+       
+        return await this.httpClient
+            .get<any>(`${this.baseUrl}/donorspf/${id}`)                   
+            .pipe(  
+                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                        return throwError(errorMessage);
+                    }
+                       
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }
+
+    async getDonorPJ(id: string) : Promise<any> {
+       
+        return await this.httpClient
+            .get<any>(`${this.baseUrl}/donorspj/${id}`)                   
+            .pipe(  
+                retry(2),
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                        return throwError(errorMessage);
+                    }
+                       
                     // Parse response  
                     return throwError(res.error.message);                  
                 })

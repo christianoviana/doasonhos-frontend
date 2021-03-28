@@ -1,15 +1,15 @@
 <div id="PendingDetail" class="container">
     <h1 style="text-align: center;font-size: 30px;">Acompanhar Solicitação</h1>
-    <p style="text-align: center;"><i>Consulte aqui o status da sua solicitação de cadastro.</i></p>
+    <p style="text-align: center;"><i>Consulte aqui o status cadastral da entidade beneficente.</i></p>
     <hr>
 
     <div class="row search no-gutters">      
         <div class="col-12">
             <div class="input-group">
-                <input [(ngModel)]="search" type="search" class="form-control text-center" placeholder="Digite o Cnpj">
+                <input #searchField [(ngModel)]="search" type="search" class="form-control text-center" placeholder="Digite o Cnpj" mask="00.000.000/0000-00">
             
                 <div class="input-group-append">
-                    <button [disabled]='search ==""' (click)="searchCharity()" class=" btn btn-success"><i class="fa fa-search"></i></button>
+                    <button [disabled]='search=="" || search.length <14' (click)="searchCharity()" class=" btn btn-success"><i class="fa fa-search"></i></button>
                 </div>
         </div>     
     </div>
@@ -20,7 +20,7 @@
             <p><b>Cnpj: </b>{{charityStatus.cnpj}}</p>            
             <p><b>Cadastro Ativo: </b> {{charityStatus.active == 0 ? 'Não' : 'Sim'}}</p>
             <p><b>Status: </b> {{getStatus()}}</p>
-            <p><b>Data Aprovação: </b>{{charityStatus.approver_data == undefined ? '-' : getFormatedDate(charityStatus.approver_data)}}</p>
+            <p><b>Data Atualização: </b>{{charityStatus.approver_data == undefined ? '-' : getFormatedDate(charityStatus.approver_data)}}</p>
             <p *ngIf="charityStatus.status == 'APPROVED' && !charityStatus.charity_information" style="color: red;"><b>*</b> Pendente Atualização das Informações Complementares</p>
         </div> 
     </div>   

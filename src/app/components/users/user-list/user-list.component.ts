@@ -14,19 +14,54 @@ export class UserListComponent implements OnInit {
   pagination:Pagination;
   itemsPerPage = 5;
   firstPage = 1
+  txtSearch="";
+  isLoading = false;
+  search = false;   
+  errorMessage:string = '';
 
   onHandlePageChange(page){
-    this.userApi.getUsers(page, this.itemsPerPage).then(res => {
+    this.isLoading = true;   
+    this.errorMessage = '';
+
+    this.userApi.getUsers(page, this.itemsPerPage, this.txtSearch).then(res => {
       this.users = <User[]>res.Users;
       this.pagination = <Pagination> res.Pagination;
-    });
+    }).catch(err =>{
+      console.log(err);
+      this.errorMessage = err;
+    }).finally(() => {
+      this.isLoading = false;
+    }); 
   }
 
   ngOnInit(): void {
-    this.userApi.getUsers(this.firstPage, this.itemsPerPage).then(res => {
+     this.isLoading = true;   
+    this.errorMessage = '';
+
+    this.userApi.getUsers(this.firstPage, this.itemsPerPage, this.txtSearch).then(res => {
+      this.users = <User[]>res.Users;
+      this.pagination = <Pagination> res.Pagination;  
+    }).catch(err =>{
+      console.log(err);
+      this.errorMessage = err;
+    }).finally(() => {
+      this.isLoading = false;  
+      this.search = true;
+    });  
+  }
+
+  searchUsers(){
+    this.isLoading = true;   
+    this.errorMessage = '';
+    
+    this.userApi.getUsers(this.firstPage, this.itemsPerPage, this.txtSearch).then(res => {
       this.users = <User[]>res.Users;
       this.pagination = <Pagination> res.Pagination;
-      console.log(this.users);
+    }).catch(err =>{
+      console.log(err);
+      this.errorMessage = err;
+    }).finally(() => {
+      this.isLoading = false;
     });  
   }
 

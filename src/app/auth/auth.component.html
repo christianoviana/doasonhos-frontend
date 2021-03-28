@@ -9,7 +9,7 @@
            <button class="btn" (click)="signInWithGoogle()"><i class="fa fa-google" style="font-size: 18px;" ></i> Entrar com o Google</button>
         </div>
 
-        <form #authForm='ngForm' (ngSubmit)='onLoginForm(authForm)' id="login-form">            
+        <form #authForm='ngForm' (ngSubmit)='onLoginForm(authForm)' id="login-form" autocomplete="off">            
             <app-alert></app-alert>                     
             <div class="form-group">
                 <label for="email">E-mail *</label>

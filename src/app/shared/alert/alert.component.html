@@ -1,3 +1,8 @@
-<div role="alert" *ngIf="message" [ngClass]="{ 'alert fade show': message, 'alert-success': message.type === 'success', 'alert-danger': message.type === 'error' }" style="text-align: center;margin-top: 10px;">
-    {{message.text}}
+<div *ngIf="messages">
+    <div *ngFor="let message of messages" role="alert" [ngClass]="{ 'alert alert-dismissible fade show': message, 'alert-success': message.type === 'success', 'alert-danger': message.type === 'error' }" style="text-align: center;margin-top: 10px;">
+        <p><i *ngIf="message.type === 'error'" style="color: red;" class="fa fa-warning"></i><i *ngIf="message.type === 'success'" style="color: green;" class="fa fa-check-circle"></i><strong> {{message.text}}</strong></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
 </div>

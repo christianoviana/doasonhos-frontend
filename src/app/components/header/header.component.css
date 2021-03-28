@@ -36,8 +36,16 @@ nav{
     height: 70px;
   }
 
-  #loginButtons li:last-child{
-      margin-left: 10px;
+  @media screen and (min-width: 800px) {
+    #loginButtons li:last-child{
+        margin-left: 10px;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    #loginButtons li:last-child{
+        margin-top: 5px;
+    }
   }
 
   #loginButtons a{

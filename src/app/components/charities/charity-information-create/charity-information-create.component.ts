@@ -29,21 +29,30 @@ export class CharityInformationCreateComponent implements OnInit {
               private authService:AuthApiService,
               private router: Router) { }
 
-  async ngAfterViewInit() {
-    const id = this.authService.userValue && this.authService.userValue.ownerId;
-
-    if(id){      
-      this.charity = await this.charityApi.getCharitiesRestrictedById(id);
-      console.log(this.charity);
-      
-      if(this.charity.information != null || this.charity.status.toUpperCase() != 'APPROVED'){
-        this.router.navigate(['/charities/information']);
-      }
-    }      
+  async ngAfterViewInit() {   
   }
 
-  ngOnInit(): void {
-   
+  async ngOnInit(){
+    this.isLoading = true;    
+
+    try {
+      const id = this.authService.userValue && this.authService.userValue.ownerId;
+
+      if(id){      
+        this.charity = await this.charityApi.getCharitiesRestrictedById(id);
+             
+        if(this.charity != null && this.charity != undefined &&  
+           this.charity.information != null && this.charity.information != undefined &&
+           this.charity.status.toUpperCase() != 'APPROVED'){
+          this.router.navigate(['/charities/information']);
+        }
+      }      
+    } catch (error) {
+      
+    }finally{
+      this.isLoading = false;
+    }
+
   }
 
   onSaveCharityInfo(charityInfoForm:NgForm){

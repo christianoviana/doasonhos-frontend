@@ -3,7 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { ShoppingCartService } from '../../services/shopping-cart.service';
 import { CartItem } from '../../core/models/cart-item.model';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { filter, skip } from 'rxjs/operators'
+import { filter, skip } from 'rxjs/operators';
+import { AuthApiService } from '../../services/auth-api.service';
 
 @Component({
   selector: 'app-cart',
@@ -15,7 +16,8 @@ export class CartComponent implements OnInit {
   itemSubscribe:Subscription;
   currentUrl:string;
 
-  constructor(private shoppingCartService:ShoppingCartService, private router:Router) { }
+  constructor(private shoppingCartService:ShoppingCartService, private router:Router, 
+              private authService:AuthApiService) { }
 
   ngOnInit(): void {
     this.itemSubscribe = this.shoppingCartService.itemsObservable().pipe(skip(1)).subscribe((cartItems:Array<CartItem>) => {
@@ -33,8 +35,15 @@ export class CartComponent implements OnInit {
     }    
   }
 
-  isCartPage(){
-    return this.currentUrl == '/donations/cart';
+  isCharity():boolean{
+    if(!this.authService.userValue)
+      return false;
+
+    return this.authService.userValue.userType.toLowerCase() === 'charitable_entity';
+  }
+
+  isCartOrPaymentPage(){
+    return this.currentUrl == '/donations/cart' || this.currentUrl == '/donations/payment';
   }
 
   goToCart(){

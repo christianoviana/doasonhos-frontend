@@ -30,7 +30,7 @@ export class RoleApiService{
                     let response = new RoleResponse();
                     response.Roles = data.data;
 
-                    if(response.Roles !== undefined && response.Roles.length > 0){
+                    if(response.Roles !== null && response.Roles !== undefined && response.Roles.length > 0){
                         response.Pagination = new Pagination(data.pagination);                                   
                     }                              
 
@@ -99,6 +99,25 @@ export class RoleApiService{
                     if(res.status === 409){                            
                         return throwError('A regra de acesso já existe.');  
                     }     
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }  
+    
+    async deleteRole(role: Role) : Promise<void> {
+
+        return await this.httpClient
+            .delete<any>(`${this.baseUrl}/roles/${role.id}`, httpOptions)                   
+            .pipe(  
+                    retry(2),
+                    catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                            return throwError(errorMessage);
+                    } 
                     // Parse response  
                     return throwError(res.error.message);                  
                 })

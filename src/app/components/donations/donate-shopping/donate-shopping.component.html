@@ -1,4 +1,8 @@
-<div id="shopping-list" class="container no-gutters">
+<div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>
+
+<div id="shopping-list" class="container no-gutters" *ngIf="!isLoading">
     <div class="row  text-right p-2">
         <div class="col-12">                
             <a [routerLink]="['/charities', charity.id]" class="btn btn-outline-success" *ngIf="charity"><i class="fa fa-arrow-circle-left"></i></a>                
@@ -29,7 +33,7 @@
     <hr>  
 
     <div  id="donate" class="col-12 text-center">
-        <button *ngIf="donationType=='online'" id="btn-donate" class="btn btn-warning"><b>DOAR <i class="fa fa-credit-card"></i></b><br><span style="color: red; font-weight: bold; font-size: 14px;">* Escolha o Valor</span></button>
+        <button *ngIf="donationType=='online'" id="btn-donate" class="btn btn-warning" data-toggle="modal" data-target="#EcolherValorModal"><b>DOAR <i class="fa fa-credit-card"></i></b><br><span style="color: red; font-weight: bold; font-size: 14px;">* Escolha o Valor</span></button>
     </div>
 
     <div id="shopping" class="row no-gutters">
@@ -95,3 +99,40 @@
     </div>
 </div>
 
+<div>               
+    <!-- Modal -->
+    <div class="modal fade" id="EcolherValorModal" tabindex="-1" role="dialog" aria-labelledby="EcolherValorModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="EcolherValorModalTitle">Doação</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <div class="col-12">
+                       <p class="text-center"><b>Escolha o Valor da Doação:</b></p>
+                       <p class="text-center text-danger"><b>Os itens do carrinho de compras não serão doados</b></p>
+                       <div>
+                           <div class="money text-center">
+                                <label><input type="radio" name="rdoMoney"> R$ 20,00</label>
+                                <label><input type="radio" name="rdoMoney"> R$ 50,00</label>                             
+                            </div>                                               
+                            <div  class="money text-center">
+                                <label><input type="radio" name="rdoMoney"> R$ 100,00</label>
+                                <label><input type="radio" name="rdoMoney"> <input style="width: 80px;" placeholder="R$ Valor" type="text"></label>
+                            </div>
+                       </div>
+                    </div>                       
+                </div>                                                                                                                                                              
+            </div>
+            <div class="modal-footer">              
+                <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">Doar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cancelar</button>                                                                                    
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

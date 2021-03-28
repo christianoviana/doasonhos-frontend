@@ -28,4 +28,13 @@ header{
     margin-top: 20px;
 }
 
+#noItem{
+    margin-top: 60px;
+    height: 150px;
+}
+
+tbody tr {
+    cursor: pointer;
+}
+
 
