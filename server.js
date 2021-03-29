@@ -2,7 +2,9 @@
 const express = require('express');
 const path = require('path');
 
-const appName = process.env.npm_package_name;
+//const appName = process.env.npm_package_name;
+const appName = 'frontend';
+
 const app = express();
 
 console.log('App Name = ' + appName);
