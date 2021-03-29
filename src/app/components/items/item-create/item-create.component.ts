@@ -55,7 +55,7 @@ export class ItemCreateComponent implements OnInit {
         let data: FormData = new FormData();
         data.append('name', createForm.value.name);
         data.append('description', createForm.value.description);
-        data.append('price', createForm.value.price);
+        data.append('price', createForm.value.price.replace(',', '.'));
         data.append('group_id', createForm.value.groupId);
         data.append('photo', this.file);
       

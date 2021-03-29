@@ -46,7 +46,7 @@ export class ItemListComponent implements OnInit {
 
     this.itemApi.getItems(this.firstPage, this.itemsPerPage, this.txtSearch).then(res => {
       this.items = <Item[]>res.Items;
-      this.pagination = <Pagination> res.Pagination;    
+      this.pagination = <Pagination> res.Pagination;   
 
       this.isLoading = false;
     }).catch(error => {

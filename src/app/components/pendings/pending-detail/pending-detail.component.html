@@ -6,7 +6,7 @@
     <div class="row search no-gutters">      
         <div class="col-12">
             <div class="input-group">
-                <input #searchField [(ngModel)]="search" type="search" class="form-control text-center" placeholder="Digite o Cnpj" mask="00.000.000/0000-00">
+                <input #searchField [(ngModel)]="search" type="search" class="form-control text-center" placeholder="Digite o Cnpj" [dropSpecialCharacters]="false" mask="00.000.000/0000-00">
             
                 <div class="input-group-append">
                     <button [disabled]='search=="" || search.length <14' (click)="searchCharity()" class=" btn btn-success"><i class="fa fa-search"></i></button>

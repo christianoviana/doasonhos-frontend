@@ -27,6 +27,8 @@ export class ItemApiService{
                    .pipe(  
                             retry(2),                          
                             map(data => {
+                                console.log(data);
+                                
                                 let response = new ItemResponse();
                                 response.Items = data.data;
                             
@@ -57,6 +59,7 @@ export class ItemApiService{
     }  
     
     postItem(item: any) : Observable<void> {
+               
         return this.httpClient
                    .post<any>(this.baseUrl +'/items', item)                   
                    .pipe(  
