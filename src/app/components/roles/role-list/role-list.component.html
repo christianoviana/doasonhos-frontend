@@ -17,19 +17,19 @@
         <thead>
           <tr>        
             <th>Nome</th>
-            <th>Descrição</th>        
+            <th class="d-none d-sm-table-cell">Descrição</th>        
             <th></th>        
             <th></th>        
           </tr>
         </thead>
         <tbody>
           <tr [id]="role.id"
-          *ngFor='let role of roles | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>    
+          *ngFor='let role of roles | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};' (click)="setSelectedRole(role)">    
             <td>{{role.name}}</td>
-            <td>{{role.description}}</td>        
+            <td class="d-none d-sm-table-cell">{{role.description}}</td>        
             <td><a class="btn btn-warning btn-sm" [routerLink]="['../update/', role.id]"><i class="fa fa-edit"></i></a></td>
            
-            <td><button (click)="setRoleToDelete(role)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i></button></td>
+            <td><button (click)="setRoleToDelete(role);$event.stopPropagation()" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i></button></td>
           </tr>
         </tbody>
       </table>
@@ -59,6 +59,8 @@
   </div> 
 
 
+  <button style="visibility: hidden;" id="deleteModalTrigger" data-toggle="modal" data-target="#deleteModal"></button>
+
   <div>               
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -84,6 +86,32 @@
         </div>
         </div>
     </div>
+  </div>
+
+  <button style="visibility: hidden;" id="detailModalTrigger" data-toggle="modal" data-target="#ItemDetailsModal"></button>
+
+<div>               
+  <!-- Modal -->
+  <div class="modal fade" id="ItemDetailsModal" tabindex="-1" role="dialog" aria-labelledby="ItemDetailsModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Detalhes</h5>             
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body" *ngIf='selectedRole'>                      
+                <div class="row">
+                    <div class="col-12">
+                      <p><b>Name: </b>{{selectedRole.name}}</p>                        
+                      <p><b>Descrição: </b>{{selectedRole.description}}</p>                                                            
+                    </div>                       
+                </div>                                       
+              </div>                                                                                                                                           
+            </div>                
+        </div>
+      </div>
   </div>
   
   

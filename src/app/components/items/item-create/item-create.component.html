@@ -19,9 +19,10 @@
 
     <div class="row">
         <div class="col-12">                             
-            <fieldset [disabled]='isLoading'>
+            <fieldset [disabled]='isLoading'>             
                 <h1>Adicionar Item</h1>
                 <form #itemCreateForm='ngForm' (ngSubmit)='onCreateItem(itemCreateForm)'>
+                    <p>{{itemCreateForm.value | json}}</p>
                     <div class="form-row">  
                         <div class="form-group text-center col-12">
                             <label id="thumbnail">                                          

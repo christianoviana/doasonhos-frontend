@@ -2,8 +2,11 @@
     <app-loading [fullscreen]="true"></app-loading>
   </div>
   
-  <header *ngIf="donations && donations.length > 0">
+  <header class="container" *ngIf="donations && donations.length > 0">
     <h2 class="text-center">Doações Recebidas <i style="color: red;" class="fa fa-heartbeat"></i></h2>
+    <div *ngIf="donations && donations.length > 0" style="margin-bottom: 10px;" class="text-center">
+      <button (click)="ExportToCsv()" class="btn btn-success"><i class="fa fa-file-excel-o"></i></button>     
+    </div>
   </header>
   <div class="container">
     <app-donate-list [donations]='donations' 
@@ -31,9 +34,14 @@
               <div class="modal-body" *ngIf='selectedDonation'>                      
                   <div class="row" *ngFor="let item of selectedDonation.items">
                       <div class="col-12 text-center">
-                          <p>{{item.name > 20 ? (item.name | slice:0:20) + '..' : item.name }} - <b>{{item.price > 0 ? (item.price| currency:"BRL"):'' }}</b> ({{item.quantity}}<b>x</b>)</p>                        
+                          <p>{{item.name > 20 ? (item.name.length | slice:0:20) + '..' : item.name }} - <b>{{item.price > 0 ? (item.price| currency:"BRL"):'' }}</b> ({{item.quantity}}<b>x</b>)</p>                        
                       </div>                       
-                  </div>                                                                                                                                          
+                  </div>   
+                  <div class="row" *ngIf='selectedDonation.items == 0'>
+                    <div class="col-12 text-center">
+                        <p><b>Não há itens.</b></p>                        
+                    </div>                       
+                </div>                                                                                                                                             
               </div>   
               <div class="modal-footer" *ngIf='selectedDonation'>   
                 <div style="width: 100%;" class="text-center">

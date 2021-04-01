@@ -20,6 +20,7 @@ export class DonateCartComponent implements OnInit, OnDestroy {
   isLoading: boolean;
 
   cartItems:Array<CartItem>;
+  onlyMoney: boolean = false;
 
   constructor(private shoppingCartService:ShoppingCartService,
               private charityApi:CharityApiService,
@@ -32,6 +33,10 @@ export class DonateCartComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    if(this.shoppingCartService.itemsValue()){
+      this.onlyMoney = this.shoppingCartService.itemsValue().find(c => c.getItem().name == '') ? true : false;
+    }
+       
     this.charityId =  this.shoppingCartService.getCharityEntityFromSession();
     
     const charityPromise = this.charityApi.getCharitiesById(this.charityId); 

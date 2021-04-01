@@ -58,7 +58,8 @@
                     <label for="genre">Sexo *</label>
                     <select #genre='ngModel' required ngModel='' name="genre" id="genre" class="form-control"
                          [ngClass]="{'is-invalid': (genre.dirty || genre.touched) && (genre.invalid || (genre.valid && genre.value=='')), 'is-valid': (genre.dirty || genre.touched) && genre.valid}"
-                    >                      
+                    >      
+                        <option disabled=true value="default">Selecione..</option>                
                         <option value="feminino">Feminino</option>
                         <option value="masculino">Masculino</option>
                         <option value="outros">Outros</option>
@@ -109,6 +110,7 @@
                     <select #country='ngModel' required ngModel="" name="country" id="country" class="form-control"
                         [ngClass]="{'is-invalid': (country.dirty || country.touched) && (country.invalid || (country.valid && country.value=='')), 'is-valid': (country.dirty || country.touched) && country.valid}"
                     >                      
+                        <option disabled=true value="default">Selecione..</option>
                         <option value="BR">Brasil</option>
                     </select>
                     <div class="invalid-feedback">
@@ -119,7 +121,8 @@
                     <label for="state">Estado *</label>
                     <select #state='ngModel' id="state" ngModel class="form-control" name="state"
                         [ngClass]="{'is-invalid': (state.dirty || state.touched) && (state.invalid || (state.valid && (state.value==null || state.value==''))), 'is-valid': (state.dirty || state.touched) && (state.valid && state.value!='')}"
-                    >                
+                    >               
+                        <option disabled=true value="default">Selecione..</option>  
                         <option [value]='state.initial' *ngFor='let state of States'>{{state.initial}}</option>
                         
                     </select>   

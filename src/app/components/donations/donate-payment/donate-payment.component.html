@@ -11,61 +11,62 @@
 
     <h1  id="title" class="text-center" style="font-size: 24px;margin: 20px 0px 40px;">Finalizar Doação <i style="color: green;" class="fa fa-credit-card-alt"></i></h1>
   
+    <form #paymentForm='ngForm'>
+      <div *ngIf="type()=='online'">
+          <div class="row">
+              <div class="col-12 form-check text-center">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="rdo-credit" value="online" checked>
+                <label class="form-check-label" for="rdo-online">Cartão de Crédito Online</label>
+              </div>                       
+          </div> 
+          <hr>      
+          <div class="row">
+              <div class="col-md-6 col-sm-12">
+                <label for="name">Nome do Portador (Nome Gravado no Cartão) *</label>
+                <input type="text" minlength="3" required [(ngModel)]='payment.owner_name' name="name" id="name" class="form-control">                      
+              </div>   
+      
+              <div class="col-md-6 col-sm-12">
+                  <label for="card-number">Número do Cartão *</label>
+                  <input type="text" minlength="3" required [(ngModel)]='payment.card_number' name="card-number" id="card-number" class="form-control">
+                </div> 
+          </div>  
 
-    <div *ngIf="type()=='online'">
-        <div class="row">
-            <div class="col-12 form-check text-center">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="rdo-credit" value="online" checked>
-              <label class="form-check-label" for="rdo-online">Cartão de Crédito Online</label>
-            </div>                       
-        </div> 
-        <hr>      
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-              <label for="name">Nome do Portador (Nome Gravado no Cartão) *</label>
-              <input type="text" minlength="5" required [(ngModel)]='payment.owner_name' name="name" id="name" class="form-control is-valid">                      
-            </div>   
+          <div class="row">
+              <div class="col-6">
+                <label for="card_validate">Validade (MM/AAAA) *</label>
+                <input type="text" required [(ngModel)]='payment.card_validate' name="card_validate" id="card_validate" class="form-control" mask="00/0000">
+              </div>
+              <div class="col-6">
+                <label for="security_code">Código de Segurança *</label>
+                <input type="text" minlength="3" required [(ngModel)]='payment.security_code' name="security_code" id="security_code" class="form-control">
+              </div>
+          </div>                              
+          <div class="row">
+              <div class="col-6">                 
+                  <label for="cpf_cnpj">CPF/CNPJ *</label>
+                  <input type="text" required [(ngModel)]='payment.cpf_cnpj' name="cpf_cnpj" id="cpf_cnpj" class="form-control" mask="00.000.000/0000-00||000.000.000-00">
+              </div>
+              <div class="col-6">                 
+                  <label for="telephone">Telefone *</label>
+                  <input type="text" required [(ngModel)]='payment.telephone' name="telephone" id="telephone" class="form-control" mask="(00) 0000-0000||(00) 0 0000-0000">
+              </div>
+          </div>          
+      </div>    
     
-            <div class="col-md-6 col-sm-12">
-                <label for="card-number">Número do Cartão *</label>
-                <input type="text" required [(ngModel)]='payment.card_number' name="card-number" id="card-number" class="form-control is-valid">
-              </div> 
-        </div>  
-
-        <div class="row">
-            <div class="col-6">
-              <label for="card_validate">Validade (MM/AAAA) *</label>
-              <input type="text" required [(ngModel)]='payment.card_validate' name="card_validate" id="card_validate" class="form-control is-valid" mask="00/0000">
-            </div>
-            <div class="col-6">
-              <label for="security_code">Código de Segurança *</label>
-              <input type="text" required [(ngModel)]='payment.security_code' name="security_code" id="security_code" class="form-control is-valid">
-            </div>
-        </div>                              
-        <div class="row">
-            <div class="col-6">                 
-                <label for="cpf_cnpj">CPF/CNPJ *</label>
-                <input type="text" required [(ngModel)]='payment.cpf_cnpj' name="cpf_cnpj" id="cpf_cnpj" class="form-control is-valid" mask="00.000.000/0000-00||000.000.000-00">
-            </div>
-            <div class="col-6">                 
-                <label for="telephone">Telefone *</label>
-                <input type="text" required [(ngModel)]='payment.telephone' name="telephone" id="telephone" class="form-control is-valid" mask="(00) 0000-0000||(00) 0 0000-0000">
-            </div>
-        </div>          
-    </div>    
-   
-    <div *ngIf="type()=='presencial'">
-      <p class="text-center">Prezado doador(a), a doação deve ser realizada em até 5 dias úteis.</p>
-      <p style="color: red;font-size: 18px;font-weight: bolder;" class="text-center">Em casos de dúvidas entre em contato com a entidade {{charity.name}} pelos telefones {{charity.telephone}} / {{charity.cellphone}}.</p>
-    </div>
-  
-    <div class="footer">
-        <div class="row no-gutters text-center" style="width: 100%;">
-            <div class="col-12">
-                <button (click)="donate()" type="button" class="btn btn-success">Concluir Doação <i class="fa fa-credit-card-alt"></i></button>
-            </div>                                           
-        </div>                                                                                          
-    </div>   
+      <div *ngIf="type()=='presencial'">
+        <p class="text-center">Prezado doador(a), a doação deve ser realizada em até 5 dias úteis.</p>
+        <p style="color: red;font-size: 18px;font-weight: bolder;" class="text-center">Em casos de dúvidas entre em contato com a entidade {{charity.name}} pelos telefones {{charity.telephone}} / {{charity.cellphone}}.</p>
+      </div>
+    
+      <div class="footer">
+          <div class="row no-gutters text-center" style="width: 100%;">
+              <div class="col-12">
+                  <button [disabled]='!paymentForm.valid' (click)="donate()" type="button" class="btn btn-success">Concluir Doação <i class="fa fa-credit-card-alt"></i></button>
+              </div>                                           
+          </div>                                                                                          
+      </div>   
+  </form>
 
     <div *ngIf="cartItems && cartItems.length > 0">
         <div *ngIf="charity && charityId !=''" id="charity-info" class="row no-gutters">       
@@ -89,7 +90,7 @@
               </thead>
               <tbody>
                 <tr [id]="cartItem.getItemId()" *ngFor="let cartItem of cartItems">                     
-                  <td>{{cartItem.getItem().name}}</td> 
+                  <td>{{cartItem.getItem().name!=''?cartItem.getItem().name:'-'}}</td> 
                   <td class="d-none d-sm-table-cell" *ngIf="type()=='online'">{{cartItem.getItem().price | currency:'BRL'}}</td> 
                   <td>{{cartItem.getQuantity()}} <b>x</b></td>
                 </tr>      
@@ -119,7 +120,8 @@
               </div>                                                                                                                                                              
           </div>
           <div class="modal-footer">              
-              <button (click)="goToHome()" type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>                                                                                
+            <button *ngIf="messagePayment.isSuccess==true" (click)="goToHome()" type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>                                                                                
+            <button *ngIf="messagePayment.isSuccess==false" type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">OK</button>                                                                                
           </div>
       </div>
       </div>

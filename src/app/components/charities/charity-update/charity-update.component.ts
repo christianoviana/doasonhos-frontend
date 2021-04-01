@@ -19,6 +19,10 @@ export class CharityUpdateComponent implements OnInit {
   isLoading = false;
   isApproved = false;
   charity:Charity;
+  message ='';  
+  errorMessage ='';  
+  country='Brasil';
+  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z0-9 áéíóúÁÉÍÓÚâêôÂÊÔãñõÃÑÕçÇ\]')} };
 
   constructor(private charityService: CharityApiService,
               private alertService:AlertService,
@@ -83,11 +87,25 @@ export class CharityUpdateComponent implements OnInit {
 
   onCepEvent(event:any){
     let cep:string = event.target.value.replace('-','').substring(0, 9);
+    this.message = '';
+    this.errorMessage = '';
 
-    this.cepService.getCep(cep).then(address => {
+    if(cep.length == 8){
+      this.cepService.getCep(cep).then(address => {
+        if(address.estado == '')
+        {
+          this.message = 'O cep é inválido';            
+          return;
+        }
+  
+        this.country='Brasil';
         this.cep = address;
-    }).catch(error => {
-      this.cep = { logradouro:'', localidade:'', uf:'', estado:'', bairro:'' };
-    });
+      }).catch(error => {
+        console.log(error);
+        this.errorMessage = 'Erro ao obter o cep.';     
+          this.country='Brasil';
+          this.cep = { logradouro:'', localidade:'', uf:'', estado:'', bairro:'' };
+      });
+    }   
   }
 }

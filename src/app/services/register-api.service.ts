@@ -24,7 +24,6 @@ export class RegisterApiService{
         return await this.httpClient
             .post<any>(`${this.baseUrl}/donorspf`, donorPf , httpOptions)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -49,7 +48,6 @@ export class RegisterApiService{
         return await this.httpClient
             .post<any>(`${this.baseUrl}/donorspj`, donorPj , httpOptions)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -73,7 +71,6 @@ export class RegisterApiService{
         return await this.httpClient
             .put<any>(`${this.baseUrl}/donorspf/${id}`, donorPf , httpOptions)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -93,7 +90,6 @@ export class RegisterApiService{
         return await this.httpClient
             .put<any>(`${this.baseUrl}/donorspj/${id}`, donorPj , httpOptions)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -113,7 +109,7 @@ export class RegisterApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/donorspf/${id}`)                   
             .pipe(  
-                retry(2),
+                retry(1),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -133,7 +129,7 @@ export class RegisterApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/donorspj/${id}`)                   
             .pipe(  
-                retry(2),
+                retry(1),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 

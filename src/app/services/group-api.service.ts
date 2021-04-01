@@ -24,7 +24,7 @@ export class GroupApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/groups?page=${page}&size=${size}&term=${term}`)            
             .pipe(  
-                    retry(2),                          
+                    retry(1),                          
                     map(data => {
                         let response = new GroupResponse();
                         response.Groups = data.data;
@@ -52,7 +52,7 @@ export class GroupApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/groups/${id}`)                   
             .pipe(  
-                retry(2)
+                retry(1)
             )
             .toPromise();
     }    
@@ -61,7 +61,7 @@ export class GroupApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/groups/items`)                   
             .pipe(  
-                retry(2)
+                retry(1)
             )
             .toPromise();
     }    
@@ -72,7 +72,6 @@ export class GroupApiService{
         return await this.httpClient
             .post<any>(`${this.baseUrl}/groups`, newGroup , httpOptions)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -96,7 +95,6 @@ export class GroupApiService{
         return await this.httpClient
             .put<any>(`${this.baseUrl}/groups/${group.id}`,groupToUpdate, httpOptions)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -118,7 +116,6 @@ export class GroupApiService{
       return await this.httpClient
             .delete<any>(`${this.baseUrl}/groups/${group.id}`)                   
             .pipe(  
-                retry(2),
                 catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 

@@ -2,8 +2,16 @@
   <app-loading [fullscreen]="true"></app-loading>
 </div>
 
-<div id="group-list" class="container p-0 no-gutters">
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+        <app-alert></app-alert>    
+    </div>
+  </div>
+</div>
 
+<div id="group-list" class="container p-0 no-gutters">
+   
   <header>
     <div class="row no-gutters">
       <div class="col-4 col-md-4 col-xs-2">                
@@ -34,7 +42,7 @@
         <tbody>
           <tr [id]="group.id"
           *ngFor='let group of groups | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};' (click)="setSelectedGroup(group)">    
-            <td>{{group.name > 15 ? (group.name | slice:0:15) + '..' : group.name }}</td>
+            <td>{{group.name.length > 15 ? (group.name | slice:0:15) + '..' : group.name }}</td>
             <td class="d-none d-sm-table-cell">{{group.description}}</td>        
             <td><a class="btn btn-warning btn-sm" [routerLink]="['../update/', group.id]"><i class="fa fa-edit"></i></a></td>
             <td><button (click)="setGroupToDelete(group);$event.stopPropagation()" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i></button></td>

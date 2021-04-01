@@ -20,6 +20,8 @@ export class DonateShoppingComponent implements OnInit, OnDestroy {
               private shoppingCartService:ShoppingCartService,
               private router:ActivatedRoute) { }
 
+  money:number = -1;
+  moneyInput:string='';
   charityId:string;
   isLoading: boolean;
   items:Array<Item>;
@@ -69,6 +71,18 @@ export class DonateShoppingComponent implements OnInit, OnDestroy {
     else if(this.donationType == 'presencial')
       this.filteredItems = this.items.filter(i => i.price <= 0);
   }
+
+  onMoneyChange(value){
+    this.money = value;
+    this.moneyInput = '';
+  }
+
+  onValueChange(value){
+    console.log('AQUI');
+    if(this.money == 0){
+        this.moneyInput = value;
+    }
+  }
   
   onItemClicked(item:Item){
     if(this.shoppingCartService.getCharityEntityFromSession() == this.charityId)
@@ -85,6 +99,13 @@ export class DonateShoppingComponent implements OnInit, OnDestroy {
     this.selectedItem = item;
   }
 
+  AddMoneyToCart(){    
+      this.shoppingCartService.clear();
+      const item = {id:null, name:'', description:'', price:this.money==0?this.moneyInput:this.money, image_url:'', group:null}
+
+      this.shoppingCartService.addToCart(item,this.charityId);
+  }
+
   AddToCart(item:Item){
 
     if(this.shoppingCartService.getCharityEntityFromSession() == this.charityId)
@@ -95,9 +116,12 @@ export class DonateShoppingComponent implements OnInit, OnDestroy {
         if(items.find(ci => ci.getItem().price == 0)){
           if(item.price > 0)
              this.shoppingCartService.clear();
-        }else{
-          if(item.price == 0)
-             this.shoppingCartService.clear();
+        }else{       
+          if(item.price == 0){
+            this.shoppingCartService.clear();
+          }else if(items.find(ci => ci.getItem().name == '')){
+            this.shoppingCartService.clear();            
+          }
         }
       }
   

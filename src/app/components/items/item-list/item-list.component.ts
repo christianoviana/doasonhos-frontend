@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Item } from '../item.model';
 import { ItemApiService } from '../../../services/item-api.service';
 import { Pagination } from '../../../core/models/pagination.model';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-item-list',
@@ -10,7 +11,7 @@ import { Pagination } from '../../../core/models/pagination.model';
 })
 export class ItemListComponent implements OnInit {
 
-  constructor(private itemApi:ItemApiService) { }
+  constructor(private itemApi:ItemApiService, private alertService:AlertService) { }
   items:Array<Item>;
   pagination:Pagination;
   itemsPerPage = 5;
@@ -106,11 +107,12 @@ export class ItemListComponent implements OnInit {
       this.errorMessage = error;
       }).finally(()=>{
         this.isLoading = false;
-      })      
+      }) 
+      this.alertService.success(`O item ${item.name} foi deletado com sucesso.`); 
   }).catch (error=> {
     this.isLoading = false;
-    console.log(error);
-  }
-    )};
+    console.log(error);    
+    this.alertService.error(error); 
+  })};
 }
 

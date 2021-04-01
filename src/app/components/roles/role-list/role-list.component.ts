@@ -11,6 +11,7 @@ import { Pagination } from '../../../core/models/pagination.model';
 export class RoleListComponent implements OnInit {
 
   constructor(private roleApi:RoleApiService) { }
+  selectedRole: Role;
   roles:Array<Role>;
   pagination:Pagination;
   itemsPerPage = 5;
@@ -56,6 +57,16 @@ export class RoleListComponent implements OnInit {
 
   setRoleToDelete(role:Role){
     this.selectedRoleToDelete = role;
+
+    const deleteModal = document.getElementById('deleteModalTrigger');
+    deleteModal.click(); 
+  }
+
+  setSelectedRole(role:Role){
+    this.selectedRole = role;
+
+    const itemDetailsmodal = document.getElementById('detailModalTrigger');
+    itemDetailsmodal.click();    
   }
 
   deleteRole(role:Role){

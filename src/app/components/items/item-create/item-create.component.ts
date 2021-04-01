@@ -51,6 +51,8 @@ export class ItemCreateComponent implements OnInit {
     onCreateItem(createForm:NgForm){
       if(createForm.valid){
         this.isLoading = true;
+        console.log(createForm.value.price);
+        console.log(createForm.value.price.replace(',', '.'));
 
         let data: FormData = new FormData();
         data.append('name', createForm.value.name);

@@ -17,7 +17,7 @@
             <tr [ngClass]="{'error': donation.canceled==true}" [id]="donation.id" (click)="onItemClicked(donation)" class="donation-item text-center"
             *ngFor='let donation of donations | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};'>    
               <td>{{donation.date | date:'dd-MM-yyyy HH:mm:ss'}}</td>
-              <td *ngIf="!isCharity()" [title]="donation.charitable_entity.name">{{donation.charitable_entity.name > 15 ? (donation.charitable_entity.name | slice:0:15) + '..' : donation.charitable_entity.name }}</td>       
+              <td *ngIf="!isCharity()" [title]="donation.charitable_entity.name">{{donation.charitable_entity.name.length > 15 ? (donation.charitable_entity.name | slice:0:15) + '..' : donation.charitable_entity.name }}</td>       
               <td [ngClass]="{'d-none d-sm-table-cell': !isCharity()}" *ngIf="donation.total > 0">{{donation.total | currency:'BRL' }}</td>
               <td [ngClass]="{'d-none d-sm-table-cell': !isCharity()}" *ngIf="donation.total == 0">--</td>              
               <td *ngIf="donation.total == 0" class="d-none d-sm-table-cell"><i style="padding: 6px;color: red;" *ngIf="donation.canceled==true" class="fa fa-minus-circle"> </i>{{donation.canceled==true?'Sim':'Não'}}</td>

@@ -5,23 +5,22 @@
           <th class="d-none d-sm-table-cell"></th>
           <th>Item</th>
           <th class="d-none d-sm-table-cell" *ngIf="type()=='online'">Preço</th>
-          <th class="d-none d-sm-table-cell"></th>
+          <th></th>
           <th class="d-none d-sm-table-cell">Quantidade</th>   
           <th class="d-sm-none">Qnt</th>   
-          <th class="d-none d-sm-table-cell"></th>     
+          <th></th>     
           <th *ngIf="type()=='online'">Total</th>       
           <th></th>       
         </tr>
       </thead>
       <tbody>
         <tr [id]="cartItem.getItemId()" *ngFor="let cartItem of cartItems">    
-          <td class="d-none d-sm-table-cell"><img width="40" height="40" [src]="cartItem.getItem().image_url"></td>
+          <td class="d-none d-sm-table-cell"><img width="40" height="40" [src]="cartItem.getItem().image_url==undefined || cartItem.getItem().image_url == '' ? '/assets/utils/none.png' : cartItem.getItem().image_url"></td>
           <td>{{cartItem.getItem().name}}</td> 
           <td class="d-none d-sm-table-cell" *ngIf="type()=='online'">{{cartItem.getItem().price | currency:'BRL'}}</td> 
-          <td class="d-none d-sm-table-cell"><button (click)='decrease(cartItem)' class="btn btn-outline-success btn-sm"><i class="fa fa-minus"></i></button></td>        
-          <td class="d-none d-sm-table-cell">{{cartItem.getQuantity()}}</td>
-          <td class="d-table-cell d-sm-none"><select style="width: 65px;" class="form-control text-center"><option *ngFor="let qnt of lstQnt; let i = index">{{i + 1}}</option></select></td>
-          <td class="d-none d-sm-table-cell"><button (click)='increase(cartItem)' class="btn btn-outline-success btn-sm"><i class="fa fa-plus"></i></button></td>       
+          <td><button (click)='decrease(cartItem)' class="btn btn-outline-success btn-sm"><i class="fa fa-minus"></i></button></td>        
+          <td>{{cartItem.getQuantity()}}</td>
+          <td><button (click)='increase(cartItem)' class="btn btn-outline-success btn-sm"><i class="fa fa-plus"></i></button></td>       
           <td *ngIf="type()=='online'">{{cartItem.getTotal() | currency:'BRL'}}</td>
           <td><button (click)='removeFromCart(cartItem.getItem())' class="btn btn-outline-danger btn-sm"><i class="fa fa-remove"></i></button></td>
         </tr>      

@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <app-donate-cart-items [charityId]='charityId'></app-donate-cart-items>
+  <app-donate-cart-items *ngIf="!onlyMoney" [charityId]='charityId'></app-donate-cart-items>
 
   <div *ngIf="this.cartItems && this.cartItems.length > 0">
     <div *ngIf="type()=='online'" class="text-center" style="background-color: lightgray;">

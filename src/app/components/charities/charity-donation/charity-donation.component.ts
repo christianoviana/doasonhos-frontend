@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DonationApiService } from '../../../services/donation-api.service';
 import { AuthApiService } from '../../../services/auth-api.service';
 import { Pagination } from '../../../core/models/pagination.model';
+import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'app-charity-donation',
@@ -29,6 +30,39 @@ export class CharityDonationComponent implements OnInit {
     })).finally(() => {
       this.isLoading = false;
     });
+  }
+
+  ExportToCsv(){
+    const options = { 
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalSeparator: '.',
+      showLabels: true, 
+      showTitle: false,
+      title: '',
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+      // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+    };
+   
+    const csvExporter = new ExportToCsv(options); 
+    let donationCsv:Array<any>=[];
+       
+
+    this.donations.forEach(donation => {
+      let items = '';
+      
+      donation.items.forEach(item => {
+        items+=item.name + '(R$: ' + item.price + ' - ' + item.quantity + 'x); '; 
+      });
+
+      donationCsv.push({id:donation.id, data:donation.date, total:donation.total, concluido:donation.completed==true?'Sim':'Nao', cancelado:donation.canceled==true?'Sim':'Nao', items:items});
+    });
+
+    console.log(donationCsv);
+    
+    csvExporter.generateCsv(donationCsv);
   }
 
   onItemChange(donation){

@@ -7,49 +7,73 @@
         <app-alert></app-alert>
                     
         <h3>Atualizar Dados Cadastrais</h3>                                                                   
-        
+     
         <hr>
        
         <div class="form-row">              
             <div class="form-group col-md-9 col-sm-12">
                 <label for="name">Nome da Entidade *</label>
-                <input [disabled]='isApproved' type="text" required [(ngModel)]='charity.name' name="name" id="name" class="form-control is-valid" [readonly]='isApproved'>
-                  <div class="valid-feedback">
-                    Looks good!
-                  </div>
+                <input [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" #name='ngModel' minlength="3" maxlength="100" type="text" required [(ngModel)]='charity.name' name="name" id="name" class="form-control" [readonly]='isApproved'
+                [ngClass]="{'is-invalid': (name.dirty || name.touched) && name.invalid}" id="name" class="form-control"
+                >
+                <div class="invalid-feedback">
+                    O nome deve ter entre 3 e 100 caracteres
+                </div>
             </div>   
             <div class="form-group col-md-3 col-sm-12">
                 <label for="cnpj">CNPJ *</label>
-                <input [disabled]='isApproved' type="text" required [(ngModel)]='charity.cnpj' name="cnpj" id="cnpj" class="form-control" [readonly]='isApproved'>
+                <input type="text" required [(ngModel)]='charity.cnpj' name="cnpj" id="cnpj" class="form-control" [readonly]='isApproved' [dropSpecialCharacters]="false" mask="00.000.000/0000-00" #cnpj='ngModel' 
+                      [ngClass]="{'is-invalid': (cnpj.dirty || cnpj.touched) && cnpj.invalid}"
+                >
+                <div class="invalid-feedback">
+                    O cnpj é obrigatório
+                </div>
             </div>            
         </div>
 
         <div class="form-row">             
             <div class="form-group col-md-6 col-sm-12">
                 <label for="representantName">Nome Representante *</label>
-                <input type="text" required  [(ngModel)]='charity.representant_name' name="representantName" id="representantName" class="form-control is-invalid">
-                  <div class="invalidfeedback">
-                    Looks good!
+                <input #representant='ngModel' type="text" required  [(ngModel)]='charity.representant_name' name="representantName" id="representantName" class="form-control"
+                [ngClass]="{'is-invalid': (representant.dirty || representant.touched) && representant.invalid}"
+                >
+                  <div class="invalid-feedback">
+                    O nome deve ter entre 3 e 100 caracteres
                   </div>
             </div>   
             <div class="form-group col-md-3 col-sm-12">
                 <label for="telphone">Telefone *</label>
-                <input type="text" required [(ngModel)]='charity.telephone' name="telephone" id="telephone" class="form-control" mask="(00) 0000-0000||(00) 0 0000-0000">
+                <input #tel='ngModel' type="text" required [(ngModel)]='charity.telephone' name="telephone" id="telephone" class="form-control" [dropSpecialCharacters]="false" mask="(00) 0000-0000"
+                [ngClass]="{'is-invalid': (tel.dirty || tel.touched) && tel.invalid}"
+                >
+                <div class="invalid-feedback">
+                    O telefone é obrigatório
+                </div>
             </div>   
 
             <div class="form-group col-md-3 col-sm-12">
                 <label for="cellphone">Celular *</label>
-                <input type="text" required [(ngModel)]='charity.cellphone' name="cellphone" id="cellphone" class="form-control is-invalid" mask="(00) 0000-0000||(00) 0 0000-0000">
-                  <div class="invalid-feedback">
-                    Looks good!
-                  </div>
+                <input #cel='ngModel' type="text" required [(ngModel)]='charity.cellphone' name="cellphone" id="cellphone" class="form-control" [dropSpecialCharacters]="false" mask="(00) 0 0000-0000"
+                    [ngClass]="{'is-invalid': (cel.dirty || cel.touched) && cel.invalid}"
+                >
+                <div class="invalid-feedback">
+                    O celular é obrigatório
+                </div>
             </div>           
         </div>
 
         <div class="form-row"> 
             <div class="form-group col-md-12 col-sm-12">
                 <label for="cep">CEP *</label>
-                <input maxlength="9" (blur)="onCepEvent($event)" type="text" required [(ngModel)]='charity.address.cep' name="cep" id="cep" class="form-control" mask='00000-000'>
+                <input #cepNumber='ngModel' maxlength="9" (blur)="onCepEvent($event)" type="text" required [(ngModel)]='charity.address.cep' name="cep" id="cep" class="form-control" [dropSpecialCharacters]="false" mask='00000-000'
+                [ngClass]="{'is-invalid': (cepNumber.dirty || cepNumber.touched) && (cepNumber.invalid || (cepNumber.valid && message!=''))}"
+                >
+                <div class="invalid-feedback">
+                    <p>O cep é inválido</p>                   
+                </div>
+                <div *ngIf="errorMessage!=''">
+                    <p style="font-size: 14px; color: #dc3545;">{{errorMessage}}</p>
+                </div>
             </div>                                    
         </div>
 
@@ -92,7 +116,7 @@
         <div class="text-center" id="login-buttons">
             <button 
                 class="btn btn-primary btn-large-width"
-                [disabled]="!charityForm.valid"
+                [disabled]="!charityForm.valid || charityForm.pristine"
                 >
                 Atualizar <i class="fa fa-save"></i></button>             
         </div>                     

@@ -19,6 +19,7 @@ import { ItemUpdateComponent } from './components/items/item-update/item-update.
 import { UsersComponent} from "./components/users/users.component";
 import { UserListComponent } from './components/users/user-list/user-list.component';
 import { UserCreateComponent } from './components/users/user-create/user-create.component';
+import { UserUpdateComponent } from './components/users/user-update/user-update.component';
 
 import { CharitiesComponent} from "./components/charities/charities.component";
 import { CharityListComponent } from './components/charities/charity-list/charity-list.component';
@@ -101,6 +102,7 @@ const routes: Routes = [
     children: [
       {path:'list', component: UserListComponent},       
       {path:'create', component: UserCreateComponent},       
+      {path:'update/:id', component: UserUpdateComponent},       
       {path:'', redirectTo:'/users/list', pathMatch:'full'}
     ]
   },

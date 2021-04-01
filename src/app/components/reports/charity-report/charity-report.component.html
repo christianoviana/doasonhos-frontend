@@ -71,7 +71,7 @@
         </div>
 
         <div class="col-md-8 col-sm-12">
-            <div style="border: 1px dotted orangered;" *ngIf="reportData == undefined || reportData == null">
+            <div style="border: 1px dotted orangered;" *ngIf="hasSearch && charities && reportData == undefined || reportData == null">
                 <div class="row no-gutters" id="noCharityInfo" >
                     <div class="col-12 text-center">
                       <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>

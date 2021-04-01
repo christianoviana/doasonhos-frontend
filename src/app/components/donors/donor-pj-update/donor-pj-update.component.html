@@ -20,41 +20,66 @@
             <div class="form-row">              
                 <div class="form-group col-md-12 col-sm-12">
                     <label for="companyName">Nome da Empresa *</label>
-                    <input type="text" required [(ngModel)]='donorPj && donorPj.company_name' name="companyName" id="companyName" class="form-control is-valid">
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
+                    <input #name='ngModel' type="text" required minlength="3" maxlength="100" [(ngModel)]='donorPj && donorPj.company_name' [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" name="companyName" id="companyName" class="form-control"
+                    [ngClass]="{'is-invalid': (name.dirty || name.touched) && name.invalid}"
+                    >
+                    <div class="invalid-feedback">
+                        O nome deve ter entre 3 e 100 caracteres
+                    </div>
                 </div>              
             </div>
 
             <div class="form-row">   
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="contactName">Nome Representante *</label>
-                    <input type="text" required [(ngModel)]='donorPj && donorPj.contact_name' name="contactName" id="contactName" class="form-control is-invalid">
-                      <div class="invalid-feedback">
-                        Looks good!
-                      </div>
+                    <input #contactName='ngModel' type="text" required minlength="3" maxlength="100" [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" [(ngModel)]='donorPj && donorPj.contact_name' name="contactName" id="contactName" class="form-control"
+                    [ngClass]="{'is-invalid': (contactName.dirty || contactName.touched) && contactName.invalid}"
+                    >
+                    <div class="invalid-feedback">
+                        O nome deve ter entre 3 e 100 caracteres
+                    </div>
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="cnpj">CNPJ *</label>
-                    <input type="text" required [(ngModel)]='donorPj && donorPj.cnpj' name="cnpj" id="cnpj" class="form-control">
+                    <input #cnpj='ngModel' type="text" required [(ngModel)]='donorPj && donorPj.cnpj' name="cnpj" id="cnpj" class="form-control" [dropSpecialCharacters]="false" mask="00.000.000/0000-00"
+                    [ngClass]="{'is-invalid': (cnpj.dirty || cnpj.touched) && cnpj.invalid}"
+                    >
+                    <div class="invalid-feedback">
+                        O cnpj é obrigatório
+                    </div>
                 </div>
             </div>          
           
             <div class="form-row"> 
                 <div class="form-group col-md-5 col-sm-12">
                     <label for="country">País *</label>
-                    <select required ngModel="BR" name="country" id="country" class="form-control">
+                    <select #country='ngModel' required ngModel="BR" name="country" id="country" class="form-control"
+                    [ngClass]="{'is-invalid': (country.dirty || country.touched) && (country.invalid || (country.valid && country.value==''))}"
+                    >
+                        <option disabled=true value="disabled">Selecione..</option>
                         <option selected value="BR">Brasil</option>
                     </select>
                 </div> 
                 <div class="form-group col-md-2 col-sm-12">
                     <label for="state">Estado *</label>
-                    <input type="text" required [(ngModel)]='donorPj && donorPj.state' name="state" id="state" class="form-control">
-                </div>  
+                    <select #state='ngModel' id="state" [(ngModel)]='donorPj && donorPj.state' class="form-control" name="state"
+                    [ngClass]="{'is-invalid': (state.dirty || state.touched) && (state.invalid || (state.valid && (state.value==null || state.value=='')))}"
+                    >            
+                        <option disabled=true value="disabled">Selecione..</option>    
+                        <option [value]='state.initial' *ngFor='let state of States'>{{state.initial}}</option>                    
+                     </select>   
+                    <div class="invalid-feedback">
+                        O estado é obrigatório
+                    </div>  
+                 </div>  
                 <div class="form-group col-md-5 col-sm-12">
                     <label for="city">Cidade *</label>
-                    <input type="text" required [(ngModel)]='donorPj && donorPj.city' name="city" id="city" class="form-control">
+                    <input #city='ngModel' type="text" minlength="3" maxlength="200" [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" required [(ngModel)]='donorPj && donorPj.city' name="city" id="city" class="form-control"
+                    [ngClass]="{'is-invalid': (city.dirty || city.touched) && city.invalid}"
+                    >
+                    <div class="invalid-feedback">
+                        A cidade deve ter entre 3 e 200 caracteres
+                    </div>
                 </div>                          
             </div>
            

@@ -1,7 +1,7 @@
 import {Item} from '../../components/items/item.model';
 
 export class CartItem{
-    maxQuantity = 99;
+    maxQuantity = 50;
 
     constructor(private item:Item, private quantity:number) {
         this.quantity = quantity;

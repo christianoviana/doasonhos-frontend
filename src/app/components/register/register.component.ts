@@ -14,7 +14,7 @@ import { State } from '../../core/models/state.model';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z0-9 \]')} };
+  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z0-9 áéíóúÁÉÍÓÚâêôÂÊÔãñõÃÑÕçÇ\]')} };
   registerType = 'PF';
   isLoading = false;
   hasSuccessRegistered = false;  

@@ -23,4 +23,9 @@ header{
     height: 150px;
 }
 
+tbody tr {
+    cursor: pointer;
+}
+
+
 

@@ -25,7 +25,7 @@ export class UserApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/users?page=${page}&size=${size}&term=${term}`)                   
             .pipe(  
-                retry(2),                          
+                retry(1),                          
                 map(data => {
                     let response = new UserResponse();
                     response.Users = data.data;
@@ -53,7 +53,7 @@ export class UserApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/users/${id}`)                   
             .pipe(  
-                retry(2)
+                retry(1)
             )
             .toPromise();
     }    
@@ -62,7 +62,6 @@ export class UserApiService{
         return await this.httpClient
             .post<any>(this.baseUrl +'/users', user)                   
             .pipe(  
-                    retry(2),
                     catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 
@@ -81,10 +80,11 @@ export class UserApiService{
     }    
 
     async updateUser(user: any) : Promise<void> {
+        let _user = { login:user.login, active:user.active };
+
         return await this.httpClient
-            .put<any>(this.baseUrl +'/users/' + user.id, user)                   
+            .put<any>(this.baseUrl +'/users/' + user.id, _user)                   
             .pipe(  
-                    retry(2),
                     catchError((res:any) => {                     
                     let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                 

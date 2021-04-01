@@ -1,1 +1,49 @@
-<p>user-update works!</p>
+
+ <div *ngIf="isLoading">
+    <app-loading [fullscreen]="true"></app-loading>
+</div>   
+        
+<div class="container" id="user-update" style="border: 1px solid gray;">    
+
+    <div class="row  text-right">
+        <div class="col-12">                
+            <a routerLink="../../list" class="btn btn-outline-success"><i class="fa fa-arrow-circle-left"></i></a>                
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <app-alert></app-alert>    
+        </div>
+    </div>
+
+    <div class="row" *ngIf="user">
+        <div class="col-12">                             
+            <fieldset [disabled]='isLoading'>
+                <h1>Atualizar Usuário</h1>
+                <form #userUpdateForm='ngForm' (ngSubmit)='onUpdateUser(userUpdateForm)'>
+                    <div class="form-group">
+                        <label for="login"><b>Login</b></label>
+                        <input readonly name="login" id="login" [value]="user && user.login" type="text" class="form-control">
+                    </div>                            
+
+                    <div class="form-group">
+                        <label for="type"><b>Tipo</b></label>
+                        <input readonly name="tipo" id="tipo" [value]="user && TranslateUserType(user.type)" type="text" class="form-control">       
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-12">                                                   
+                            <label for="activated"><b>Ativo: </b> <input type="checkbox" id="activated" [(ngModel)]="user && user.active" name="activated"></label>
+                        </div>                                
+                    </div>   
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success" [disabled]='!userUpdateForm.valid'>Atualizar <i class="fa fa-save"></i></button>
+                    </div>
+                  
+                </form>  
+            </fieldset>          
+        </div>
+    </div>          
+</div>

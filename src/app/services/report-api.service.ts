@@ -23,7 +23,7 @@ export class ReportApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/reports/charities/${id}?from=${beginDate}&to=${finalDate}`, httpOptions)                   
             .pipe(  
-                retry(2),
+                retry(1),
                 map(data => {
                     let response:any = data;                         
 
@@ -49,7 +49,7 @@ export class ReportApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/reports/users`, httpOptions)                   
             .pipe(  
-                retry(2),
+                retry(1),
                 map(data => {
                     let response:any = data;                         
 

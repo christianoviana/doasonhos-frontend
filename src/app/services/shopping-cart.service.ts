@@ -6,7 +6,7 @@ import { Item } from '../components/items/item.model';
 @Injectable({ providedIn: 'root' })
 export class ShoppingCartService {
     private items:BehaviorSubject<Array<CartItem>>;    
-    maxItems = 99;
+    maxItems = 50;
     entityId = '';
 
     constructor(){

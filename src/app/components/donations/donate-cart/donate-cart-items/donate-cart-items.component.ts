@@ -14,6 +14,7 @@ export class DonateCartItemsComponent implements OnInit, OnDestroy {
   cartSubscribe:Subscription;
   lstQnt = new Array(30); 
   @Input() charityId:string;
+  onlyMoney:boolean=false
 
   constructor(private shoppingCartService:ShoppingCartService) { }
  

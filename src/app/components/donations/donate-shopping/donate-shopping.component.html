@@ -117,19 +117,19 @@
                        <p class="text-center text-danger"><b>Os itens do carrinho de compras não serão doados</b></p>
                        <div>
                            <div class="money text-center">
-                                <label><input type="radio" name="rdoMoney"> R$ 20,00</label>
-                                <label><input type="radio" name="rdoMoney"> R$ 50,00</label>                             
+                                <label><input (change)="onMoneyChange($event.target.value)" value="20" type="radio" name="rdoMoney"> R$ 20,00</label>
+                                <label><input (change)="onMoneyChange($event.target.value)" value="50" type="radio" name="rdoMoney"> R$ 50,00</label>                             
                             </div>                                               
                             <div  class="money text-center">
-                                <label><input type="radio" name="rdoMoney"> R$ 100,00</label>
-                                <label><input type="radio" name="rdoMoney"> <input style="width: 80px;" placeholder="R$ Valor" type="text"></label>
+                                <label><input (change)="onMoneyChange($event.target.value)" value="100" type="radio" name="rdoMoney"> R$ 100,00</label>
+                                <label><input (change)="onMoneyChange($event.target.value)" value="0" type="radio" name="rdoMoney"> <input [disabled]='money!=0' class="text-center" mask="separator.0" [(ngModel)]="moneyInput" thousandSeparator="." minlength="1" maxlength="3" (change)='onValueChange($event.target.value)' style="width: 80px;" placeholder="R$ Valor" type="text"></label>
                             </div>
                        </div>
                     </div>                       
                 </div>                                                                                                                                                              
             </div>
             <div class="modal-footer">              
-                <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">Doar</button>
+                <button type="button" (click)="AddMoneyToCart()" class="btn btn-success" data-dismiss="modal" aria-label="Close" [disabled]='money <=0 && moneyInput==""'>Doar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cancelar</button>                                                                                    
             </div>
         </div>

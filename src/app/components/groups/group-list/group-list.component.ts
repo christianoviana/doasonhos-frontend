@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Group } from '../group.model';
 import { GroupApiService } from '../../../services/group-api.service';
 import { Pagination } from '../../../core/models/pagination.model';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-group-list',
@@ -9,7 +10,7 @@ import { Pagination } from '../../../core/models/pagination.model';
   styleUrls: ['./group-list.component.css']
 })
 export class GroupListComponent implements OnInit {
-  constructor(private groupApi:GroupApiService) { }
+  constructor(private groupApi:GroupApiService, private alertService:AlertService) { }
 
   selectedGroup: Group;
   groups:Array<Group>;
@@ -91,10 +92,12 @@ export class GroupListComponent implements OnInit {
       this.groupApi.deleteGroup(group).then(async () => {       
         let res = await this.groupApi.getGroups(this.firstPage, this.itemsPerPage, this.txtSearch);
         this.groups = <Group[]>res.Groups;
-        this.pagination = <Pagination> res.Pagination;         
+        this.pagination = <Pagination> res.Pagination;
+        this.alertService.success(`O grupo ${group.name} foi deletado com sucesso.`); 
       }).catch(err =>  {
         console.log(err);
         this.errorMessage = err;
+        this.alertService.error(err); 
     }).finally(()=>{      
       this.isLoading = false;
     });   

@@ -15,10 +15,12 @@ export class CharityCreateComponent implements OnInit {
   isLoading = false;
   cep:Cep = undefined;
   message ='';
+  errorMessage =''; 
+  country='Brasil';
 
   @ViewChild('charityForm') private charityForm: NgForm;
 
-  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z0-9 \]')} };
+  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z0-9 áéíóúÁÉÍÓÚâêôÂÊÔãñõÃÑÕçÇ\]')} };
 
   constructor(private charityService: CharityApiService,
               private alertService:AlertService,
@@ -60,6 +62,7 @@ export class CharityCreateComponent implements OnInit {
     let cep:string = event.target.value.replace('-','').substring(0, 9);
 
     this.message = '';
+    this.errorMessage = '';
 
     if(cep.length == 8){
         this.cepService.getCep(cep).then(address => {      
@@ -69,9 +72,12 @@ export class CharityCreateComponent implements OnInit {
             return;
           }
 
+          this.country='Brasil';
           this.cep = address;
       }).catch(error => {
         console.log(error);
+        this.errorMessage = 'Erro ao obter o cep.';  
+        this.country='Brasil';
         this.cep = { logradouro:'', localidade:'', uf:'', estado:'', bairro:'' };
       });
     }   

@@ -17,7 +17,7 @@
 
   <button style="visibility: hidden;" id="modalTrigger" data-toggle="modal" data-target="#ItemDetailsModal"></button>
 
-  <div *ngIf='selectedDonation'>               
+  <div>               
     <!-- Modal -->
     <div class="modal fade" id="ItemDetailsModal" tabindex="-1" role="dialog" aria-labelledby="ItemDetailsModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -28,14 +28,19 @@
                   <span aria-hidden="true">&times;</span>
               </button>
               </div>
-              <div class="modal-body">                      
+              <div class="modal-body" *ngIf="selectedDonation">                      
                   <div class="row" *ngFor="let item of selectedDonation.items">
                       <div class="col-12 text-center">
                           <p>{{item.name > 20 ? (item.name | slice:0:20) + '..' : item.name }} - <b>{{item.price > 0 ? (item.price| currency:"BRL"):'' }}</b> ({{item.quantity}}<b>x</b>)</p>                        
                       </div>                       
-                  </div>                                                                                                                                          
+                  </div>     
+                  <div class="row" *ngIf='selectedDonation.items == 0'>
+                    <div class="col-12 text-center">
+                        <p><b>Não há itens.</b></p>                        
+                    </div>                       
+                </div>                                                                                                                                       
               </div>   
-              <div class="modal-footer">   
+              <div class="modal-footer" *ngIf="selectedDonation">   
                 <div style="width: 100%;" class="text-center">
                   <p *ngIf="selectedDonation.total > 0"><b>Total: {{selectedDonation.total | currency:'BRL'}}</b></p>    
                   <p *ngIf="selectedDonation.total == 0"><b>Total: --</b></p>

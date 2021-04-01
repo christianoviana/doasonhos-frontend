@@ -92,7 +92,8 @@ export class HeaderComponent implements OnInit {
     }
 
     return this.userLogged.userType.toLowerCase() === 'donor_pf' ||
-           this.userLogged.userType.toLowerCase() === 'donor_pj';
+           this.userLogged.userType.toLowerCase() === 'donor_pj' ||
+           this.userLogged.userType.toLowerCase() === 'external'
   }
 
   isDonorPf():boolean{

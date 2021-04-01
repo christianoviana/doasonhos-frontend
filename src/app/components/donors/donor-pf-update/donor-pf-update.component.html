@@ -20,47 +20,84 @@
             <div class="form-row">              
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="name">Nome *</label>
-                    <input type="text" required [(ngModel)]='donorPf && donorPf.name' name="name" id="name" class="form-control is-invalid">
-                      <div class="invalid-feedback">
-                        Looks good!
-                      </div>
+                    <input type="text" #name='ngModel' [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" required minlength="3" maxlength="100" [(ngModel)]='donorPf && donorPf.name' name="name" id="name" class="form-control"
+                    [ngClass]="{'is-invalid': (name.dirty || name.touched) && name.invalid}"
+                    >
+                    <div class="invalid-feedback">
+                        O nome deve ter entre 3 e 100 caracteres
+                    </div>
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="cpf">CPF *</label>
-                    <input type="text" required [(ngModel)]='donorPf && donorPf.cpf' name="cpf" id="cpf" class="form-control">
+                    <input #cpf='ngModel' type="text" required [(ngModel)]='donorPf && donorPf.cpf' name="cpf" id="cpf" class="form-control" [dropSpecialCharacters]="false" mask="000.000.000-00"
+                    [ngClass]="{'is-invalid': (cpf.dirty || cpf.touched) && cpf.invalid}"
+                    >
+                    <div class="invalid-feedback">
+                        O cpf é obrigatório
+                    </div>
                 </div>
             </div>
 
             <div class="form-row">   
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="birthday">Data de Nascimento *</label>
-                    <input type="date" required  [ngModel]="donorPf && donorPf.birthday | date:'yyyy-MM-dd'" (ngModelChange)="donorPf.birthday = $event" name="birthday" id="birthday" class="form-control">
+                    <input #date='ngModel' type="date" required  [ngModel]="donorPf && donorPf.birthday | date:'yyyy-MM-dd'" (ngModelChange)="donorPf.birthday = $event" name="birthday" id="birthday" class="form-control"
+                    [ngClass]="{'is-invalid': (date.dirty || date.touched) && date.invalid}"
+                    >
+                    <div class="invalid-feedback">
+                        data inválida
+                    </div>
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label for="genre">Sexo *</label>
-                    <select required [(ngModel)]='donorPf && donorPf.genre' name="genre" id="genre" class="form-control">                         
-                        <option selected value="">Selecione...</option>
+                    <select #genre='ngModel' required [(ngModel)]='donorPf && donorPf.genre' name="genre" id="genre" class="form-control"
+                    [ngClass]="{'is-invalid': (genre.dirty || genre.touched) && (genre.invalid || (genre.valid && genre.value==''))}"
+                    >                                            
+                        <option disabled=true value="disabled">Selecione...</option>
                         <option value="feminino">Feminino</option>
                         <option value="masculino">Masculino</option>
                         <option value="outros">Outros</option>
                     </select>
+
+                    <div class="invalid-feedback">
+                        O gênero é obrigatório
+                    </div>
                 </div>    
             </div>          
           
             <div class="form-row"> 
                 <div class="form-group col-md-5 col-sm-12">
                     <label for="country">País *</label>
-                    <select required ngModel="BR" name="country" id="country" class="form-control">
-                        <option selected value="BR">Brasil</option>
+                    <select #country='ngModel' required [(ngModel)]='donorPf && donorPf.country' name="country" id="country" class="form-control"
+                    [ngClass]="{'is-invalid': (country.dirty || country.touched) && (country.invalid || (country.valid && country.value==''))}"
+                    >     
+                        <option disabled=true value="disabled">Selecione..</option>
+                        <option selected value="Brasil">Brasil</option>
                     </select>
+                    <div class="invalid-feedback">
+                        O país é obrigatório
+                    </div>    
                 </div> 
                 <div class="form-group col-md-2 col-sm-12">
                     <label for="state">Estado *</label>
-                    <input type="text" required [(ngModel)]='donorPf && donorPf.state' name="state" id="state" class="form-control">
-                </div>  
+                    <select #state='ngModel' id="state" [(ngModel)]='donorPf && donorPf.state' class="form-control" name="state"
+                    [ngClass]="{'is-invalid': (state.dirty || state.touched) && (state.invalid || (state.valid && (state.value==null || state.value=='')))}"
+                    >            
+                        <option disabled=true value="disabled">Selecione..</option>    
+                        <option [value]='state.initial' *ngFor='let state of States'>{{state.initial}}</option>                    
+                     </select>   
+                    <div class="invalid-feedback">
+                        O estado é obrigatório
+                    </div>       
+               </div>  
                 <div class="form-group col-md-5 col-sm-12">
                     <label for="city">Cidade *</label>
-                    <input type="text" required [(ngModel)]='donorPf && donorPf.city' name="city" id="city" class="form-control">
+                    <input #city='ngModel' type="text" minlength="3" maxlength="200" [dropSpecialCharacters]="false" [patterns]="customPatterns" mask="0*" required [(ngModel)]='donorPf && donorPf.city' name="city" id="city" class="form-control"
+                    [ngClass]="{'is-invalid': (city.dirty || city.touched) && city.invalid}"
+                    >
+                    <div class="invalid-feedback">
+                        A cidade deve ter entre 3 e 200 caracteres
+                    </div>
                 </div>                          
             </div>
            

@@ -25,7 +25,7 @@ export class ItemApiService{
         return this.httpClient
                    .get<any>(`${this.baseUrl}/items?page=${page}&size=${size}&Term=${term}`)                   
                    .pipe(  
-                            retry(2),                          
+                            retry(1),                          
                             map(data => {
                                 console.log(data);
                                 
@@ -54,17 +54,14 @@ export class ItemApiService{
         return this.httpClient
                    .get<any>(this.baseUrl +'/items/' + id)                   
                    .pipe(  
-                            retry(2)
+                            retry(1)
                     );
     }  
     
     postItem(item: any) : Observable<void> {
                
         return this.httpClient
-                   .post<any>(this.baseUrl +'/items', item)                   
-                   .pipe(  
-                          retry(2)
-                    )
+                   .post<any>(this.baseUrl +'/items', item) 
                     .pipe(catchError((res:any) => {                     
                         let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                    
@@ -86,11 +83,8 @@ export class ItemApiService{
         console.log(itemToUpdate);
 
         return this.httpClient
-                   .put<any>(this.baseUrl +'/items/'+item.id, itemToUpdate)                   
-                   .pipe(  
-                          retry(2)
-                    )
-                    .pipe(catchError((res:any) => {                     
+                   .put<any>(this.baseUrl +'/items/'+item.id, itemToUpdate)                                      
+                   .pipe(catchError((res:any) => {                     
                         let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                    
                         if(res.error && res.status === 0 ){
@@ -108,10 +102,7 @@ export class ItemApiService{
     updateItemImage(itemId:string, data:any) : Observable<void> {
         return this.httpClient
                    .put<any>(this.baseUrl +'/items/'+ itemId + '/image', data)                   
-                   .pipe(  
-                          retry(2)
-                    )
-                    .pipe(catchError((res:any) => {                     
+                   .pipe(catchError((res:any) => {                     
                         let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                    
                         if(res.error && res.status === 0 ){
@@ -126,9 +117,6 @@ export class ItemApiService{
     deleteItem(item: any) : Promise<void> {
         return this.httpClient
                     .delete<any>(this.baseUrl +'/items/'+item.id)                   
-                    .pipe(  
-                            retry(2)
-                    )
                     .pipe(catchError((res:any) => {                     
                         let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
                     

@@ -71,7 +71,8 @@ export class DonatePaymentComponent implements OnInit {
 
     if(this.cartItems){
       this.cartItems.forEach(ci => {
-        items.push({'item_id':ci.getItemId(), 'item_quantity':ci.getQuantity()})
+        if(ci.getItem().name != '')
+          items.push({'item_id':ci.getItemId(), 'item_quantity':ci.getQuantity()})
       });
     }  
 

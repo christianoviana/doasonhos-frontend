@@ -33,7 +33,7 @@ export class CharityApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/charities?page=${page}&size=${size}&term=${search}&state=${state}&city=${city}`)            
             .pipe(  
-                    retry(2),                          
+                    retry(1),                          
                     map(data => {                        
                         let response = new CharityResponse();
 
@@ -69,7 +69,7 @@ export class CharityApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/charities?page=${page}&size=${size}&term=${search}`)            
             .pipe(  
-                    retry(2),                          
+                    retry(1),                          
                     map(data => {                        
                         let response = new CharityResponse();
 
@@ -103,7 +103,7 @@ export class CharityApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/charities/${id}`)                   
             .pipe(  
-                retry(2)
+                retry(1)
             )
             .toPromise();
     } 
@@ -112,7 +112,7 @@ export class CharityApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/charities/${id}/restricted`)                   
             .pipe(  
-                retry(2)
+                retry(1)
             )
             .toPromise();
     } 
@@ -121,7 +121,7 @@ export class CharityApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/charities/${id}/approval`)                   
             .pipe(  
-                retry(2)
+                retry(1)
             )
             .toPromise();
     }  

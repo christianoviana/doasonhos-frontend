@@ -2,6 +2,14 @@
   <app-loading [fullscreen]="true"></app-loading>
 </div>
 
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+        <app-alert></app-alert>    
+    </div>
+  </div>
+</div>
+
 <div class="container-fluid p-0 no-gutters">
   
   <div  id="item-list">
@@ -40,7 +48,7 @@
           <tr [id]="item.id"
           *ngFor='let item of items | paginate : { itemsPerPage: pagination.PageSize, currentPage: pagination.CurrentPage, totalItems: pagination.TotalCount};' (click)="setSelectedItem(item)">    
             <td class="d-none d-sm-table-cell"><img [src]="item.image_url==undefined || item.image_url == '' ? '/assets/utils/none.png' : item.image_url"></td>
-            <td  [title]="item.name">{{item.name > 15 ? (item.name | slice:0:15) + '..' : item.name }}</td>
+            <td  [title]="item.name">{{item.name.length > 15 ? (item.name | slice:0:15) + '..' : item.name }}</td>
             <td class="d-none d-sm-table-cell">{{item.description}}</td>
             <td *ngIf="item.price > 0">{{item.price | currency:'':''}}</td>
             <td *ngIf="item.price <= 0">-</td>            

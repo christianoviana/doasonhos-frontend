@@ -105,7 +105,7 @@ export class DonationApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/donations/charities/${id}?page=${page}&size=${size}`, httpOptions)                   
             .pipe(  
-                retry(2),
+                retry(1),
                 map(data => {
                     let response:any = {};
                     response.Donations = data.data;
@@ -136,7 +136,7 @@ export class DonationApiService{
         return await this.httpClient
             .get<any>(`${this.baseUrl}/donations/donors/${id}?page=${page}&size=${size}`, httpOptions)                   
             .pipe(  
-                retry(2),
+                retry(1),
                 map(data => {
                     let response:any = {};
                     response.Donations = data.data;

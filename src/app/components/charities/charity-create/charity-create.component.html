@@ -65,10 +65,13 @@
             <div class="form-group col-md-12 col-sm-12">
                 <label for="cep">CEP *</label>
                 <input maxlength="9" #cepNumber='ngModel' (blur)="onCepEvent($event)" type="text" required ngModel name="cep" id="cep" class="form-control" [dropSpecialCharacters]="false" mask='00000-000'
-                [ngClass]="{'is-invalid': (cepNumber.dirty || cepNumber.touched) && (cepNumber.invalid || cepNumber.valid && message!=''), 'is-valid': (cepNumber.dirty || cepNumber.touched) && cepNumber.valid && message==''}"
+                [ngClass]="{'is-invalid': (cepNumber.dirty || cepNumber.touched) && (cepNumber.invalid || (cepNumber.valid && message!=''))}"
                 >
                 <div class="invalid-feedback">
-                    O cep é inválido
+                    <p>O cep é inválido</p>                  
+                </div>
+                <div *ngIf="errorMessage!=''">
+                    <p style="font-size: 14px; color: #dc3545;">{{errorMessage}}</p>
                 </div>
             </div>                                    
         </div>
@@ -95,7 +98,8 @@
         <div class="form-row"> 
             <div class="form-group col-md-2 col-sm-12">
                 <label for="country">País *</label>
-                <select [disabled]="cep==undefined" required ngModel="Brasil" name="country" id="country" class="form-control">
+                <select [disabled]="cep==undefined" required ngModel="country" name="country" id="country" class="form-control">
+                    <option disabled=true value="disabled">Selecione..</option>
                     <option readonly selected value="Brasil">Brasil</option>
                 </select>
             </div> 
