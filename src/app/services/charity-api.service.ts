@@ -256,6 +256,28 @@ export class CharityApiService{
             .toPromise();
     }    
 
+    async putCharityInformationImage(id:string, charityInfoImage: any) : Promise<void> {
+
+        return await this.httpClient
+            .put<any>(`${this.baseUrl}/charities/${id}/information/image`, charityInfoImage)                   
+            .pipe(  
+                catchError((res:any) => {                     
+                    let errorMessage = 'Erro ao processar a sua solicitação. Por favor tente novamente em alguns instantes';
+                
+                    if(res.error && res.status === 0 ){
+                            return throwError(errorMessage);
+                    }
+
+                    console.log(res.error);
+                       
+                    // Parse response  
+                    return throwError(res.error.message);                  
+                })
+            )
+            .toPromise();
+    }    
+
+
 
 
     async putCharityPeding(id:string, charityApprove: any) : Promise<void> {

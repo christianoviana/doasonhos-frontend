@@ -25,6 +25,8 @@ export class CharityInformationUpdateComponent implements OnInit {
   imageTwoUrl: any = undefined;
   fileImageTwo: any = undefined;
 
+  uploadResult = {image_name:'', success: false};
+
   constructor(private charityApi:CharityApiService,
               private alertService:AlertService,
               private authService:AuthApiService,
@@ -98,6 +100,35 @@ export class CharityInformationUpdateComponent implements OnInit {
     }
   } 
 
+  async onUpdateCharityInfoImage(imageName:string, photo:any):Promise<boolean>{
+  
+      const id = this.authService.userValue && this.authService.userValue.ownerId;
+
+      if(id){
+        this.isLoading = true;
+
+        let data: FormData = new FormData();
+    
+        data.append('image_name', imageName);
+        data.append('image_file', photo);   
+        
+        try {
+          await this.charityApi.putCharityInformationImage(id, data);
+          this.uploadResult.image_name = imageName;
+          this.uploadResult.success = true;
+
+          this.isLoading = false;
+        } catch (error) {
+          this.uploadResult.image_name = imageName;
+          this.uploadResult.success = false;    
+          
+          this.isLoading = false;
+        }    
+        
+        return this.uploadResult.success;
+      }             
+  } 
+
   readFile(file:any, onLoadCalback:any){
    
     const fileReader = new FileReader();      
@@ -117,16 +148,29 @@ export class CharityInformationUpdateComponent implements OnInit {
 
         switch(type){
           case 'profile':
-            this.fileUrl = fileUrl;
-            this.file = file;
+           
+            this.onUpdateCharityInfoImage('picture', file).then((result) => {
+              if(result){
+                this.fileUrl = fileUrl;
+                this.file = file;
+              }
+            });
           break;
-          case 'image01':
-            this.imageOneUrl = fileUrl;
-            this.fileImageOne = file;
+          case 'image01':           
+            this.onUpdateCharityInfoImage('image01', file).then((result) => {
+              if(result){
+                this.imageOneUrl = fileUrl;
+                this.fileImageOne = file;
+              }
+            });
           break;
           case 'image02':
-            this.imageTwoUrl = fileUrl;
-            this.fileImageTwo = file;
+            this.onUpdateCharityInfoImage('image02', file).then((result) => {
+              if(result){
+                this.imageTwoUrl = fileUrl;
+                this.fileImageTwo = file;
+              }
+            });
           break;
         }
       });

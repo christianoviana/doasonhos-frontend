@@ -25,6 +25,8 @@
                     />    
                     <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='fileUrl != undefined' [src]='fileUrl' #PicturePreview/>                      
                 </label> 
+                <p *ngIf="uploadResult && uploadResult.image_name =='picture' && uploadResult.success==false" style="font-size: 12px;font-weight: bolder;color: #dc3545;">Erro ao Atualizar Imagem.</p>
+                <p *ngIf="uploadResult && uploadResult.image_name =='picture' && uploadResult.success==true" style="font-size: 12px;font-weight: bolder;color: darkgreen;">Imagem Atualizada.</p>
             </div> 
             <div class="form-group col-md-6 col-12">  
                 <div class="form-row">              
@@ -94,6 +96,8 @@
                     />                       
                     <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='imageOneUrl != undefined' [src]='imageOneUrl'/>                      
                 </label> 
+                <p *ngIf="uploadResult && uploadResult.image_name =='image01' && uploadResult.success==false" style="font-size: 12px;font-weight: bolder;color: #dc3545;">Erro ao atualizar imagem.</p>
+                <p *ngIf="uploadResult && uploadResult.image_name =='image01' && uploadResult.success==true" style="font-size: 12px;font-weight: bolder;color: darkgreen;">Imagem Atualizada.</p>
                 <input style="text-align: center;width: 300px;margin: auto;" required placeholder="Título Imagem 01" type="text" [(ngModel)]='charityInfo.title_image01' name="titleImage01" id="titleImage01" class="form-control"> 
             </div>  
             <div class="form-group text-center col-md-6 col-12">
@@ -106,6 +110,8 @@
                     />    
                      <img class="img-reponsive" style="padding: 2px;" width="200px" height="200px" *ngIf='imageTwoUrl != undefined' [src]='imageTwoUrl'/>                      
                 </label> 
+                <p *ngIf="uploadResult && uploadResult.image_name =='image02' && uploadResult.success==false" style="font-size: 12px;font-weight: bolder;color: #dc3545;">Erro ao atualizar imagem.</p>
+                <p *ngIf="uploadResult && uploadResult.image_name =='image02' && uploadResult.success==true" style="font-size: 12px;font-weight: bolder;color: darkgreen;">Imagem Atualizada.</p>
                 <input style="text-align: center;width: 300px;margin: auto;" required placeholder="Título Imagem 02" type="text" [(ngModel)]='charityInfo.title_image02' name="titleImage02" id="titleImage02" class="form-control">
             </div>                           
         </div>     

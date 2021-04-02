@@ -12,7 +12,7 @@
             <div class="form-group col-12" style="max-width: 500px;margin: auto;">
                 <p style="font-weight: bold;font-style: italic; text-align: center;" *ngIf="total>0">Há ({{total}}) aprovações pendentes</p>
                 <p style="font-weight: bold;font-style: italic; text-align: center;" *ngIf="total==0">Você não possui aprovações pendentes</p>
-                <select id="state" class="form-control" name="state" (change)='onStateChange($event.target.value)'>
+                <select [disabled]='pendingCharities && pendingCharities.length==0' id="state" class="form-control" name="state" (change)='onStateChange($event.target.value)'>
                     <option value="">Selecione o Estado..</option>
                     <option [value]='pending.state' *ngFor='let pending of pendingCharities'>{{pending.state}} ({{pending.charities.length}})</option>
                 </select>
@@ -20,8 +20,8 @@
         </div>
     </div>
 
-    <div class="row no-gutters" id="noCharityInfo" *ngIf="pendingCharities == undefined" >
-        <div class="col-12 text-center" *ngIf="hasSearch && pendingCharities == undefined">
+    <div class="row no-gutters" id="noCharityInfo" *ngIf="pendingCharities == null || pendingCharities.length == 0" >
+        <div style="border: 1px dotted orangered; max-width: 600px;max-height: 400px;padding: 20px;margin: auto;" class="col-12 text-center" *ngIf="hasSearch && (pendingCharities == null || pendingCharities.length == 0)">
             <p><i style="color: orangered;font-size: 24px;" class="fa fa-warning"></i></p>
             <h1 style="font-size: 20px;">Não encontramos nenhuma entidade para aprovar</h1>
         </div>

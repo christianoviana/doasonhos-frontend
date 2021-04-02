@@ -28,7 +28,11 @@ export class PendingApproveComponent implements OnInit {
 
     this.charityApi.getCharityPendingsByState().then(res => {
       this.pendingCharities = res;
-      this.total = this.pendingCharities.map(p=>p.charities.length).reduce((accumulate, current) => accumulate + current);
+
+      if(this.pendingCharities && this.pendingCharities.length > 0){
+        this.total = this.pendingCharities.map(p=>p.charities.length).reduce((accumulate, current) => accumulate + current);
+      }
+
       this.hasSearch = true;
     }).catch(err => {
       console.log(err);    
@@ -39,7 +43,10 @@ export class PendingApproveComponent implements OnInit {
 
   onStateChange(value:string){
     this.filteredPendingCharities = undefined;
-    this.filteredPendingCharities = this.pendingCharities.filter(c => c.state == value)[0];
+
+    if(this.pendingCharities){
+       this.filteredPendingCharities = this.pendingCharities.filter(c => c.state == value)[0];
+    }
   }
 
   charityChangeStatus(charity:any, status:any){
@@ -49,10 +56,16 @@ export class PendingApproveComponent implements OnInit {
     
     let approveData = {message:this.getStatus(status), details:this.message, status:status, approver_name:this.userLogged.userName};
     this.charityApi.putCharityPeding(charity.id, approveData).then(res => {
+      this.pendingCharities = undefined;
+      this.filteredPendingCharities = undefined;
+      this.total = 0;
+
       this.charityApi.getCharityPendingsByState().then(res => {
         this.pendingCharities = res;
-        this.filteredPendingCharities = undefined;
-        this.total = this.pendingCharities.map(p=>p.charities.length).reduce((accumulate, current) => accumulate + current);
+        if(this.pendingCharities && this.pendingCharities.length > 0){
+          this.total = this.pendingCharities.map(p=>p.charities.length).reduce((accumulate, current) => accumulate + current);
+        }
+        
         this.hasSearch = true;
       }).catch(err => {
         console.log(err);    
