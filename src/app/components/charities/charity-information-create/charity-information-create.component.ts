@@ -79,6 +79,7 @@ export class CharityInformationCreateComponent implements OnInit {
       
       this.charityApi.postCharityInformation(id, data).then(() => {            
         charityInfoForm.reset();
+        this.authService.reloadUser();
         this.router.navigate(['/charities/information']);
         this.isLoading = false;  
       }).catch(error=> {     

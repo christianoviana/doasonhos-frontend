@@ -33,6 +33,10 @@ export class AuthApiService{
         this.userSubject = new BehaviorSubject<User>(this.getUserInfo());          
     }
 
+    reloadUser(){
+        this.userSubject.next(this.userValue);
+    }
+
     authenticate(login:string, password:string) : Observable<TokenInfo> {
         return this.httpClient
                    .post<TokenInfo>(this.baseUrl +'/login/authenticate', {login, password}, httpOptions)   
