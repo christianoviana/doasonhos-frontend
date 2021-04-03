@@ -6,7 +6,7 @@
     <h2 class="text-center">Doações Realizadas <i style="color: red;" class="fa fa-heartbeat"></i></h2>
   </header>
   <div class="container">
-    <app-donate-list [donations]='donations' 
+    <app-donate-list *ngIf="donations" [donations]='donations' 
                     [pagination]='pagination' 
                     (onPageChange)='onHandlePageChange($event)'
                     (onItemChange)='onItemChange($event)'

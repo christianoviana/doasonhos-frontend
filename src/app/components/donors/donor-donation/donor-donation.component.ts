@@ -37,13 +37,14 @@ export class DonorDonationComponent implements OnInit {
     itemDetailsmodal.click();    
   }
 
-  cancel(donation){
+  cancel(donation){   
     this.isLoading = true;
     
     const donorId = this.authService.userValue.userId;
     
     this.DonationApi.CancelDonationPresencial(donation.id).then((res) => {
-
+      this.donations = null;
+      
       this.DonationApi.getDonorsDonation(donorId, this.firstPage, this.itemsPerPage).then((res) => {
         this.donations = res.Donations;
         this.pagination = <Pagination> res.Pagination;

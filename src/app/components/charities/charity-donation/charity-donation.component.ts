@@ -78,7 +78,7 @@ export class CharityDonationComponent implements OnInit {
     const charityId = this.authService.userValue.userId;
     
     this.DonationApi.CancelDonationPresencial(donation.id).then((res) => {
-
+      this.donations = null;
       this.DonationApi.getCharitiesDonation(charityId, this.firstPage, this.itemsPerPage).then((res) => {
         this.donations = res.Donations;
         this.pagination = <Pagination> res.Pagination;
@@ -102,7 +102,8 @@ export class CharityDonationComponent implements OnInit {
     const charityId = this.authService.userValue.userId;
     
     this.DonationApi.ApproveDonationPresencial(donation.id).then((res) => {
-
+      this.donations = null;
+      
       this.DonationApi.getCharitiesDonation(charityId, this.firstPage, this.itemsPerPage).then((res) => {
         this.donations = res.Donations;
         this.pagination = <Pagination> res.Pagination;
