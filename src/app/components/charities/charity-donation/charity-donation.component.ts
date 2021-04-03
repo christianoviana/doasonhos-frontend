@@ -75,7 +75,7 @@ export class CharityDonationComponent implements OnInit {
   cancel(donation){
     this.isLoading = true;
     
-    const charityId = this.authService.userValue.userId;
+    const charityId = this.authService.userValue.ownerId;
     
     this.DonationApi.CancelDonationPresencial(donation.id).then((res) => {
       this.donations = null;
@@ -98,8 +98,7 @@ export class CharityDonationComponent implements OnInit {
   
   approve(donation){
     this.isLoading = true;
-    
-    const charityId = this.authService.userValue.userId;
+    const charityId = this.authService.userValue.ownerId;
     
     this.DonationApi.ApproveDonationPresencial(donation.id).then((res) => {
       this.donations = null;
