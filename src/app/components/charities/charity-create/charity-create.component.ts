@@ -16,7 +16,7 @@ export class CharityCreateComponent implements OnInit {
   cep:Cep = undefined;
   message ='';
   errorMessage =''; 
-  country='Brasil';
+  country='';
 
   @ViewChild('charityForm') private charityForm: NgForm;
 
@@ -77,7 +77,7 @@ export class CharityCreateComponent implements OnInit {
       }).catch(error => {
         console.log(error);
         this.errorMessage = 'Erro ao obter o cep.';  
-        this.country='Brasil';
+        this.country='';
         this.cep = { logradouro:'', localidade:'', uf:'', estado:'', bairro:'' };
       });
     }   

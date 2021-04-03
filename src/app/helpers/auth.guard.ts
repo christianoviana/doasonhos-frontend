@@ -64,7 +64,8 @@ export class AuthGuard implements CanActivate {
                         this.authService.userValue.userType.toLowerCase() == 'manager';  
             case '/donations/payment':                
             return  this.authService.userValue.userType.toLowerCase() == 'donor_pf' || 
-                    this.authService.userValue.userType.toLowerCase() == 'donor_pj';                              
+                    this.authService.userValue.userType.toLowerCase() == 'donor_pj' ||
+                    this.authService.userValue.userType.toLowerCase() == 'external';                              
             default:
                 return true;
         }

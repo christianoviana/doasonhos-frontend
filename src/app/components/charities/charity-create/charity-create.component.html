@@ -98,7 +98,7 @@
         <div class="form-row"> 
             <div class="form-group col-md-2 col-sm-12">
                 <label for="country">País *</label>
-                <select [disabled]="cep==undefined" required ngModel="country" name="country" id="country" class="form-control">
+                <select [disabled]="cep==undefined" required [(ngModel)]="country" name="country" id="country" class="form-control">
                     <option disabled=true value="disabled">Selecione..</option>
                     <option readonly selected value="Brasil">Brasil</option>
                 </select>

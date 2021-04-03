@@ -164,7 +164,7 @@ export class HeaderComponent implements OnInit {
 
     if(userType == 'EXTERNAL')
     {
-      document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://localhost:4200/home"; 
+      document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://doasonhos.herokuapp.com/home"; 
     }     
   }
   
