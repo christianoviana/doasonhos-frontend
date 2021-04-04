@@ -5,6 +5,7 @@ import { AlertService } from '../../../services/alert.service';
 import { GroupApiService } from '../../../services/group-api.service';
 import { CharityApiService } from '../../../services/charity-api.service';
 import { AuthApiService } from '../../../services/auth-api.service';
+import { iif } from 'rxjs';
 
 @Component({
   selector: 'app-charity-item',
@@ -40,12 +41,21 @@ export class CharityItemComponent implements OnInit {
         this.myItems.push({id:item.id, name:item.name, price:item.price, group:item.group.name})
       });
 
+      if(this.myItems){
+        this.myItems = this.myItems.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
       //Initialize First Filtered Items
       let ArrayItems = this.groupItems.map(e => {
         return e.items;
       });
 
-      this.filteredItems = ArrayItems.reduce((acc, val) => acc.concat(val), []);  
+      this.filteredItems = ArrayItems && ArrayItems.reduce((acc, val) => acc.concat(val), []);  
+
+      if( this.filteredItems){
+        this.filteredItems = this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
     } catch (error) {
       console.log(error);
     }finally{      
@@ -90,8 +100,12 @@ export class CharityItemComponent implements OnInit {
           return e.items;
       });
 
-      this.filteredItems = ArrayItems.reduce((acc, val) => acc.concat(val), []);
-      this.filteredItems = [].concat(this.filteredItems); 
+      if(ArrayItems){
+        this.filteredItems = ArrayItems.reduce((acc, val) => acc.concat(val), []);
+        this.filteredItems = [].concat(this.filteredItems); 
+
+        this.filteredItems = this.filteredItems && this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+      } 
     }
   }
 
@@ -139,7 +153,11 @@ export class CharityItemComponent implements OnInit {
         return e.items.filter(e => e.name.toLowerCase().includes(text.toLowerCase()));
       });
       
-      this.filteredItems = ArrayItems.reduce((acc, val) => acc.concat(val), []);   
+      if(ArrayItems){
+        this.filteredItems = ArrayItems.reduce((acc, val) => acc.concat(val), []);
+
+        this.filteredItems = this.filteredItems && this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+      }   
     }                         
   }
 
@@ -150,6 +168,7 @@ export class CharityItemComponent implements OnInit {
     if(this.groupItems){    
       let group = this.groupItems.find(e => e.id == id);
       this.filteredItems = [].concat(group.items);
+      this.filteredItems = this.filteredItems && this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
     }
   }
 }

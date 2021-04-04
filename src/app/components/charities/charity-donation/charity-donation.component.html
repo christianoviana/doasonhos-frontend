@@ -9,7 +9,7 @@
     </div>
   </header>
   <div class="container">
-    <app-donate-list *ngIf="donations" [donations]='donations' 
+    <app-donate-list *ngIf="donations ||  hasSearch" [donations]='donations' 
                     [pagination]='pagination' 
                     (onPageChange)='onHandlePageChange($event)'
                     (onItemChange)='onItemChange($event)'

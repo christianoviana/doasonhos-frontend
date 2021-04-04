@@ -15,6 +15,7 @@ export class DonorDonationComponent implements OnInit {
   firstPage = 1;
   isLoading = false;
   selectedDonation:any;
+  hasSearch = false;
 
   onHandlePageChange(page){
     this.isLoading = true;
@@ -44,6 +45,7 @@ export class DonorDonationComponent implements OnInit {
     
     this.DonationApi.CancelDonationPresencial(donation.id).then((res) => {
       this.donations = null;
+      this.hasSearch = false;
       
       this.DonationApi.getDonorsDonation(donorId, this.firstPage, this.itemsPerPage).then((res) => {
         this.donations = res.Donations;
@@ -52,6 +54,7 @@ export class DonorDonationComponent implements OnInit {
         console.log(error);        
         this.isLoading = false;
       })).finally(() => {
+        this.hasSearch = true;
         this.isLoading = false;
       });
     }).catch((error => {
@@ -75,6 +78,7 @@ export class DonorDonationComponent implements OnInit {
     }).catch((error => {
       console.log(error);
     })).finally(() => {
+      this.hasSearch = true;
       this.isLoading = false;
     });
   }

@@ -17,6 +17,7 @@ export class CharityDonationComponent implements OnInit {
   firstPage = 1;
   isLoading = false;
   selectedDonation:any;
+  hasSearch = false;
 
   onHandlePageChange(page){
     this.isLoading = true;
@@ -79,6 +80,8 @@ export class CharityDonationComponent implements OnInit {
     
     this.DonationApi.CancelDonationPresencial(donation.id).then((res) => {
       this.donations = null;
+      this.hasSearch = false;
+
       this.DonationApi.getCharitiesDonation(charityId, this.firstPage, this.itemsPerPage).then((res) => {
         this.donations = res.Donations;
         this.pagination = <Pagination> res.Pagination;
@@ -86,6 +89,7 @@ export class CharityDonationComponent implements OnInit {
         console.log(error);        
         this.isLoading = false;
       })).finally(() => {
+        this.hasSearch = true;
         this.isLoading = false;
       });
     }).catch((error => {
@@ -102,6 +106,7 @@ export class CharityDonationComponent implements OnInit {
     
     this.DonationApi.ApproveDonationPresencial(donation.id).then((res) => {
       this.donations = null;
+      this.hasSearch = false;
       
       this.DonationApi.getCharitiesDonation(charityId, this.firstPage, this.itemsPerPage).then((res) => {
         this.donations = res.Donations;
@@ -110,6 +115,7 @@ export class CharityDonationComponent implements OnInit {
         console.log(error);        
         this.isLoading = false;
       })).finally(() => {
+        this.hasSearch = true;
         this.isLoading = false;
       });
     }).catch((error => {
@@ -133,6 +139,7 @@ export class CharityDonationComponent implements OnInit {
     }).catch((error => {
       console.log(error);
     })).finally(() => {
+      this.hasSearch = true;
       this.isLoading = false;
     });
   }
