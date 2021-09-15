@@ -1,31 +1,33 @@
-# doa-sonhos
-SISTEMA DE DOAÇÕES DE ALIMENTOS E VESTIMENTAS
+# Doasonhos (Frontend)
+SISTEMA DE DOAÇÕES DE ALIMENTOS E VESTIMENTAS <br>
+Angular Versão 10.0.2.
 
-# Frontend
+## Telas
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.2.
+### Login
 
-## Development server
+![alt text](https://github.com/christianoviana/doasonhos-frontend/blob/master/src/assets/screens/login.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Home
 
-## Code scaffolding
+![alt text](https://github.com/christianoviana/doasonhos-frontend/blob/master/src/assets/screens/home.png)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Entities
 
-## Build
+![alt text](https://github.com/christianoviana/doasonhos-frontend/blob/master/src/assets/screens/all_entities.png)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Entities Data
 
-## Running unit tests
+![alt text](https://github.com/christianoviana/doasonhos-frontend/blob/master/src/assets/screens/my_data.png)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Donate
 
-## Running end-to-end tests
+![alt text](https://github.com/christianoviana/doasonhos-frontend/blob/master/src/assets/screens/shopping.png)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### Cart
 
-## Further help
+![alt text](https://github.com/christianoviana/doasonhos-frontend/blob/master/src/assets/screens/cart.png)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Payment
 
+![alt text](https://github.com/christianoviana/doasonhos-frontend/blob/master/src/assets/screens/payment.png)
